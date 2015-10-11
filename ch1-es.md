@@ -110,16 +110,16 @@ add(multiply(flock_b, flock_a), multiply(flock_a, flock_b));
 multiply(flock_b, add(flock_a, flock_a));
 ```
 
-Brilliant! We didn't have to write a lick of custom code other than our calling function. We include `add` and `multiply` definitions here for completeness, but there is really no need to write them - we surely have an `add` and `multiply` provided by some previously written library.
+Brillante! Solo con una llamada a una función basta, sin hacer falta escribir más código. Usamos `add` y `multiply` en su completo, aunque no hay necesidad de re-escribirlas - seguramente hay librerías ya escritas que nos proporcionen `add` y `multiply`.
 
-You may be thinking "how very strawman of you to put such a mathy example up front". Or "real programs are not this simple and cannot be reasoned about in such a way". I've chosen this example because most of us already know about addition and multiplication so it's easy to see how math can be of use to us here.
+A lo mejor estarás pensando You may be thinking "que pícaro, al poner este ejemplo". O "programas del mundo real no son tan simples y no se pueden razonar de esta manera". Hemos seleccionado este ejemplo porque casi todos sabemos que una suma y multiplicación, así se puede observar fácilmente como las matemáticas pueden ser útiles aquí.
 
-Don't despair, throughout this book, we'll sprinkle in some category theory, set theory, and lambda calculus to write real world examples that achieve the same simplicity and results as our flock of seagulls example. You needn't be a mathematician either, it will feel just like using a normal framework or api.
+No te desanimes, a lo largo de este libro, Don't despair, throughout this book, vamos hablar un poco de teoría de la categoría, aplicar teoría, y cálculo lambda para escribir ejemplos del mundo real, teniendo la misma simplicidad y resultados que nuestro ejemplo de las gaviotas. No necesitas ser un matemático, será como utilizar otro framework o api.
 
-It may come as a surprise to hear that we can write full, everyday applications along the lines of the functional analog above. Programs that have sound properties. Programs that are terse, yet easy to reason about. Programs that don't reinvent the wheel at every turn. Lawlessness is good if you're a criminal, but in this book, we'll want to acknowledge and obey the laws of math.
+A lo mejor te sorprende oír que podamos escribir por completo, un programa utilizando programación funcional como hemos mostrado en el ejemplo de arriba. Programa que tienen propiedades seguras. Programas cortos, pero fáciles de razonar. Programas que no tienes porque reinventar la rueda cada vez. No tener leyes es bueno si eres un criminal, pero en este libro, vamos a agradecer y obedecer las leyes matemáticas.
 
-We'll want to use the theory where every piece tends to fit together so politely. We'll want to represent our specific problem in terms of generic, composable bits and then exploit their properties for our own selfish benefit. It will take a bit more discipline than the "anything goes" approach of imperative[^We'll go over the precise definition of imperative later in the book, but for now it's anything other than functional programming] programming, but the payoff of working within a principled, mathematical framework will astound you.
+Utilizaremos teoría para cada pieza que encaje bien y educadamente. Vamos a representar nuestro problema con términos genéricos y que se puedan componer en pequeñas piezas para así luego explotar sus propiedades para nuestro beneficio. Se necesita más disciplina que el enfoque de programación imperativa[^Más adelante definiremos programación imperativa, por ahora solo hablaremos de programación funcional], pero lo que obtendrás a cambio, al trabajar con framework basado en principios matemáticos te sorprenderá
 
-We've seen a flicker of our functional north star, but there are a few concrete concepts to grasp before we can really begin our journey.
+Hemos visto un destello de nuestra estrella del norte funcional, pero necesitamos entender unos cuantos conceptos antes de empezar nuestro viaje.
 
-[Chapter 2: First Class Functions](ch2.md)
+[Capítulo 2: Funciones de primera clase](ch2.md)
