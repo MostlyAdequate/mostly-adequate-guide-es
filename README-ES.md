@@ -1,4 +1,4 @@
-[![cover](images/cover.png)](SUMMARY.md)
+[![cover](images/cover.png)](SUMMARY-es.md)
 
 ## Sobre el libro
 
@@ -44,19 +44,19 @@ gitbook mobi . ./functional.mobi
 
 # Contenido
 
-See [SUMMARY.md](SUMMARY.md)
+See [SUMMARY.md](SUMMARY-es.md)
 
 ### Contribuir
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING-es.md)
 
 ### Traducciones
 
-See [TRANSLATIONS.md](TRANSLATIONS.md)
+See [TRANSLATIONS.md](TRANSLATIONS-es.md)
 
 
 # Planes para el futuro
 
 * **Parte 1** es una guia básica. La actualizaré a medida que encuentre errores ya que esto es inicialmente un borrador. Toda ayuda es bienvenida!
-* **Parte 2** se dedicara a clases como functors y monads hasta transitable. Espero mostrar también transformaciones y aplicaciones puras.
+* **Parte 2** se dedicará a clases como functors y monads hasta transitable. Espero mostrar también transformaciones y aplicaciones puras.
 * **Parte 3** cruzará la delgada línea entre la programación práctica y la absurdidad académica. Hecharemos un vistazo a comonads, f-algebras, monads libres, yoneda, y otras construcciones categóricas.
