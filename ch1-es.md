@@ -4,7 +4,7 @@
 
 Hola soy el Profeso Franklin Risby, un placer el conocerte. Vamos ha estar un tiempo juntos. Supuestamente voy a enseñarte un poco sobre programación funcional. Pero basta de hablar sobre mí, qué tal tú? Espero que estés familiarizado con el lenguaje JavaScript, que tengas un poco de experiencía con programación Orientada a Objectos, y que te apetezca convertirte en un programador a seguir. No necesitas tenen un Doctorado en Entomología, solo necesitas saber como encontrar y solucionar algunos bugs.
 
-No voy asumir ningún conocimiento previo sobre programación funcional porque ya sabemos que sucede cuando uno asume mucho, pero espero que te hayas encontrado con ciertos problemas al trabajar con estados mudables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, vamos a ello.
+No voy asumir ningún conocimiento previo sobre programación funcional porque ya sabemos que sucede cuando uno asume mucho, pero espero que te hayas encontrado con ciertos problemas al trabajar con estados mutables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, vamos a ello.
 
 El propósito de este capítulo es dar una noción de lo que es escribir programación funcional. Tenemos que tener algunas ideas sobre que hace a un programa *funcional* o acabaremos escribiendo garabatos, evitando objetos a toda costa - un esfuerzo sin sentido. Necesitamos una diana donde apuntar nuestro código y una brújula celestial para cuando las aguas se vuelvan violentas.
 
@@ -43,9 +43,9 @@ var result = flock_a.conjoin(flock_c)
 //=> 32
 ```
 
-Quién en la faz de la tierra, sería capaz de crear esta abominación? Es irrazonablemente dificil mantener el rastro del estado mudable interno. Y, por si no fuera suficiente, la respuesta es incorrecta! Debería de ser `16`, pero `flock_a` ha sido alterado permanentemente en el proceso. Pobre `flock_a`. Esto es anarquía en I.T.! Esto es aritmética de animales salvajes!
+Quién en la faz de la tierra, sería capaz de crear esta abominación? Es irrazonablemente dificil mantener el rastro del estado mutable interno. Y, por si no fuera suficiente, la respuesta es incorrecta! Debería de ser `16`, pero `flock_a` ha sido alterado permanentemente en el proceso. Pobre `flock_a`. Esto es anarquía en I.T.! Esto es aritmética de animales salvajes!
 
-Si no entiendes este programa, no pasa nada, yo tampoco lo entiendo. La cuestión es que el estado y los valores mudables son difíciles de seguir, incluso en un ejemplo tan pequeño.
+Si no entiendes este programa, no pasa nada, yo tampoco lo entiendo. La cuestión es que el estado y los valores mutables son difíciles de seguir, incluso en un ejemplo tan pequeño.
 
 Vamos a intentarlo otra vez, pero de forma más funcional:
 
