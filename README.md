@@ -1,33 +1,32 @@
-[![cover](images/cover.png)](SUMMARY.md)
+[![cover](images/cover.png)](SUMMARY-es.md)
 
-## About this book
+## Sobre el libro
 
-This is a book on the functional paradigm in general. We'll use the world's most popular functional programming language: JavaScript. Some may feel this is a poor choice as it's against the grain of the current culture which, at the moment, feels predominately imperative. However, I believe it is the best way to learn FP for several reasons:
+Este libro trata sobre el paradigma funcional en general.Utilizaremos el lenguaje de programación funcional más popular: Javascript. Quizás algunos creen que esta es una pobre elección ya que va en contra de la cultura actual, la cual por el momento, siente ser predominantemente imperativa. De todas formas, creo esta es la mejor forma de aprender PF por diversas razones:
 
- * **You likely use it every day at work.**
+ * **Seguramente lo utilizes cada día en el trabajo.**
 
-    This makes it possible to practice and apply your acquired knowledge each day on real world programs rather than pet projects on nights and weekends in an esoteric FP language.
+    Esto hace posible el prácticar y aplicar cada día los conocimientos adquiridos en programas del mundo real en vez de proyectos de una sola noche o de un fin de semana con un lenguaje PF esotérico.
 
+ * **No tenemos que aprender todo desde cero para empezar a programar aplicaciones**
 
- * **We don't have to learn everything up front to start writing programs.**
-
-    In a pure functional language, you cannot log a variable or read a DOM node without using monads. Here we can cheat a little as we learn to purify our codebase. It's also easier to get started in this language since it's mixed paradigm and you can fall back on your current practices while there are gaps in your knowledge.
-
-
- * **The language is fully capable of writing top notch functional code.**
-
-    We have all the features we need to mimic a language like Scala or Haskell with the help of a tiny library or two. Object-oriented programming currently dominates the industry, but it's clearly awkward in JavaScript. It's akin to camping off of a highway or tap dancing in galoshes. We have to `bind` all over the place lest `this` change out from under us, we don't have classes[^Yet], we have various work arounds for the quirky behavior when the `new` keyword is forgotten, private members are only available via closures. To a lot of us, FP feels more natural anyways.
-
-That said, typed functional languages will, without a doubt, be the best place to code in the style presented by this book. JavaScript will be our means of learning a paradigm, where you apply it is up to you. Luckily, the interfaces are mathematical and, as such, ubiquitous. You'll find yourself at home with swiftz, scalaz, haskell, purescript, and other mathematically inclined environments.
+    En un lenguaje funcional puro, no puedes registrar una variable o leer un nodo DOM sin usar monads. Aquí podemos hacer un poco de trampa mientras vayamos aprendiendo como purificar nuestro codebase. También es más fácil, empezar con este lenguaje ya que es un paradigma mixto y te puedes apoyar con lo que ya conoces mientras vas aprendiendo.
 
 
-### Gitbook (for a better reading experience)
+ * **El lenguaje esta completamente capacitado para escribir código funcional de primera categoria.**
 
-* [Read it online](http://drboolean.gitbooks.io/mostly-adequate-guide/)
-* [Download EPUB](https://www.gitbook.com/download/epub/book/drboolean/mostly-adequate-guide)
-* [Download Mobi (Kindle)](https://www.gitbook.com/download/mobi/book/drboolean/mostly-adequate-guide)
+    Tiene todas las características que se necesitan para imitar un lenguaje como Scala o Haskey con la ayuda de una o dos pequeñas librerías. Programación orientada a objetos domina actualmente la industria, pero es claramente incómodo en JavaScript. Esto es parecido a acampar fuera en una carretera o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, no tenemos clases [^Aún], tenemos varias soluciones para arreglar el extraño comportamiento cuando te olvidas de llamar `new` , miembros privados solo estan disponibles miediante closures. Para muchos de nosotros, PF parace mas natural de todos modos.
 
-### Do it yourself
+Dicho esto, lenguajes funcionales con tipado serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuesto medio para aprender un paradigma. Donde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te encontrarás como en casa con swiftz, scalaz, haskell, purescript, y otros sistemas matemáticos.
+
+
+### Gitbook (para una mejor experiencia)
+
+* [Leelo online](http://drboolean.gitbooks.io/mostly-adequate-guide/)
+* [Descarga EPUB](https://www.gitbook.com/download/epub/book/drboolean/mostly-adequate-guide)
+* [Descarga Mobi (Kindle)](https://www.gitbook.com/download/mobi/book/drboolean/mostly-adequate-guide)
+
+### Hazlo tú mismo
 
 ```
 git clone https://github.com/DrBoolean/mostly-adequate-guide.git
@@ -43,21 +42,21 @@ gitbook mobi . ./functional.mobi
 ```
 
 
-# Table of Contents
+# Contenido
 
-See [SUMMARY.md](SUMMARY.md)
+See [SUMMARY.md](SUMMARY-es.md)
 
-### Contributing
+### Contribuir
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING-es.md)
 
-### Translations
+### Traducciones
 
-See [TRANSLATIONS.md](TRANSLATIONS.md)
+See [TRANSLATIONS.md](TRANSLATIONS-es.md)
 
 
-# Plans for the future
+# Planes para el futuro
 
-* **Part 1** is a guide to the basics. I'm updating as I find errors since this is the initial draft. Feel free to help!
-* **Part 2** will address type classes like functors and monads all the way through to traversable. I hope to squeeze in transformers and a pure application.
-* **Part 3** will start to dance the fine line between practical programming and academic absurdity. We'll look at comonads, f-algebras, free monads, yoneda, and other categorical constructs.
+* **Parte 1** es una guia básica. La actualizaré a medida que encuentre errores ya que esto es inicialmente un borrador. Toda ayuda es bienvenida!
+* **Parte 2** se dedicará a clases como functors y monads hasta transitable. Espero mostrar también transformaciones y aplicaciones puras.
+* **Parte 3** cruzará la delgada línea entre la programación práctica y la absurdidad académica. Hecharemos un vistazo a comonads, f-algebras, monads libres, yoneda, y otras construcciones categóricas.
