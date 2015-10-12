@@ -121,4 +121,4 @@ We'll want to use the theory where every piece tends to fit together so politely
 
 We've seen a flicker of our functional north star, but there are a few concrete concepts to grasp before we can really begin our journey.
 
-[Chapter 2: First Class Functions](ch2.md)
+[Chapter 2: First Class Functions](ch2-es.md)
