@@ -1,8 +1,8 @@
-# Chapter 5: Coding by Composing
+# Capítulo 5: Programando Componiendo
 
-## Functional husbandry
+## Reproducción Funcional
 
-Here's `compose`:
+Aquí tenemos `compose`:
 
 ```js
 var compose = function(f,g) {
@@ -12,9 +12,9 @@ var compose = function(f,g) {
 };
 ```
 
-`f` and `g` are functions and `x` is the value being "piped" through them.
+`f` y `g` son funciones y `x` es el valor "pasado" a través.
 
-Composition feels like function husbandry. You, breeder of functions, select two with traits you'd like to combine and mash them together to spawn a brand new one. Usage is as follows:
+Composición es como cultivo de manera funcionalComposition feels like function husbandry. You, breeder of functions, select two with traits you'd like to combine and mash them together to spawn a brand new one. Usage is as follows:
 
 ```js
 var toUpperCase = function(x) { return x.toUpperCase(); };
@@ -98,14 +98,14 @@ var loudLastUpper = compose(angry, last);
 // more variations...
 ```
 
-There's no right or wrong answers - we're just plugging our legos together in whatever way we please. Usually it's best to group things in a reusable way like `last` and `angry`. If familiar with Fowler's "[Refactoring][refactoring-book]", one might recognize this process as "[extract method][extract-method-refactor]"...except without all the object state to worry about.
+No hay repuestas correctas o incorrectas - solo estamos juntando nuestras piezas de legos de la manera que nos plazca. Normalmente lo mejor es agrupar de manera que se pueda reusar como `last` y `angry`. Si estás familiarizado con Fowler´s "[Refactoring][refactoring-book]", uno quizá reconozca el proceso como "[extract method][extract-method-refactor]"...sin la preocupación de tener en cuenta el estado del objecto.
 
 ## Pointfree
 
-Pointfree style means never having to say your data. Excuse me. It means functions that never mention the data upon which they operate. First class functions, currying, and composition all play well together to create this style.
+Pointfree significa, no especificar tus datos nunca. Perdona. Significa que las funciones nunca mencionan los datos sobre los que opera. Funciones de primera clase, currying, y composición juegan juntas creando este estilo.
 
 ```js
-//not pointfree because we mention the data: word
+//no es pointfree porque mencionamos los datos: word
 var snakeCase = function (word) {
   return word.toLowerCase().replace(/\s+/ig, '_');
 };
@@ -114,12 +114,12 @@ var snakeCase = function (word) {
 var snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase);
 ```
 
-See how we partially applied `replace`? What we're doing is piping our data through each function of 1 argument. Currying allows us to prepare each function to just take its data, operate on it, and pass it along. Something else to notice is how we don't need the data to construct our function in the pointfree version, whereas in the pointful one, we must have our `word` available before anything else.
+Ves como hemos aplicado `replace` parcialmente? Lo que estamos haciendo es pasando nuestros datos a través de cada función con un solo argumento. Currying nos permite preparar cada función para que solo coja sus datos, opere con ellos, y los devuelva. En la versión pointfree, se puede ver, como no se necesita los data para construir nuestra función, en contra, conla función  no pointfree (pointful), necesitamos tener `word` disponible antes de nada.
 
-Let's look at another example.
+Vamos a ver otro ejemplo.
 
 ```js
-//not pointfree because we mention the data: name
+//no es pointfree porque mencionamos los datos: name
 var initials = function (name) {
   return name.split(' ').map(compose(toUpperCase, head)).join('. ');
 };
@@ -131,27 +131,27 @@ initials("hunter stockton thompson");
 // 'H. S. T'
 ```
 
-Pointfree code can again, help us remove needless names and keep us concise and generic. Pointfree is a good litmus test for functional code as it let's us know we've got small functions that take input to output. One can't compose a while loop, for instance. Be warned, however, pointfree is a double edge sword and can sometimes obfuscate intention. Not all functional code is pointfree and that is O.K. We'll shoot for it where we can and stick with normal functions otherwise.
+Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una bueno como prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones normales.
 
-## Debugging
-A common mistake is to compose something like `map`, a function of two arguments, without first partially applying it.
+## Depurando
+Un error común es el componer algo como `map`, una función de dos argumentos, sin antes aplicarlar parcialmente.
 
 ```js
-//wrong - we end up giving angry an array and we partially applied map with god knows what.
+//Inconrrecto - terminamos dando un array a angry y aplicamos map parcialmente con díos sabe que.
 var latin = compose(map, angry, reverse);
 
 latin(["frog", "eyes"]);
 // error
 
 
-// right - each function expects 1 argument.
+// derecha - cada función espera 1 argumento.
 var latin = compose(map(angry), reverse);
 
 latin(["frog", "eyes"]);
 // ["EYES!", "FROG!"])
 ```
 
-If you are having trouble debugging a composition, we can use this helpful, but impure trace function to see what's going on.
+Si tienes problemas a depurar esta composición, podemos utilizar una función para rastrear que es lo que pasa, aunque esta función sea impura puede ser de gran ayuda.
 
 ```js
 var trace = curry(function(tag, x){
@@ -169,10 +169,10 @@ Something is wrong here, let's `trace`
 
 ```js
 var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
-// after split [ 'The', 'world', 'is', 'a', 'vampire' ]
+// después de split [ 'The', 'world', 'is', 'a', 'vampire' ]
 ```
 
-Ah! We need to `map` this `toLower` since it's working on an array.
+Ah! Necesitamos ejecutar `map` a `toLower` ya que es un array.
 
 ```js
 var dasherize = compose(join('-'), map(toLower), split(' '), replace(/\s{2,}/ig, ' '));
