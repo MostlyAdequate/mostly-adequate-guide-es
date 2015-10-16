@@ -1,4 +1,4 @@
-# Capítulo 5: Programando Componiendo
+# Capítulo 5: Programando por composición
 
 ## Reproducción Funcional
 
@@ -182,44 +182,43 @@ dasherize('The world is a vampire');
 // 'the-world-is-a-vampire'
 ```
 
-The `trace` function allows us to view the data at a certain point for debugging purposes. Languages like haskell and purescript have similar functions for ease of development.
+La función `trace` es para depuración y nos permite observar los datos en ciertos momentos. Lenguajes como haskell y purescript tienen funciones similares para agilizar el desarrollo.
 
-Composition will be our tool for constructing programs and, as luck would have it, is backed by a powerful theory that ensures things will work out for us. Let's examine this theory.
+Composición será nuestra herramienta para construir programas y, afortunadamente, esta respaldada por una teoría poderosa que asegura que las cosas funcionarán. Vamos a examinar esta teoría.
 
 
-## Category theory
+## Teoría categórica.
 
-Category theory is an abstract branch of mathematics that can formalize concepts from several different branches such as set theory, type theory, group theory, logic, and more. It primarily deals with objects, morphisms, and transformations, which mirrors programming quite closely. Here is a chart of the same concepts as viewed from each separate theory.
+Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos de varias ramas distintas como set theory, type theory, group theory, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
 
 <img src="images/cat_theory.png" />
 
-Sorry, I didn't mean to frighten you. I don't expect you to be intimately familiar with all these concepts. My point is to show you how much duplication we have so you can see why category theory aims to unify these things.
+Lo siento, no prentendí asustarte. No espero que estés intimamente familiarizado con todos estos conceptos. My intención es mostrate cuanta duplicación tenemos, y como la teoría categórica apunta a unificar estas cosas.
 
-In category theory, we have something called... a category. It is defined as a collection with the following components:
+En la teoría categórica, tenemos algo que se llama... una categoría. Esta definida como una colección con los siguientes componentesÑ
 
-  * A collection of objects
-  * A collection of morphisms
-  * A notion of composition on the morphisms
-  * A distinguished morphism called identity
+  * Una colección de objectos
+  * Una colección de morfismos.
+  * Una noción de composición en los morfismos
+  * Un morfismo distinguido llamado identidad
 
-Category theory is abstract enough to model many things, but let's apply this to types and functions, which is what we care about at the moment.
+La teoría categórica es suficientement abstracta para modelar muchas cosas, vamos aplicar estos tipos y funciones, que es lo único que nos importat en este momento.
 
-**A collection of objects**
-The objects will be data types. For instance, ``String``, ``Boolean``, ``Number``, ``Object``, etc. We often view data types as sets of all the possible values. One could look at ``Boolean`` as the set of `[true, false]` and ``Number`` as the set of all possible numeric values. Treating types as sets is useful because we can use set theory to work with them.
+**Una colección de objectos**
+Los objectos serán tipo de datos. Por ejemplo, ``String``, ``Boolean``, ``Number``, ``Object``, etc. Frecuentemente vemos tipos de datos como un conjunto de todos los valores posibles. Uno podría ver un ``Boolean`` como un conjunto de `[true, false]` y ``Number`` como un conjunto de todos los valore numéricos posibles. Tratar los tipos como conjuntos es útil porque podemos utilizar la teoría del conjunto con ellos.
 
+**Una colección de morfismos**
+Los morfismos serán nuestras funciones puras estándard de cada día.
 
-**A collection of morphisms**
-The morphisms will be our standard every day pure functions.
+**Una noción de composición en los morfismos**
+Esto, como ya habrás adivinado, es nuestro nuevo juguete a estrenar - `compose`. Anteriormente vimos que nuestra función `compose` es asociativa, lo cual no es una coincidencia ya que es una propiedad necesaria para cualquier composición de la teoría categórica.
 
-**A notion of composition on the morphisms**
-This, as you may have guessed, is our brand new toy - `compose`. We've discussed that our `compose` function is associative which is no coincidence as it is a property that must hold for any composition in category theory.
-
-Here is an image demonstrating composition:
+Aquí tenemos una imagen que demuestra la composición:
 
 <img src="images/cat_comp1.png" />
 <img src="images/cat_comp2.png" />
 
-Here is a concrete example in code:
+Aquí un ejemplo concreto en códig:
 
 ```js
 var g = function(x){ return x.length; };
@@ -227,31 +226,31 @@ var f = function(x){ return x === 4; };
 var isFourLetterWord = compose(f, g);
 ```
 
-**A distinguished morphism called identity**
-Let's introduce a useful function called `id`. This function simply takes some input and spits it back at you. Take a look:
+**Un morfismo distinguido llamado identidad**
+Vamos a introducir otra útil función llamada `id`. Esta función simplememte acepta una entrada y te la escupe de vuelta. Hechale un vistazo:
 
 ```js
 var id = function(x){ return x; };
 ```
 
-You might ask yourself "What in the bloody hell is that useful for?". We'll make extensive use of this function in the following chapters, but for now think of it as a function that can stand in for our value - a function masquerading as every day data.
+Quizás te preguntes a tí mismo "¿Para que demónios puede ser esto útil?". En los siguientes capítulos haremos un uso extenso de esta función, pero por ahora piensa de esta función como si fuese un valor ' una función que enmascara nuestros datos.
 
-`id` must play nicely with compose. Here is a property that always holds for every unary[^unary: a one argument function] function f:
+`id` tiene que interactúar bien con compose (composición). Aquí tenemos una propiedad que cumple siempre para cada unario[^unario: función de un argumento] función f:
 
 ```js
-// identity
+// identidad
 compose(id, f) == compose(f, id) == f;
 // true
 ```
 
-Hey, it's just like the identity property on numbers! If that's not immediately clear, take some time with it. Understand the futility. We'll be seeing `id` used all over the place soon, but for now we see it's a function that acts as a stand in for a given value. This is quite useful when writing pointfree code.
+Hey, solo es como la propiedad de identidad con números! Si esto no esta aún claro, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` va a ser usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Esto es bastante útil cuando escribamos código pointfree.
 
 So there you have it, a category of types and functions. If this is your first introduction, I imagine you're still a little fuzzy on what a category is and why it's useful. We will build upon this knowledge throughout the book. As of right now, in this chapter, on this line, you can at least see it as providing us with some wisdom regarding composition - namely, the associativity and identity properties.
 
 What are some other categories, you ask? Well, we can define one for directed graphs with nodes being objects, edges being morphisms, and composition just being path concatenation. We can define with Numbers as objects and `>=` as morphisms[^actually any partial or total order can be a category]. There are heaps of categories, but for the purposes of this book, we'll only concern ourselves with the one defined above. We have sufficiently skimmed the surface and must move on.
 
 
-## In Summary
+## Resúmen
 Composition connects our functions together like a series of pipes. Data will flow through our application as it must - pure functions are input to output after all so breaking this chain would disregard output, rendering our software useless.
 
 We hold composition as a design principle above all others. This is because it keeps our app simple and reasonable. Category theory will play a big part in app architecture, modelling side effects, and ensuring correctness.
