@@ -245,15 +245,15 @@ compose(id, f) == compose(f, id) == f;
 
 Hey, solo es como la propiedad de identidad con números! Si esto no esta aún claro, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` va a ser usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Esto es bastante útil cuando escribamos código pointfree.
 
-So there you have it, a category of types and functions. If this is your first introduction, I imagine you're still a little fuzzy on what a category is and why it's useful. We will build upon this knowledge throughout the book. As of right now, in this chapter, on this line, you can at least see it as providing us with some wisdom regarding composition - namely, the associativity and identity properties.
+Ahi lo tienes, una categória de tipos y funciones. Si esta es tú primera introducción, imagino que estarás un poco confuso con la idea de que es una categoría y su utilidad. Trabajaremos sobre estos conocimientos a lo largo del libro. Por el momento, en este capítulo, en esta línea, lo puedes ver como algo que nos provee con conocimientos relacionados con la composición - llamalo, propiedades de identidad y asociativas.
 
-What are some other categories, you ask? Well, we can define one for directed graphs with nodes being objects, edges being morphisms, and composition just being path concatenation. We can define with Numbers as objects and `>=` as morphisms[^actually any partial or total order can be a category]. There are heaps of categories, but for the purposes of this book, we'll only concern ourselves with the one defined above. We have sufficiently skimmed the surface and must move on.
+¿Cuáles son otras categorías, te preguntas? Bien, podemos definir gráfos dirigidos con nodos como objetos, we can define one for directed graphs with nodes being objects, edges being morphisms, y composición solo como camino de concatenación. Podemos definir números como objectos y `>=` como morfismos[^realmente cualquier orden parcial o total puede ser una categoría]. Hay un montón de categorías, pero para el propósito de este libro, solo nos preocuparemos del que hemos definido anteriormente. Hemos cubierto bastante la superficie y tenemos que seguir.
 
 
 ## Resúmen
-Composition connects our functions together like a series of pipes. Data will flow through our application as it must - pure functions are input to output after all so breaking this chain would disregard output, rendering our software useless.
+Composición conecta nuestras funciones como una serie de tuberías. Datos fluyen a través de nuestra aplicación como tiene que ser - funciones puras son entrada a salida después de todo, romper con esta cadena sería descuidar la sálida, siendo nuestro software inútil.
 
-We hold composition as a design principle above all others. This is because it keeps our app simple and reasonable. Category theory will play a big part in app architecture, modelling side effects, and ensuring correctness.
+Tenemos composición como principio de diseño sobre todos los demás. Esto es porThis is because it keeps our app simple and reasonable. Category theory will play a big part in app architecture, modelling side effects, and ensuring correctness.
 
 We are now at a point where it would serve us well to see some of this in practice. Let's make an example application.
 
