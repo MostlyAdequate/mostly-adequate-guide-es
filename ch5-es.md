@@ -245,9 +245,9 @@ compose(id, f) == compose(f, id) == f;
 
 Hey, solo es como la propiedad de identidad con números! Si esto no esta aún claro, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` va a ser usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Esto es bastante útil cuando escribamos código pointfree.
 
-So there you have it, a category of types and functions. If this is your first introduction, I imagine you're still a little fuzzy on what a category is and why it's useful. We will build upon this knowledge throughout the book. As of right now, in this chapter, on this line, you can at least see it as providing us with some wisdom regarding composition - namely, the associativity and identity properties.
+Ahi lo tienes, una categória de tipos y funciones. Si esta es tú primera introducción, imagino que estarás un poco confuso con la idea de que es una categoría y su utilidad. Trabajaremos sobre estos conocimientos a lo largo del libro. Por el momento, en este capítulo, en esta línea, lo puedes ver como algo que nos provee con conocimientos relacionados con la composición - llamalo, propiedades de identidad y asociativas.
 
-What are some other categories, you ask? Well, we can define one for directed graphs with nodes being objects, edges being morphisms, and composition just being path concatenation. We can define with Numbers as objects and `>=` as morphisms[^actually any partial or total order can be a category]. There are heaps of categories, but for the purposes of this book, we'll only concern ourselves with the one defined above. We have sufficiently skimmed the surface and must move on.
+¿Cuáles son otras categorías, te preguntas? Bien, podemos definir gráfos dirigidos con nodos como objetos, we can define one for directed graphs with nodes being objects, edges being morphisms, y composición solo como camino de concatenación. We can define with Numbers as objects and `>=` as morphisms[^actually any partial or total order can be a category]. There are heaps of categories, but for the purposes of this book, we'll only concern ourselves with the one defined above. We have sufficiently skimmed the surface and must move on.
 
 
 ## Resúmen
