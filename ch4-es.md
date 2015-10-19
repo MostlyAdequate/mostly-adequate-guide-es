@@ -1,9 +1,10 @@
-# Capitulo 4: Currying
+Ejercicios 
+# Capítulo 4: Currying
 
 ## No puedo vivir, si vivir es sin ti 
 *NdT: El titulo viene de la letra de una canción "Can't live if livin' is without you"
 
-Mi padre una vez me explicó como es que uno puede vivir sin ciertas cosas hasta que uno las adquiere. Un microondas es una de esas cosas. Los smartphones, son otra. Los mas mayores entre nosotros recordarán una vida plena sin internet. Para mi, `currying` esta en esta lista.
+Mi padre una vez me explicó cómo es que uno puede vivir sin ciertas cosas hasta que uno las adquiere. Un microondas es una de esas cosas. Los smartphones, son otra. Los mas mayores entre nosotros recordarán una vida plena sin internet. Para mi, `currying` esta en esta lista.
 
 El concepto es sencillo: Puedes llamar a una función con menos parámetros de los que espera. Devuelve una función que recibe los parámetros restantes.
 
@@ -132,7 +133,7 @@ Ahora vamos a adquirir otra herramienta esencial llamada `compose`.
 
 ## Ejercicios
 
-Una pequeña nota antes de empezar. Usaremos una librería llamada *ramda* que aplica `curry` a cada función por defecto. Alternativamente puedes escoger *lodash-fp* que hace lo mismo y esta escrita/mantenida por el creador de `lodash`. Ambas funcionaran sin problemas, es solo cuestion de preferencia.
+Una pequeña nota antes de empezar. Usaremos una librería llamada *ramda* que aplica `curry` a cada función por defecto. Alternativamente puedes escoger *lodash-fp* que hace lo mismo y esta escrita/mantenida por el creador de `lodash`. Ambas funcionaran sin problemas, es solo cuestión de preferencia.
 
 [ramda](http://ramdajs.com)
 [lodash-fp](https://github.com/lodash/lodash-fp)
@@ -171,7 +172,7 @@ var filterQs = function(xs) {
 
 // Ejercicio 3
 //==============
-// Usa la funcion auxiliar _keepHighest para refactorizar max y que no haga
+// Usa la función auxiliar _keepHighest para refactorizar max y que no haga
 // referencia a ningún parámetro
 
 
