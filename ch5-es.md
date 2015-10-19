@@ -14,7 +14,7 @@ var compose = function(f,g) {
 
 `f` y `g` son funciones y `x` es el valor "pasado" a través.
 
-Composición es como cultivo de manera funcionalComposition feels like function husbandry. You, breeder of functions, select two with traits you'd like to combine and mash them together to spawn a brand new one. Usage is as follows:
+Composición es como reproducción funcional. Tú, reproductor de funciones, seleccionas dos con las características que te gustarían combiar y juntar para así formar una nueva. Su uso es así:
 
 ```js
 var toUpperCase = function(x) { return x.toUpperCase(); };
@@ -131,7 +131,7 @@ initials("hunter stockton thompson");
 // 'H. S. T'
 ```
 
-Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una bueno como prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones normales.
+Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una bueno como prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones comúnes.
 
 ## Depurando
 Un error común es el componer algo como `map`, una función de dos argumentos, sin antes aplicarlar parcialmente.
@@ -189,13 +189,13 @@ Composición será nuestra herramienta para construir programas y, afortunadamen
 
 ## Teoría categórica.
 
-Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos de varias ramas distintas como set theory, type theory, group theory, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
+Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de ramas distintas como set theory, type theory, group theory, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
 
 <img src="images/cat_theory.png" />
 
-Lo siento, no prentendí asustarte. No espero que estés intimamente familiarizado con todos estos conceptos. My intención es mostrate cuanta duplicación tenemos, y como la teoría categórica apunta a unificar estas cosas.
+Lo siento, no prentendí asustarte. No espero que estés intimamente familiarizado con todos estos conceptos. Mi intención es mostrate cuanta duplicación tenemos, y como la teoría categórica apunta a unificar estas cosas.
 
-En la teoría categórica, tenemos algo que se llama... una categoría. Esta definida como una colección con los siguientes componentesÑ
+En la teoría categórica, tenemos algo que se llama... una categoría. Esta definida como una colección con los siguientes componentes:
 
   * Una colección de objectos
   * Una colección de morfismos.
@@ -227,13 +227,13 @@ var isFourLetterWord = compose(f, g);
 ```
 
 **Un morfismo distinguido llamado identidad**
-Vamos a introducir otra útil función llamada `id`. Esta función simplememte acepta una entrada y te la escupe de vuelta. Hechale un vistazo:
+Vamos a introducir otra útil función llamada `id`. Esta función simplemente acepta una entrada y te la escupe de vuelta. Hechale un vistazo:
 
 ```js
 var id = function(x){ return x; };
 ```
 
-Quizás te preguntes a tí mismo "¿Para que demónios puede ser esto útil?". En los siguientes capítulos haremos un uso extenso de esta función, pero por ahora piensa de esta función como si fuese un valor ' una función que enmascara nuestros datos.
+Quizás te preguntes a tí mismo "¿Para que demónios puede ser esto útil?". En los siguientes capítulos haremos un uso extenso de esta función, pero por ahora piensa sobre esta función como si fuese un valor, una función que enmascara nuestros datos.
 
 `id` tiene que interactúar bien con compose (composición). Aquí tenemos una propiedad que cumple siempre para cada unario[^unario: función de un argumento] función f:
 
