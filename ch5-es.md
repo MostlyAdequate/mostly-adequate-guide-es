@@ -81,21 +81,21 @@ loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']);
 
 Aplicar la propiedad asociativa nos da una flexibilidad y paz mental , sabiendo que el resultado va a ser equivaliente. Una definición un poco más complicada está incluída con el soporte de librerías para este libro y es la definición que podrás encontrar normalmente en librerías como [lodash][lodash-website], [underscore][underscore-website], y [ramda][ramda-website].
 
-One pleasant benefit of associativity is that any group of functions can be extracted and bundled together in their very own composition. Let's play with refactoring our previous example:
+Uno de los beneficios de la asociatividad es que cualquier grupo de funciones puede ser extraído y reagrupado en una composición. Vámos a jugar un poco reescribiendo nuestra ejemplo anterior:
 
 ```js
 var loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
 
-// or
+// o
 var last = compose(head, reverse);
 var loudLastUpper = compose(exclaim, toUpperCase, last);
 
-// or
+// o
 var last = compose(head, reverse);
 var angry = compose(exclaim, toUpperCase);
 var loudLastUpper = compose(angry, last);
 
-// more variations...
+// más variaciones...
 ```
 
 No hay repuestas correctas o incorrectas - solo estamos juntando nuestras piezas de legos de la manera que nos plazca. Normalmente lo mejor es agrupar de manera que se pueda reusar como `last` y `angry`. Si estás familiarizado con Fowler´s "[Refactoring][refactoring-book]", uno quizá reconozca el proceso como "[extract method][extract-method-refactor]"...sin la preocupación de tener en cuenta el estado del objecto.
@@ -151,7 +151,7 @@ latin(["frog", "eyes"]);
 // ["EYES!", "FROG!"])
 ```
 
-Si tienes problemas a depurar esta composición, podemos utilizar una función para rastrear que es lo que pasa, aunque esta función sea impura puede ser de gran ayuda.
+Si tienes problemas depurarando esta composición, podemos utilizar una función para rastrear que es lo que pasa, aunque esta función sea impura puede ser de gran ayuda.
 
 ```js
 var trace = curry(function(tag, x){
@@ -202,7 +202,7 @@ En la teoría categórica, tenemos algo que se llama... una categoría. Esta def
   * Una noción de composición en los morfismos
   * Un morfismo distinguido llamado identidad
 
-La teoría categórica es suficientement abstracta para modelar muchas cosas, vamos aplicar estos tipos y funciones, que es lo único que nos importat en este momento.
+La teoría categórica es suficientemente abstracta para modelar muchas cosas, vamos aplicar estos tipos y funciones, que es lo único que nos importat en este momento.
 
 **Una colección de objectos**
 Los objectos serán tipo de datos. Por ejemplo, ``String``, ``Boolean``, ``Number``, ``Object``, etc. Frecuentemente vemos tipos de datos como un conjunto de todos los valores posibles. Uno podría ver un ``Boolean`` como un conjunto de `[true, false]` y ``Number`` como un conjunto de todos los valore numéricos posibles. Tratar los tipos como conjuntos es útil porque podemos utilizar la teoría del conjunto con ellos.
@@ -243,7 +243,7 @@ compose(id, f) == compose(f, id) == f;
 // true
 ```
 
-Hey, solo es como la propiedad de identidad con números! Si esto no esta aún claro, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` va a ser usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Esto es bastante útil cuando escribamos código pointfree.
+Hey, es como la propiedad de identidad con números! Si esto no lo tienes claro aún, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` será usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Será bastante útil cuando escribamos código pointfree.
 
 Ahi lo tienes, una categória de tipos y funciones. Si esta es tú primera introducción, imagino que estarás un poco confuso con la idea de que es una categoría y su utilidad. Trabajaremos sobre estos conocimientos a lo largo del libro. Por el momento, en este capítulo, en esta línea, lo puedes ver como algo que nos provee con conocimientos relacionados con la composición - llamalo, propiedades de identidad y asociativas.
 
@@ -253,19 +253,19 @@ Ahi lo tienes, una categória de tipos y funciones. Si esta es tú primera intro
 ## Resúmen
 Composición conecta nuestras funciones como una serie de tuberías. Datos fluyen a través de nuestra aplicación como tiene que ser - funciones puras son entrada a salida después de todo, romper con esta cadena sería descuidar la sálida, siendo nuestro software inútil.
 
-Tenemos composición como principio de diseño sobre todos los demás. Esto es porThis is because it keeps our app simple and reasonable. Category theory will play a big part in app architecture, modelling side effects, and ensuring correctness.
+Ante todo, mantenemos composición como principio de diseño. Porque nos permite mantener nuestra app simple y razonable. Teoría categórica tiene un gran rol en la arquitectura de nuestra app, modelando efectos secundarios, y no asegura exactitud.
 
-We are now at a point where it would serve us well to see some of this in practice. Let's make an example application.
+Hemos llegado al punto donde nos será útil ver algunos ejemplos prácticos. Vamos a hacer una aplicación como ejemplo.
 
-[Chapter 6: Example Application](ch6.md)
+[Capítulo 6: Aplicación de ejemplo](ch6.md)
 
-## Exercises
+## Ejercicios
 
 ```js
 var _ = require('ramda');
 var accounting = require('accounting');
 
-// Example Data
+// Datos de ejemplo
 var CARS = [
     {name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true},
     {name: "Spyker C12 Zagato", horsepower: 650, dollar_value: 648000, in_stock: false},
@@ -275,24 +275,24 @@ var CARS = [
     {name: "Pagani Huayra", horsepower: 700, dollar_value: 1300000, in_stock: false}
   ];
 
-// Exercise 1:
+// Ejercicio 1:
 // ============
-// use _.compose() to rewrite the function below. Hint: _.prop() is curried.
+// utilia _.compose() para reescribir la siguiente función. Pista: _.prop() está currieada.
 var isLastInStock = function(cars) {
   var last_car = _.last(cars);
   return _.prop('in_stock', last_car);
 };
 
-// Exercise 2:
+// Ejercicio 2:
 // ============
-// use _.compose(), _.prop() and _.head() to retrieve the name of the first car
+// utiliza _.compose(), _.prop() and _.head() para obtener el nombre del primer coche.
 var nameOfFirstCar = undefined;
 
 
-// Exercise 3:
+// Ejercicio 3:
 // ============
-// Use the helper function _average to refactor averageDollarValue as a composition
-var _average = function(xs) { return _.reduce(_.add, 0, xs) / xs.length; }; // <- leave be
+// Utiliza la función de ayuda _average para reescribir averageDollarValue como composición.
+var _average = function(xs) { return _.reduce(_.add, 0, xs) / xs.length; }; // <- dejalo
 
 var averageDollarValue = function(cars) {
   var dollar_values = _.map(function(c) { return c.dollar_value; }, cars);
@@ -300,18 +300,18 @@ var averageDollarValue = function(cars) {
 };
 
 
-// Exercise 4:
+// Ejercicio 4:
 // ============
-// Write a function: sanitizeNames() using compose that returns a list of lowercase and underscored car's names: e.g: sanitizeNames([{name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true}]) //=> ["ferrari_ff"].
+// Escribe la función: sanitizeNames() que devuelva una lista de con los nombres de coches en minúsculas y los espacios por subrayado, utilizando compose: ejemplo: sanitizeNames([{name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true}]) //=> ["ferrari_ff"].
 
-var _underscore = _.replace(/\W+/g, '_'); //<-- leave this alone and use to sanitize
+var _underscore = _.replace(/\W+/g, '_'); //<-- dejalo y utiliza sanitize
 
 var sanitizeNames = undefined;
 
 
 // Bonus 1:
 // ============
-// Refactor availablePrices with compose.
+// Reescribe availablePrices con compose.
 
 var availablePrices = function(cars) {
   var available_cars = _.filter(_.prop('in_stock'), cars);
@@ -323,7 +323,7 @@ var availablePrices = function(cars) {
 
 // Bonus 2:
 // ============
-// Refactor to pointfree. Hint: you can use _.flip()
+// Convierte esta función a pointfree. Pista: puedes usar _.flip()
 
 var fastestCar = function(cars) {
   var sorted = _.sortBy(function(car){ return car.horsepower }, cars);
