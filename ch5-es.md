@@ -14,7 +14,7 @@ var compose = function(f,g) {
 
 `f` y `g` son funciones y `x` es el valor "pasado" a través.
 
-Composición es como reproducción funcional. Tú, reproductor de funciones, seleccionas dos con las características que te gustarían combiar y juntar para así formar una nueva. Su uso es así:
+La composición es como la reproducción funcional. Tú, reproductor de funciones, selecciona dos con las características que te gustaría combinar y mézclalas para formar una nueva. Su uso es así:
 
 ```js
 var toUpperCase = function(x) { return x.toUpperCase(); };
@@ -25,9 +25,9 @@ shout("send in the clowns");
 //=> "SEND IN THE CLOWNS!"
 ```
 
-La composición de dos funciones devuelve una nueva función. Esto tiene sentido: componer dos unidades del mismo tipo (en este caso una función) debería devolver una nueva unidad del mismo tipo. Si juntas dos legos no obtienes una casa de montaña. Exister una teoría, una ley que descubriremos en su debido tiempo.
+La composición de dos funciones devuelve una nueva función. Esto tiene sentido: componer dos unidades del mismo tipo (en este caso una función) debería devolver una nueva unidad del mismo tipo. Si juntas dos legos no obtienes una casa de montaña. Existe una teoría, una ley que descubriremos en su debido tiempo.
 
-En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto se puede leer mejor que tener un montón de funciones anidadas. Sin composición, lo escrito arribe sería:
+En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto es mucho más legible que tener un montón de funciones anidadas. Sin compose, lo escrito arriba sería:
 
 ```js
 var shout = function(x){
@@ -35,7 +35,7 @@ var shout = function(x){
 };
 ```
 
-En vez de dentro hacía fuera, lo ejecutamos de derecha a izquierda, lo cual supongo que un paso a la derecha[^boo]. Vamos a ver un ejemplo donde importa la secuencia:
+En vez de adentro hacia afuera, lo ejecutamos de derecha a izquierda, lo cual supongo que es un paso a la izquierda[^boo]. Veamos un ejemplo donde importa la secuencia:
 
 ```js
 var head = function(x) { return x[0]; };
@@ -46,7 +46,7 @@ last(['jumpkick', 'roundhouse', 'uppercut']);
 //=> 'uppercut'
 ```
 
-`reverse` devolverá una lista, mientras `head` coje el elemento inicial. Esto resulta en un efectiva, aunque inefectiva, función `last`. La secuencia de funciones en la composición debería de ser aparente en este ejemplo. Podríamos definir una versión de izquierda a derecha, de todas formas, copiaremos la versión matemática lo mejor posible. Sí, eso es correcto, composición viene directamente de los libros de matemáticas. De hecho, quizás es el momento de hechar un vistazo a una propiedad que es válida para cualquier composición.
+`reverse` devolverá una lista, mientras `head` coje el elemento inicial. Esto resulta en un efectiva, aunque ineficiente, función `last`. La secuencia de funciones en la composición debería de ser aparente en este ejemplo. Podríamos definir una versión de izquierda a derecha, de todas formas, copiaremos la versión matemática lo mejor posible. Sí, eso es correcto, la composición viene directamente de los libros de matemáticas. De hecho, quizás es el momento de hechar un vistazo a una propiedad que es válida para cualquier composición.
 
 ```js
 // asociatividad
@@ -54,7 +54,7 @@ var associative = compose(f, compose(g, h)) == compose(compose(f, g), h);
 // true
 ```
 
-Composición es asociativa, lo cual significa que no importa como los agrupes. Entonces, si queremos capitalizar una cadena, podemos escribir:
+La composición es asociativa, lo cual significa que no importa como los agrupes. Entonces, si queremos capitalizar una cadena, podemos escribir:
 
 ```js
 compose(toUpperCase, compose(head, reverse));
@@ -63,7 +63,7 @@ compose(toUpperCase, compose(head, reverse));
 compose(compose(toUpperCase, head), reverse);
 ```
 
-No importa como agrupemos nuestras llamadas a funciones, ya que el resultado será el mismo. Esto nos permite escribir una composición variable tal que así:
+No importa cómo agrupemos nuestras llamadas compose, ya que el resultado será el mismo. Esto nos permite escribir compose como una función *variadic* y usarla así:
 
 ```js
 // anteriormente hubiesemos tenido que escribir dos composiciones, pero porque es asociativa, podemos componer tantas funciones como queramos y dejarle decidir como agruparlas.
