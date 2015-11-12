@@ -118,8 +118,8 @@ No te desanimes, a lo largo de este libro hablaremos un poco de teoría de la ca
 
 A lo mejor te sorprende oír que podamos escribir por completo, un programa utilizando programación funcional como hemos mostrado en el ejemplo de arriba. Programas que tienen propiedades seguras. Programas cortos, pero fáciles de razonar. Programas que no tienes porque reinventar la rueda una y otra cada vez. No tener leyes es bueno si eres un criminal, pero en este libro, vamos a agradecer y obedecer las leyes matemáticas.
 
-Utilizaremos teoría para cada pieza que encaje bien y educadamente. Vamos a representar nuestro problema con términos genéricos y que se puedan componer en pequeñas piezas, y así luego explotar sus propiedades para nuestro beneficio. Se necesita más disciplina que el enfoque de programación imperativa[^Más adelante definiremos programación imperativa, por ahora, solo hablaremos de programación funcional], pero lo que obtendrás a cambio, al trabajar con framework basado en principios matemáticos te sorprenderá
+Utilizaremos teoría para cada pieza que encaje bien y educadamente. Vamos a representar nuestro problema con términos genéricos y que se puedan componer en pequeñas piezas, y así luego explotar sus propiedades para nuestro beneficio. Se necesita más disciplina que el enfoque de programación imperativa[^Más adelante definiremos programación imperativa, por ahora, solo hablaremos de programación funcional], pero lo que obtendrás a cambio, al trabajar con framework basado en principios matemáticos te sorprenderá.
 
 Hemos visto un destello de nuestra estrella del norte funcional, pero necesitamos entender unos cuantos conceptos antes de empezar nuestro viaje.
 
-[Capítulo 2: Funciones de primera clase](ch2.md)
+[Capítulo 2: Funciones de primera clase](ch2-es.md)
