@@ -89,7 +89,7 @@ censored("Chocolate Rain");
 ```
 Lo que demostramos aquí es la habilidad de pre-cargar una función con un parámetro o dos con el fin de recibir una nueva función que recuerda esos parámetros.
 
-Os aliento a probar `npm install lodash`, copiar el código anterior y probarlo en la consola REPL. También puedes hacer lo mismo en un navegador donde `lodash` o `ramda` están disponibles. 
+Os aliento a probar `npm install lodash`, copiar el código anterior y probarlo en la consola REPL. También puedes hacer lo mismo en un navegador donde `lodash` o `ramda` estén disponibles. 
 
 ## Mas que un chiste / o salsa especial 
 

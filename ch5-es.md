@@ -79,7 +79,7 @@ loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']);
 //=> 'UPPERCUT!'
 ```
 
-Aplicar la propiedad asociativa nos da una flexibilidad y paz mental , sabiendo que el resultado va a ser equivaliente. Una definición un poco más complicada está incluída con el soporte de librerías para este libro y es la definición que podrás encontrar normalmente en librerías como [lodash][lodash-website], [underscore][underscore-website], y [ramda][ramda-website].
+Aplicar la propiedad asociativa nos da flexibilidad y paz mental, sabiendo que el resultado va a ser equivaliente. Una definición un poco más complicada está incluída con el soporte de librerías para este libro y es la definición que podrás encontrar normalmente en librerías como [lodash][lodash-website], [underscore][underscore-website], y [ramda][ramda-website].
 
 Uno de los beneficios de la asociatividad es que cualquier grupo de funciones puede ser extraído y reagrupado en una composición. Vámos a jugar un poco reescribiendo nuestra ejemplo anterior:
 
@@ -131,7 +131,7 @@ initials("hunter stockton thompson");
 // 'H. S. T'
 ```
 
-Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una bueno como prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones comúnes.
+Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una buena prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones comúnes.
 
 ## Depurando
 Un error común es el componer algo como `map`, una función de dos argumentos, sin antes aplicarlar parcialmente.
@@ -165,7 +165,7 @@ dasherize('The world is a vampire');
 // TypeError: Cannot read property 'apply' of undefined
 ```
 
-Something is wrong here, let's `trace`
+Parece que algo fue mal, vamos a probar con `trace`
 
 ```js
 var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
@@ -189,7 +189,7 @@ Composición será nuestra herramienta para construir programas y, afortunadamen
 
 ## Teoría categórica.
 
-Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de ramas distintas como set theory, type theory, group theory, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
+Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de ramas distintas como teoría de conjuntos, teoría de tipos, teoría de grupos, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
 
 <img src="images/cat_theory.png" />
 
@@ -277,7 +277,7 @@ var CARS = [
 
 // Ejercicio 1:
 // ============
-// utilia _.compose() para reescribir la siguiente función. Pista: _.prop() está currieada.
+// utiliza _.compose() para reescribir la siguiente función. Pista: _.prop() está currieada.
 var isLastInStock = function(cars) {
   var last_car = _.last(cars);
   return _.prop('in_stock', last_car);
@@ -292,7 +292,7 @@ var nameOfFirstCar = undefined;
 // Ejercicio 3:
 // ============
 // Utiliza la función de ayuda _average para reescribir averageDollarValue como composición.
-var _average = function(xs) { return _.reduce(_.add, 0, xs) / xs.length; }; // <- dejalo
+var _average = function(xs) { return _.reduce(_.add, 0, xs) / xs.length; }; // <- déjalo
 
 var averageDollarValue = function(cars) {
   var dollar_values = _.map(function(c) { return c.dollar_value; }, cars);
@@ -304,7 +304,7 @@ var averageDollarValue = function(cars) {
 // ============
 // Escribe la función: sanitizeNames() que devuelva una lista de con los nombres de coches en minúsculas y los espacios por subrayado, utilizando compose: ejemplo: sanitizeNames([{name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true}]) //=> ["ferrari_ff"].
 
-var _underscore = _.replace(/\W+/g, '_'); //<-- dejalo y utiliza sanitize
+var _underscore = _.replace(/\W+/g, '_'); //<-- déjalo y utiliza sanitize
 
 var sanitizeNames = undefined;
 

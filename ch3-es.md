@@ -68,7 +68,7 @@ var immutableState = Object.freeze({
 
 ## Los efectos secundarios puede incluir... 
 
-Miremos un poco mas estos "efectos secundarios" para mejorar nuestra intuición. ¿Entonces, que es este indudablemente nefasto "efecto secundario" mencionado en la definición de *función pura*? Nos referiremos a *efecto* como cualquier cosa que ocurra en nuestra nuestro computación ademas del calculo de un resultado.
+Miremos un poco mas estos "efectos secundarios" para mejorar nuestra intuición. ¿Entonces, que es este indudablemente nefasto "efecto secundario" mencionado en la definición de *función pura*? Nos referiremos a *efecto* como cualquier cosa que ocurra en nuestra computación ademas del calculo de un resultado.
 
 No hay nada intrínsecamente malo acerca de los efectos y lo usaremos por todos lados en futuros capítulos. Es la parte *secundaria* la que tiene connotaciones negativas. El agua por si misma no es inherentemente una incubadora de larvas, es el *estancamiento* lo que produce los enjambres, y os aseguro, los efectos *secundarios* son un criadero similar en vuestros propios programas.
 
@@ -134,7 +134,7 @@ isPrime[3];
 
 Por supuesto, puedes querer calcular en lugar de apuntar valores, pero esto ilustra una forma diferente de pensar acerca de funciones. [^Debes estar pensando "que pasa con las funciones con múltiples paramentos?". Ciertamente, eso presenta un pequeño inconveniente cuando se piensa en términos matemáticos. Por ahora, podemos empaquetarlos en un array o simplemente pensar en ellos como el objeto `argumento` como la entrada. Cuando aprendamos sobre *currying*, veremos como podemos modelar directamente la definición de una función.]
 
-Aquí viene la revelación dramática: Las funciones puras *son* funciones matemáticas y son todo sobre lo que trata la programación funcional. Programar con estos pequeños angeles puede tener grandes beneficios. Observemos algunas razones de porque estamos dispuestos a recorrer grandes distancias para preservar la pureza.
+Aquí viene la revelación dramática: Las funciones puras *son* funciones matemáticas y son todo sobre lo que trata la programación funcional. Programar con estos pequeños ángeles puede tener grandes beneficios. Observemos algunas razones de porque estamos dispuestos a recorrer grandes distancias para preservar la pureza.
 
 ## Los argumentos de la pureza
 
@@ -210,11 +210,11 @@ Este ejemplo demuestra que la función pura debe ser honesta acerca de sus depen
 
 Aprenderemos como hacer funciones puras como esta sin mas que aplazar la evaluación, pero debería quedar claro que la forma pura es mucho mas informativa que su astuta contraparte que trama Dios sabe que.
 
-Algo mas a tener en cuenta es que estamos forzados a "inyectar" dependencias, o pasarlas como argumentos, lo que hace que nuestra aplicación mas flexible porque hemos parametrizado nuestra base de datos o cliente de email o lo que sea[^No te preocupes, veremos una forma menos tedioso de lo que suena]. Si decidimos usar una Db diferente solo debemos llamar nuestra función con ella. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta función confiable, simplemente pasar a esta función el `Db` e `Email` que tengas en ese momento.
+Algo mas a tener en cuenta es que estamos forzados a "inyectar" dependencias, o pasarlas como argumentos, lo que hace que nuestra aplicación mas flexible porque hemos parametrizado nuestra base de datos o cliente de email o lo que sea[^No te preocupes, veremos una forma menos tediosa de lo que suena]. Si decidimos usar una Db diferente solo debemos llamar nuestra función con ella. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta función confiable, simplemente pasar a esta función el `Db` e `Email` que tengas en ese momento.
 
 En un entorno JavaScript, la portabilidad puede significar serializar y enviar funciones por un socket.  Puede significar ejecutar toda la aplicacion en Web Workers. La portabilidad es un rasgo poderoso.
 
-Al contrario que los "típicos" métodos y procedimientos en programación imperativa que están enraizados profundamente en sus entornos a través de estado, dependencias, y efectos, las funciones puras pueden ejecutar en cualquier sitio que desee nuestro corazón.
+Al contrario que los "típicos" métodos y procedimientos en programación imperativa que están enraizados profundamente en sus entornos a través de estado, dependencias, y efectos, las funciones puras se pueden ejecutar en cualquier sitio que desee nuestro corazón.
 
 ¿Cuando fue la ultima vez que copiaste un método en una nueva app? Una de mis citas favoritas proviene del creador de Erlang, Joe Armstrong: "El problema con los lenguajes orientados a objetos es que tienen todo ese entorno implícito que llevan a todos lados. Querías una banana pero tienes un gorila sosteniendo una banana... y la jungla entera". 
 
@@ -222,7 +222,7 @@ Al contrario que los "típicos" métodos y procedimientos en programación imper
 
 Luego, nos damos cuenta que las funciones puras hacen los tests mucho mas fácil. No necesitamos mockear una pasarela de pagos "real" o configurar y verificar el estado del mundo después de cada test. Simplemente pasar entrada a la función y verificar la salida.
 
-De hecho, encontramos que la comunidad funcional descubriendo nuevas herramientas de test que pueden bombardear nuestra función con entradas generadas y verificar que sus propiedades se mantienen en la salida. Esta fuera del alcance de este libro, pero les insisto encarecidamente que busquen prueben *Quickcheck* - una herramienta de pruebas que esta hecha a medida de un entorno puramente funcional.
+De hecho, encontramos que la comunidad funcional está descubriendo nuevas herramientas de test que pueden bombardear nuestra función con entradas generadas y verificar que sus propiedades se mantienen en la salida. Esta fuera del alcance de este libro, pero les insisto encarecidamente que busquen prueben *Quickcheck* - una herramienta de pruebas que esta hecha a medida de un entorno puramente funcional.
 
 ### Razonable
 
