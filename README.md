@@ -15,7 +15,7 @@ Este libro trata sobre el paradigma funcional en general.Utilizaremos el lenguaj
 
  * **El lenguaje esta completamente capacitado para escribir código funcional de primera categoria.**
 
-    Tiene todas las características que se necesitan para imitar un lenguaje como Scala o Haskey con la ayuda de una o dos pequeñas librerías. Programación orientada a objetos domina actualmente la industria, pero es claramente incómodo en JavaScript. Esto es parecido a acampar fuera en una carretera o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, no tenemos clases [^Aún], tenemos varias soluciones para arreglar el extraño comportamiento cuando te olvidas de llamar `new` , miembros privados solo estan disponibles miediante closures. Para muchos de nosotros, PF parace mas natural de todos modos.
+    Tiene todas las características que se necesitan para imitar un lenguaje como Scala o Haskell con la ayuda de una o dos pequeñas librerías. Programación orientada a objetos domina actualmente la industria, pero es claramente incómodo en JavaScript. Esto es parecido a acampar fuera en una carretera o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, no tenemos clases [^Aún], tenemos varias soluciones para arreglar el extraño comportamiento cuando te olvidas de llamar `new` , miembros privados solo estan disponibles miediante closures. Para muchos de nosotros, PF parace mas natural de todos modos.
 
 Dicho esto, lenguajes funcionales con tipado serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuesto medio para aprender un paradigma. Donde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te encontrarás como en casa con swiftz, scalaz, haskell, purescript, y otros sistemas matemáticos.
 
@@ -29,9 +29,9 @@ Dicho esto, lenguajes funcionales con tipado serán, sin duda alguna, el mejor l
 ### Hazlo tú mismo
 
 ```
-git clone https://github.com/DrBoolean/mostly-adequate-guide.git
+git clone https://github.com/MostlyAdequate/mostly-adequate-guide-es.git
 
-cd mostly-adequate-guide/
+cd mostly-adequate-guide-es/
 npm install gitbook-cli -g
 gitbook init
 
