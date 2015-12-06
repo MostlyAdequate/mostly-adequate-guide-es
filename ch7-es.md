@@ -74,7 +74,7 @@ Ah sí, agrupar la última parte en parentesís muestra mucha más información.
 var onHoliday = match(/holiday/ig);
 ```
 
-Each argument pops one type off the front of the signature. `onHoliday` is `match` that already has a `Regex`.
+Cada argumento devuelve un tipo delante de la signatura, `onHoliday` es `match` que ya tiene `Regex`.
 
 ```js
 //  replace :: Regex -> (String -> (String -> String))
@@ -83,9 +83,9 @@ var replace = curry(function(reg, sub, s){
 });
 ```
 
-As you can see with the full parenthesis on `replace`, the extra notation can get a little noisy and redundant so we simply omit them. We can give all the arguments at once if we choose so it's easier to just think of it as: `replace` takes a `Regex`, a `String`, another `String` and returns you a `String`.
+Como puedes ver en el parentesis completo en `replace`, la notación extra puede ser un poco redundante, así que la podemos omitir. Podemos proporcionar todos los argumentos a la vez, asi es más fácil pensar en ello como: `replace` toma una `Regex`, una `String`, y otra `String` y te devuelve una `String`.
 
-A few last things here:
+Algo más:
 
 
 ```js
@@ -98,15 +98,15 @@ var map = curry(function(f, xs){
 });
 ```
 
-The `id` function takes any old type `a` and returns something of the same type `a`. We're able to use variables in types just like in code. Variable names like `a` and `b` are convention, but they are arbitrary and can be replaced with whatever name you'd like. If they are the same variable, they have to be the same type. That's an important rule so let's reiterate: `a -> b` can be any type `a` to any type `b`, but `a -> a` means it has to be the same type. For example, `id` may be `String -> String` or `Number -> Number`, but not `String -> Bool`.
+La función `id` toma cualquier tipo antiguo `a` y devuelve algo del mismo tipo `a`. Podemos utilizar variables en tipos como lo utilizamos en código. Nombres de variables como `a` y `b` son convenciones, pero son arbitrarias y pueden ser remplazadas por cualquier nombre que tú quieras. Si son la misma variable, tienen que ser el mismo tipo. Esta regla es muy importante, asi que vamos a repetir: `a -> b` puede ser cualquier tipo `a` y cualquier tipo `b`, pero `a -> a` significa que tiene que ser del mismo tipo. Por ejemplo, `id` puede ser `String -> String` o `Number -> Number`, pero no `String -> Bool`.
 
-`map` similarly uses type variables, but this time we introduce `b` which may or may not be the same type as `a`. We can read it as: `map` takes a function from any type `a` to the same or different type `b`, then takes an array of `a`'s and results in an array of `b`'s.
+`map` utiliza, de forma parecida, variables con tipado, pero esta vez introducido `b` el cual puede o puede que no sea el mismo tipo como `a`. Lo podemos leer como: `map` lleva una función de cualquier tipo `a` a ser el mismo tipo o diferente tipo `b`, entonces lleva una lista de `a`'s y resulta en una lista de `b`'s.
 
-Hopefully, you've been overcome by the expressive beauty in this type signature. It literally tells us what the function does almost word for word. It's given a function from `a` to `b`, an array of `a`, and it delivers us an array of `b`. The only sensible thing for it to do is call the bloody function on each `a`. Anything else would be a bold face lie.
+Quizás, has sido superado por la belleza expresiva en este tipo de firmas. Nos cuenta, casi literalmente, que hace la funcíon palaba por palabra. Dado una función de `a` a `b` , una lista de `a` , y nos devuelve una lista de `b` . La única cosa sensata que hacer es llamar a la función en cada `a`. Cualquier otra cosa sería mentirnos.
 
-Being able to reason about types and their implications is a skill that will take you far in the functional world. Not only will papers, blogs, docs, etc, become more digestible, but the signature itself will practically lecture you on its functionality. It takes practice to become a fluent reader, but if you stick with it, heaps of information will become available to you sans RTFMing.
+Ser capaz de razonar sobre los tipos y sus implicaciones es una habilidad que te llevará muy lejos en el mundo funcional. No sólo los libros, blogs, documentos, etc , serán más digeribles, pero la propia firma te enseñará de su funcionalidad. Se necesita práctica para convertirse en un lector con fluidez, pero si nos atenemos a ella, un montón de información estará disponible para tí sans RTFMing.
 
-Here's a few more just to see if you can decipher them on your own.
+Aquí tienes unas cuantas más para ver si las puedes descifrar por tu cuenta.
 
 ```js
 //  head :: [a] -> a
@@ -123,9 +123,10 @@ var reduce = curry(function(f, x, xs){
 });
 ```
 
-`reduce` is perhaps, the most expressive of all. It's a tricky one, however, so don't feel inadequate should you struggle with it. For the curious, I'll try to explain in English though working through the signature on your own is much more instructive.
+`reduce` es quizás, la más expresiva de todas.
+Es una difícil, sin embargo, no te sientas incómodo si sufres en entenderla. Para los curiosos, voy a tratar de explicarla en Español, aunque intentarlo por tu cuenta es mucho más instructivo.
 
-Ahem, here goes nothing....looking at the signature, we see the first argument is a function that expects a `b`, an `a`, and produces a `b`. Where might it get these `a`s and `b`s? Well, the following arguments in the signature are a `b` and an array of `a`s so we can only assume that the `b` and each of those `a`s will be fed in. We also see that the result of the function is a `b` so the thinking here is our final incantation of the passed in function will be our output value. Knowing what reduce does, we can state that the above investigation is accurate.
+Ahem, vamos a intentarlo, observando la firma, podemos ver que el primer argumento es una función que espera una `b`, una `a`, y produce una `b`. Donde coje esas `a`s y `b`s? Bien, los argumentos posteriores de la firma son una `b` y una lista de `a`s así que solo podemos asumir que la `b` y cada una de esas `a`s serán proporcionadas. Podemos ver también que el resultado de la función es una `b` por lo que el pensamiento aquí está nuestro encantamiento final del pasado en la función será nuestro valor de salida. Sabiendo lo que 'reduce' hace, se puede afirmar que la investigación anterior es correcta.
 
 
 ## Narrowing the possibility
