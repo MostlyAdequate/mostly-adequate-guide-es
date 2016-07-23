@@ -182,7 +182,8 @@ getTwenty({ balance: 10.00});
 // Maybe(null)
 ```
 
-`withdraw` will tip its nose at us and return `Maybe(null)` if we're short on cash. This function also communicates its fickleness and leaves us no choice, but to `map` everything afterwards. The difference is that the `null` was intentional here. Instead of a `Maybe(String)`, we get the `Maybe(null)` back to signal failure and our application effectively halts in its tracks. This is important to note: if the `withdraw` fails, then `map` will sever the rest of our computation since it doesn't ever run the mapped functions, namely `finishTransaction`. This is precisely the intended behaviour as we'd prefer not to update our ledger or show a new balance if we hadn't successfully withdrawn funds.
+`withdraw` inclinara su nariz ante nosotros y nos retornara `Maybe(null)` si estamos cortos de dinero. Esa funcion tambien comunica su inconstancia y nos deja otra opcion para continuar `map`. La diferencia es que `null` fue intencional aqui. En vez de un `Maybe(String)`, conseguimos un `Maybe(null)` como una señal de fracaso. Y nuestra aplicacion interrumpe de manera efectiva su flujo. Es importante tener en cuenta: si `withdraw` falla, entonces `map` cortara el resto de nuestro computo puesto que ya no va a ejecutar la funcion asignada, en este caso `finishTransaction`. Este es exactamente el comportamiento previsto, preferimos no actualizar nuestro libro de contabilidad ni mostrar nuestro nuevo balance si no se retiraron con exito los fondos.
+
 
 ## Releasing the value
 
