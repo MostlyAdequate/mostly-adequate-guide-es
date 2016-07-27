@@ -230,7 +230,8 @@ Una para algo y otra para nada. Esto nos permite cumplir con la parametrización
 
 <img src="images/fists.jpg" alt="pick a hand... need a reference" />
 
-It may come as a shock, but `throw/catch` is not very pure. When an error is thrown, instead of returning an output value, we sound the alarms! The function attacks, spewing thousands of 0's and 1's like shields & spears in an electric battle against our intruding input. With our new friend `Either`, we can do better than to declare war on input, we can respond with a polite message. Let's take a look:
+Puede ser un shock, pero `throw / catch`no son puros. Cuando un error es lanzado, en vez de retornar un valor de salida, hacemos sonar las alarmas!. La funcion ataca lanzando millares de ceros y unos como escudos y lanzas en una batalla frenetica contra nuestra entrada. Con nuestro nuevo amigo `Either`, podemos hacer algo mejor que declarar la guerra contra la entrada, podemos responder con un mensaje educado. Vamos a dar una hojeada.
+
 
 ```js
 var Left = function(x) {
@@ -258,7 +259,8 @@ Right.prototype.map = function(f) {
 }
 ```
 
-`Left` and `Right` are two subclasses of an abstract type we call `Either`. I've skipped the ceremony of creating the `Either` superclass as we won't ever use it, but it's good to be aware. Now then, there's nothing new here besides the two types. Let's see how they act:
+`Left` y `Right` son 2 subclases de un tipo abstracto que llamamos `Either`. No vamos a hacer una ceremonia de como crear la clase base ya que no la vamos a utlizar, pero es bueno saber eso. No hay nada nuevo aqui, ademas de los 2 tipos. Vamos a ver como funcionan:
+
 
 ```js
 Right.of("rain").map(function(str){ return "b"+str; });
@@ -274,9 +276,10 @@ Left.of("rolls eyes...").map(_.prop("host"));
 // Left('rolls eyes...')
 ```
 
-`Left` is the teenagery sort and ignores our request to `map` over it. `Right` will work just like `Container` (a.k.a Identity). The power comes from the ability to embed an error message within the `Left`.
+`Left` es como un adolescente problematico que ignora nuestra llamada a `map`. `Right` funcionara como `Container` (A.K.A Identidad). La ventaja aqui es ser capaz de 
+incorporar un mensaje de error dentro de `Left`.
 
-Suppose we have a function that might not succeed. How about we calculate an age from a birth date. We could use `Maybe(null)` to signal failure and branch our program, however, that doesn't tell us much. Perhaps, we'd like to know why it failed. Let's write this using `Either`.
+Imaginemos que tenemos una funcion que no tendra exito. ¿que tal si calculamos la edad a partir de la fecha de nacimiento?. Podemos usar `Maybe(null)` para señalar un fallo en nuestro programa, lo que no nos dice mucho. Tal vez quisieramos saber el motivo de la falla. Vamos a escribir esto usando `Either`.
 
 ```js
 var moment = require('moment');
@@ -295,7 +298,8 @@ getAge(moment(), {birthdate: '20010704'});
 // Left("Birth date could not be parsed")
 ```
 
-Now, just like `Maybe(null)`, we are short circuiting our app when we return a `Left`. The difference, is now we have a clue as to why our program has derailed. Something to notice is that we return `Either(String, Number)`, which holds a `String` as its left value and a `Number` as its `Right`. This type signature is a bit informal as we haven't taken the time to define an actual `Either` superclass, however, we learn a lot from the type. It informs us that we're either getting an error message or the age back.
+Ahora, como `Maybe(null)`, estamos creando un corto circuito cuando retornamos `Left`. La diferencia es que ahora, tenemos una pista de porque nuestro programa se ha descarrilado. Algo a notar es que retornamos `Either(String, Number)`, que recive a `String` para `Left` o `Number` para `Right`. Este tipo de asignatura es un poco informal ya que no tenemos mucho tiempo para definir un `Either` real, aunque hemos aprendido mucho sobre este tipo. Eso tambien nos dice que estamos obteniendo un mensaje de error, o la edad.
+
 
 ```js
 //  fortune :: Number -> String
@@ -312,17 +316,22 @@ zoltar({birthdate: 'balloons!'});
 // Left("Birth date could not be parsed")
 ```
 
-When the `birthdate` is valid, the program outputs its mystical fortune to the screen for us to behold. Otherwise, we are handed a `Left` with the error message plain as day though still tucked away in its container. That acts just as if we'd thrown an error, but in a calm, mild manner fashion as opposed to losing its temper and screaming like a child when something goes wrong.
+Cuando `birthdate``es valido, el programa mostrara en pantalla la fortuna mistica. Sino mostrara `Left` con un mensaje de error claro como la luz del dia, pero aun dentro de su contenedor. Entonces se nos mostrara un error, de una manera mas tranquila y educada, a diferencia de un niño que pierde el control cuando las cosas van mal.
 
-In this example, we are logically branching our control flow depending on the validity of the birth date, yet it reads as one linear motion from right to left rather than climbing through the curly braces of a conditional statement. Usually, we'd move the `console.log` out of our `zoltar` function and `map` it at the time of calling, but it's helpful to see how the `Right` branch differs. We use `_` in the right branch's type signature to indicate it's a value that should be ignored[^In some browsers you have to use `console.log.bind(console)` to use it first class].
+En este ejemplo, esamos dividiendo de forma logica nuestro flujo de control, en funcion de la validez de la fecha de nacimiento, y sin embargo, nos estamos moviendo linealmente de derecha a izquierda en lugar de escalar a trabes de las llaves de instrucciones condicionales. Por lo general movemos el `console.log` fuera de la funcion `zoltar` y se lo damos a `map` al momento de la llamada, pero es muy util para ver como difiere la rama de `Right`. Utilizamos `_` en la firma del tipo de la rama derechapara indicar que es un valorque no deberia ser ignorado (en algunos navegadores usted debe utilizar `console.log.bind(console)` para usar esto en primera clase).
 
-I'd like to take this opportunity to point out something you may have missed: `fortune`, despite its use with `Either` in this example, is completely ignorant of any functors milling about. This was also the case with `finishTransaction` in the previous example. At the time of calling, a function can be surrounded by `map`, which transforms it from a non-functory function to a functory one, in informal terms. We call this process *lifting*. Functions tend to be better off working with normal data types rather than container types, then *lifted* into the right container as deemed necessary. This leads to simpler, more reusable functions that can be altered to work with any functor on demand.
 
-`Either` is great for casual errors like validation as well as more serious, stop the show errors like missing files or broken sockets. Try replacing some of the `Maybe` examples with `Either` to give better feedback.
+Me gustaria aprobechar esta oportunidad para apuntar algo que pude haberme olvidado: `fortune` a pesar de usar `Either` en este ejemplo, no es conciente de la presencia de un Functor. Ese es el caso con `finishTransaction` del ejemplo anterior. En el momento de la llamada, la funcion puede estar envuelta en un `map`, que la transforma desde un *non-functor-function* a un *functor*, en terminos formales. Llamamos a este proceso `lifting`. Las funciones tienden a trabajar mejor con los tipos de datos normales en lugar de los tipos container, por lo tanto cuando sea necesario se hace `lifting` dentro de un contenedor adecuado. esto hace mas simple, mas funciones reutilizables pudiendo ser modificadas para trabajar con cualquier tipo de functor bajo demanda.
 
-Now, I can't help, but feel I've done `Either` a disservice by introducing it as merely a container for error messages. It captures logical disjunction (a.k.a `||`) in a type. It also encodes the idea of a *Coproduct* from category theory, which won't be touched on in this book, but is well worth reading up on as there's properties to be exploited. It is the canonical sum type (or disjoint union of sets) because its amount of possible inhabitants is the sum of the two contained types[^I know that's a bit hand wavy so here's a [great article](https://www.fpcomplete.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)]. There are many things `Either` can be, but as a functor, it is used for its error handling.
 
-Just like with `Maybe`, we have little `either`, which behaves similarly, but takes two functions instead of one and a static value. Each function should return the same type:
+`Either` es genial para errores casuales como validaciones pero tambien para cosas mas serias, como detener los errores de ejecucion de archivos que faltan (missing files) o problemas de conexion de sockets. Trate de reemplazar algunos de los ejemplos de `Maybe` por `Either` para obtener mejores resultados.
+
+
+Pude haber cometido un error al introducir `Either` como un mero contenedor de mensajes de error. es la disyuncion logica `OR` (A.K.A ||) en un tipo. Tambien codifica la idea de un *Coproducto* de la teoria de las categorias, que no sera abordado en este libro, pero que vale la pena leer sobre él ya que tiene muchas propiedades que pueden ser explotadas. Es una especie de suma canónica disyuntiva (suma de productos), eso es porque su numero total de posibles valores estan contenidos en dos tipos de contenedores (Se que esto es un poco dificil asi que aqui tiene un [gran articulo](https://www.fpcomplete.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Existen muchas cosas que `Either` puede hacer, pero como un functor, esto es usado para tratamiento de errores.
+
+
+Al igual que con `Maybe` tenemos `Either` que se comporta de manera similar, pero toma dos funciones en lugar de una y un valor estatico. Cada funcion debe devolver el mismo tipo.
+
 
 ```js
 //  either :: (a -> c) -> (b -> c) -> Either a b -> c
@@ -344,6 +353,9 @@ zoltar({birthdate: 'balloons!'});
 // "Birth date could not be parsed"
 // undefined
 ```
+
+Finalmente, un uso para esa misteriosa funcion `id`. Ella simplemente retorna un `Left` para pasar un mensaje de error a `console.log`. Hacemos nuestra aplicacion mas robusta obligando un tratamiento de errores con `getAge`.   
+Y con esto, estamos preparados para seguir con un tipo completamente diferente de functor.
 
 Finally, a use for that mysterious `id` function. It simply parrots back the value in the `Left` to pass the error message to `console.log`. We've made our fortune telling app more robust by enforcing error handling from within `getAge`. We either slap the user with a hard truth like a high five from a palm reader or we carry on with our process. And with that, we're ready to move on to an entirely different type of functor.
 
