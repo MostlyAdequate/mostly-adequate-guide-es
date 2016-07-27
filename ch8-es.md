@@ -185,13 +185,15 @@ getTwenty({ balance: 10.00});
 `withdraw` inclinara su nariz ante nosotros y nos retornara `Maybe(null)` si estamos cortos de dinero. Esa funcion tambien comunica su inconstancia y nos deja otra opcion para continuar `map`. La diferencia es que `null` fue intencional aqui. En vez de un `Maybe(String)`, conseguimos un `Maybe(null)` como una señal de fracaso. Y nuestra aplicacion interrumpe de manera efectiva su flujo. Es importante tener en cuenta: si `withdraw` falla, entonces `map` cortara el resto de nuestro computo puesto que ya no va a ejecutar la funcion asignada, en este caso `finishTransaction`. Este es exactamente el comportamiento previsto, preferimos no actualizar nuestro libro de contabilidad ni mostrar nuestro nuevo balance si no se retiraron con exito los fondos.
 
 
-## Releasing the value
+## Liberando el valor.
 
-One thing people often miss is that there will always be an end of the line; some effecting function that sends JSON along, or prints to the screen, or alters our filesystem, or what have you. We cannot deliver the output with `return`, we must run some function or another to send it out into the world. We can phrase it like a Zen Buddhist koan: "If a program has no observable effect, does it even run?". Does it run correctly for its own satisfaction? I suspect it merely burns some cycles and goes back to sleep...
+Una cosa que la gente suele olvidar es que siempre habra un final de linea; cualquier funcion que envia un JSON, imprime algo en la pantalla, modifica nuestro sistema de archivo o cualquier otra cosa. No podemos entregar una salida con `return`, debemos ejecutar una funcion u otra para enviarla al mundo exterior. Podemos expresarnos como un  koan zen budista: "Si el programa no tiene ningun efecto observable, ¿que ha de correr?". Se ejecuta correctamente para su propia satisfaccion? Sospecho que meramente ejecuta algunos ciclos y luego vuelve a dormir...
 
-Our application's job is to retrieve, transform, and carry that data along until it's time to say goodbye and the function which does so may be mapped, thus the value needn't leave the warm womb of its container. Indeed, a common error is to try to remove the value from our `Maybe` one way or another as if the possible value inside will suddenly materialize and all will be forgiven. We must understand it may be a branch of code where our value is not around to live up to its destiny.  Our code, much like Schrödinger's cat, is in two states at once and should maintain that fact until the final function. This gives our code a linear flow despite the logical branching.
 
-There is, however, an escape hatch. If we would rather return a custom value and continue on, we can use a little helper called `maybe`.
+El trabajo de nuestra aplicacion es la recuperacion, transformacion y carga de datos a la hora de decir adios, y que la funcion que haga esto pueda ser mapeada, asi el valor no tiene que dejar la comodidad de su contenedor. De echo un error comun es tratar de remover el valor de `Maybe` de una forma u otra, como si de repente el posible valor se materializara y todo estubiera bien. Debemos entender que eso puede ser una pieza de codigo donde nuestro valor no fue echo para este fin. Nuestro codigo se parece mas al gato *Schrödinger*, es decir, dos estados al mismo tiempo, y debe mantener este echo hasta el final de la funcion. Esto hace que nuestro codigo se convierta en un flujo linal independiente de la logica aplicada.
+
+Existe una alternativa. Se puede retornar un valor personalizado y continuar, podemos usar un pequeño helper llamado `Maybe`.
+
 
 ```js
 //  maybe :: b -> (a -> b) -> Maybe a -> b
@@ -212,15 +214,19 @@ getTwenty({ balance: 10.00});
 // "You're broke!"
 ```
 
-We will now either return a static value (of the same type that `finishTransaction` returns) or continue on merrily finishing up the transaction sans `Maybe`. With `maybe`, we are witnessing the equivalent of an `if/else` statement whereas with `map`, the imperative analog would be: `if (x !== null) { return f(x) }`.
+Vamos ahora a retornar un valor estatico ( del mismo tipo que `finishTransaction` retorna) o finalizar la transaccion sin necesidad de usar `Maybe`. Con `Maybe` estamos haciendo el equivalente a un `if/else` mientras que con `map` la analogia con impertivo seria: `if(x !== null) { return f(x); }`.
 
-The introduction of `Maybe` can cause some initial discomfort. Users of Swift and Scala will know what I mean as it's baked right into the core libraries under the guise of `Option(al)`. When pushed to deal with `null` checks all the time (and there are times we know with absolute certainty the value exists), most people can't help, but feel it's a tad laborious. However, with time, it will become second nature and you'll likely appreciate the safety. After all, most of the time it will prevent cut corners and save our hides.
 
-Writing unsafe software is like taking care to paint each egg with pastels before hurling it into traffic; like building a retirement home with materials warned against by three little pigs. It will do us well to put some safety into our functions and `Maybe` helps us do just that.
+La introduccion de `Maybe` puede causar alguna molestia en un comienzo. Los usarios de Swif y Scala saben lo que significa porque estos lenguajes tienen una implementacion de forma nativa llamada `Option(al)`. Cuando tiene que lidiar con verificaciones de `null` todo el tiempo (y hay momentos en los que sabemos con absoluta certeza que el valor existe), a muchas personas les resulta muy trabajoso. Sea como sea, con el tiempo llegara a ser mas natural y nosotros probablemente disfrutemos de la seguridad que aporta. Despues de todo la mayoria de las veces esto esvitara problemas en el codigo y salvara nuestro pellejo.
 
-I'd be remiss if I didn't mention that the "real" implementation will split `Maybe` into two types: one for something and the other for nothing. This allows us to obey parametricity in `map` so values like `null` and `undefined` can still be mapped over and the universal qualification of the value in a functor will be respected. You'll often see types like `Some(x) / None` or `Just(x) / Nothing` instead of a `Maybe` that does a `null` check on its value.
 
-## Pure Error Handling
+Escribir codigo no seguro, es como tomar un trabajo para pintar y decorar huevos, y luego tirarlos a la calle; o construir casas con el material con que los tres cerditos contruyen. Nos hará bien poner un poco de seguridad en nuestras funciones, y `Maybe` nos ayuda justo a eso.
+
+Seria negligente no hablar de que en una implementación "real", `Maybe` se divide en dos partes:
+Una para algo y otra para nada. Esto nos permite cumplir con la parametrización de `map` de modo que valores como `undefined` o `null` pueden ser mapeados y la calificacion universal de valores de un functor seran respetados. Usted frecuentemente vera tipos como `Some(x) / None` o tambien `Just(x) / Nothing` en vez de un `Maybe` que hace un checkeo nulo en su valor.
+
+
+## Manejadores de errores puros
 
 <img src="images/fists.jpg" alt="pick a hand... need a reference" />
 
