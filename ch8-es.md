@@ -357,7 +357,6 @@ zoltar({birthdate: 'balloons!'});
 Finalmente, un uso para esa misteriosa funcion `id`. Ella simplemente retorna un `Left` para pasar un mensaje de error a `console.log`. Hacemos nuestra aplicacion mas robusta obligando un tratamiento de errores con `getAge`.   
 Y con esto, estamos preparados para seguir con un tipo completamente diferente de functor.
 
-Finally, a use for that mysterious `id` function. It simply parrots back the value in the `Left` to pass the error message to `console.log`. We've made our fortune telling app more robust by enforcing error handling from within `getAge`. We either slap the user with a hard truth like a high five from a palm reader or we carry on with our process. And with that, we're ready to move on to an entirely different type of functor.
 
 ## Old McDonald had Effects...
 
