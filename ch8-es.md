@@ -25,10 +25,8 @@ Examinemos nuestra nueva caja...
 Container.of(3)
 //=> Container(3)
 
-
 Container.of("hotdogs")
 //=> Container("hotdogs")
-
 
 Container.of(Container.of({name: "yoda"}))
 //=> Container(Container({name: "yoda"}))
@@ -63,10 +61,8 @@ Container.prototype.map = function(f){
 Container.of(2).map(function(two){ return two + 2 })
 //=> Container(4)
 
-
 Container.of("flamethrowers").map(function(s){ return s.toUpperCase() })
 //=> Container("FLAMETHROWERS")
-
 
 Container.of("bombs").map(_.concat(' away')).map(_.prop('length'))
 //=> Container(10)
