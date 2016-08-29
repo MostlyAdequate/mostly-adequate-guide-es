@@ -469,9 +469,9 @@ Asi es, mucho mejor. Ahora nuestro codigo de invocación se hace `findParam("sea
 
 ## Tareas ascincronas
 
-Callbacks are the narrowing spiral staircase to hell. They are control flow as designed by M.C. Escher. With each nested callback squeezed in between the jungle gym of curly braces and parenthesis, they feel like limbo in an oubliette(how low can we go!). I'm getting claustrophobic chills just thinking about them. Not to worry, we have a much better way of dealing with asynchronous code and it starts with an "F".
+Las callbacks son una escalera de caracol que cada vez se van haciendo mas estrechas hasta llevarnos al infierno. Son el flujo de control diseñadas por M.C Escher. Cada callback anidado es apretado entre una jungla de curly braces y parentesis, se sienten como  un limbo en la mazmorra (hasta donde es posible que llegue!). Estoy recibiendo escalofrios claustrofobicos pensando en ellos. No es para preocuparse, ya que tenemos una manera mucho mejor de tratar con codigo asyncrono y comienza con una "F".
 
-The internals are a bit too complicated to spill out all over the page here so we will use `Data.Task` (previously `Data.Future`) from Quildreen Motta's fantastic [Folktale](http://folktalejs.org/). Behold some example usage:
+Las partes internas son demasiado complicadas para esparcirse por toda la pagina aqui, asi que utilizaremos `Data.Task.` (previamente `Data.Future`) de Quildreen Motta's fantastic [Folktale](http://folktalejs.org/). He aqui algunos ejemplos de uso.
 
 ```js
 // Node readfile example:
@@ -510,14 +510,14 @@ getJSON('/video', {id: 10}).map(_.prop('title'));
 Task.of(3).map(function(three){ return three + 1 });
 // Task(4)
 ```
+Las funciónes que estoy llamando (`reject` y `result`) son nuestros callbacks `error` y `success`, respectivamente. Como podes ver, simplemente hace un `map` sobre `Task` para trabajar con el futuro valor como si estuviera alli mismo a nuestro alcance. Ya `map` deberia ser de sobra conocido.
 
-The functions I'm calling `reject` and `result` are our error and success callbacks, respectively. As you can see, we simply `map` over the `Task` to work on the future value as if it was right there in our grasp. By now `map` should be old hat.
+Si usted esta familiarizado con las promesas, usted podra reconocer la función `map` como `then` con `Task` jugando el papel de nuestra promesa. No se preocupe si usted no esta familizado con las promesas, nosotros no vamos a usarlas de todos modos porque no son puras, pero la analogia se sostiene sin embargo.
 
-If you're familiar with promises, you might recognize the function `map` as `then` with `Task` playing the role of our promise. Don't fret if you aren't familiar with promises, we won't be using them anyhow because they are not pure, but the analogy holds nonetheless.
+Al igual que `IO`, `Task` esperara pacientemente a que le demos luz verde antes de ejecutarse. De echo, porque espera nuestra orden, `IO` es subsumido con eficacia por `Task` para todas las tareas asyncronas; `readfile` y `getJSON` no requieren de un contenedor  `IO` complementario para ser puros. Es mas, `Task` trabaja de manera similar cuando hacemos `map` sobre él: Estamos sembrando las instrucciones para el futuro como si fuera una tabla de tareas en una capsula del tiempo- Un acto de sofisticada dilatación tecnologica. 
 
-Like `IO`, `Task` will patiently wait for us to give it the green light before running. In fact, because it waits for our command, `IO` is effectively subsumed by `Task` for all things asynchronous; `readFile` and `getJSON` don't require an extra `IO` container to be pure. What's more, `Task` works in a similar fashion when we `map` over it: we're placing instructions for the future like a chore chart in a time capsule - an act of sophisticated technological procrastination.
+Para ejecutar nuestro `Task`, hay que llamar al metodo `fork`. Esto funciona igual que `unsafePerformIO`, pero como su nombre indica, esto hara un fork de nuetro proceso y la evaluación continuara sin bloquear nuestro hilo. Esto se puede implementar de muchas maneras con hilos y tales, pero en este caso actua como una llamada aincrona normal y la gran rueda de ciclo de eventos sigue girando. Veamos `fork`. 
 
-To run our `Task`, we must call the method `fork`. This works like `unsafePerformIO`, but as the name suggests, it will fork our process and evaluation continues on without blocking our thread. This can be implemented in numerous ways with threads and such, but here it acts as a normal async call would and the big wheel of the event loop keeps on turning. Let's look at `fork`:
 
 ```js
 // Pure application
@@ -544,13 +544,13 @@ blog({}).fork(
 $('#spinner').show();
 ```
 
-Upon calling `fork`, the `Task` hurries off to find some posts and render the page. Meanwhile, we show a spinner since `fork` does not wait for a response. Finally, we will either display an error or render the page onto the screen depending if the `getJSON` call succeeded or not.
+Al llamar a `fork`, `Task` se apresura a buscar algunos post y renderizar la pagina. Mientras tanto, mostramos un snipper ya que `fork` no esperara por una respuesta. Finalmente, vamos a hacer que aparezca un error o renderize la pagina en la pantalla dependiendo de que si la llamada a `getJSON` tuvo exito o no.
 
-Take a moment to consider how linear the control flow is here. We just read bottom to top, right to left even though the program will actually jump around a bit during execution. This makes reading and reasoning about our application simpler than having to bounce between callbacks and error handling blocks.
+Tome un momento para considerar como el flujo de control lineal funciona aqui. Acabamos de leer desde abajo hacia arriba,derecha a izquierda aunque el programa realmente brinque un poco alrededor durante la ejecucion. Esto hace que la lectura y el razonamiento acerca de nuestra aplicación sea mas sencillo que tener que rebotar entre callbacks y bloques de control de errores.
 
-Goodness, would you look at that, `Task` has also swallowed up `Either`! It must do so in order to handle futuristic failures since our normal control flow does not apply in the async world. This is all well and good as it provides sufficient and pure error handling out of the box.
+¡Genial, podria mirar esto, `Task` tambien ha engullido a `Either`!, debe hacerlo con el fin de controlar los errores futuristas ya que nuestro flujo normal de control no se aplica en el mundo asincrono. Todo esto esta muy bien, ya que nos proporciona un puro y suficiente manejador de errores fuera de la caja.
 
-Even with `Task`, our `IO` and `Either` functors are not out of a job. Bear with me on a quick example that leans toward the more complex and hypothetical side, but is useful for illustrative purposes.
+Incluso con `Task`, nuestros functores `IO` y `Either` no quedan exentos de trabajar. Tengan paciencia conmigo en un ejemplo rapido que se inclina hacia el lado mas complejo e hipotetico. Pero util para propositos ilustrativos.
 
 ```js
 // Postgres.connect :: Url -> IO DbConnection
@@ -580,6 +580,7 @@ getConfig("db.json").fork(
   logErr("couldn't read file"), either(console.log, map(runQuery))
 );
 ```
+En este ejemplo, 
 
 In this example, we still make use of `Either` and `IO` from within the success branch of `readFile`. `Task` takes care of the impurities of reading a file asynchronously, but we still deal with validating the config with `Either` and wrangling the db connection with `IO`. So you see, we're still in business for all things synchronous.
 
