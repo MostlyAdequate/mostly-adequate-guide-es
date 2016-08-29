@@ -591,7 +591,7 @@ En la practica, es probable que tengamos multiples tareas asincronas en un workf
 
 ## A Spot of Theory
 
-As mentioned before, functors come from category theory and satisfy a few laws. Let's first explore these useful properties.
+Como mencionamos antes, los functores provienen de la teoria de categorías y satisfacen algunas leyes. Primero vamos a explorar estas propiedades útiles.
 
 ```js
 // identity
@@ -600,8 +600,7 @@ map(id) === id;
 // composition
 compose(map(f), map(g)) === map(compose(f, g));
 ```
-
-The *identity* law is simple, but important. These laws are runnable bits of code so we can try them on our own functors to validate their legitimacy.
+La ley de *identidad* es simple, pero importante. Estas leyes son bits de codigo ejecutables para que podamos introducirlos en nuestras propias funciones para validar su legitimidad.
 
 ```js
 var idLaw1 = map(id);
@@ -614,7 +613,7 @@ idLaw2(Container.of(2));
 //=> Container(2)
 ```
 
-You see, they are equal. Next let's look at composition.
+Como usted ve, son iguales. A continuación vamos a ver la composición.
 
 ```js
 var compLaw1 = compose(map(concat(" world")), map(concat(" cruel")));
@@ -627,7 +626,7 @@ compLaw2(Container.of("Goodbye"));
 //=> Container('Goodbye cruel world')
 ```
 
-In category theory, functors take the objects and morphisms of a category and map them to a different category. By definition, this new category must have an identity and the ability to compose morphisms, but we needn't check because the aforementioned laws ensure these are preserved.
+En la teoria de categorías, los functores toman los objetos y morfismos de una categoria y los mapea a una categoria diferente. Por definición, esta nueva categoria debe tener una identidad y la capacidad de componer morfismos, pero no necesitamos comprobarlo debido a que las leyes antes mencionadas se aceguran que estos se conservan.
 
 Perhaps our definition of a category is still a bit fuzzy. You can think of a category as a network of objects with morphisms that connect them. So a functor would map the one category to the other without breaking the network. If an object `a` is in our source category `C`, when we map it to category `D` with functor `F`, we refer to that object as `F a` (If you put it together what does that spell?!). Perhaps, it's better to look at a diagram:
 
