@@ -580,13 +580,13 @@ getConfig("db.json").fork(
   logErr("couldn't read file"), either(console.log, map(runQuery))
 );
 ```
-En este ejemplo, 
+En este ejemplo, seguimos haciendo uso de `Either` y `IO` desde dentro de la rama `success` de `readFile`.
+`Task` se encarga de las impurezas de la lectura de un archivo de forma asincrona, pero todavia nos ocupamos de la validacion de la configuración con `Either` y discutiendo la conexión a la db con `IO`. Como podras ver,todavia estamos en el negocio para todas las tareas asincronas. 
 
-In this example, we still make use of `Either` and `IO` from within the success branch of `readFile`. `Task` takes care of the impurities of reading a file asynchronously, but we still deal with validating the config with `Either` and wrangling the db connection with `IO`. So you see, we're still in business for all things synchronous.
 
-I could go on, but that's all there is to it. Simple as `map`.
+Podria seguir, pero eso es todo lo que hay que hacer, tan smple como `map`.
 
-In practice, you'll likely have multiple asynchronous tasks in one workflow and we haven't yet acquired the full container apis to tackle this scenario. Not to worry, we'll look at monads and such soon, but first, we must examine the maths that make this all possible.
+En la practica, es probable que tengamos multiples tareas asincronas en un workflow y todavia no hemos adquirido por completo todas la APIs de contenedores para hacer frente a este escenario. No se preocupe, veremos las monadas, y muy pronto, pero primero, debemos examinar las matemáticas que hacen todo esto posible. 
 
 
 ## A Spot of Theory
