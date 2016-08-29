@@ -628,17 +628,19 @@ compLaw2(Container.of("Goodbye"));
 
 En la teoria de categorías, los functores toman los objetos y morfismos de una categoria y los mapea a una categoria diferente. Por definición, esta nueva categoria debe tener una identidad y la capacidad de componer morfismos, pero no necesitamos comprobarlo debido a que las leyes antes mencionadas se aceguran que estos se conservan.
 
-Perhaps our definition of a category is still a bit fuzzy. You can think of a category as a network of objects with morphisms that connect them. So a functor would map the one category to the other without breaking the network. If an object `a` is in our source category `C`, when we map it to category `D` with functor `F`, we refer to that object as `F a` (If you put it together what does that spell?!). Perhaps, it's better to look at a diagram:
+Tal vez nuestra definición de una categoria sea todavia un poco difusa. Se puede pensar en una categoria como una red de objetos con morfismos que los conectan. Asi que un functor seria un mepeo de una categoria a la otra sin romper la red. Si un objeto *a* esta en nuestra categoria de fuente *c*, cuando lo mapeamos a la categoria *d* con un functor *f*, nos referimos a ese objeto como *F a* (si los pones juntos que significa?!). Quizas, es mejor mirar un diagrama.
+
 
 <img src="images/catmap.png" alt="Categories mapped" />
 
-For instance, `Maybe` maps our category of types and functions to a category where each object may not exist and each morphism has a `null` check. We accomplish this in code by surrounding each function with `map` and each type with our functor. We know that each of our normal types and functions will continue to compose in this new world. Technically, each functor in our code maps to a sub category of types and functions which makes all functors a particular brand called endofunctors, but for our purposes, we'll think of it as a different category.
+Por ejemplo, `Maybe` mapea nuestra categoria de tipos y funciones a una categoria en la que cada objeto no puede existir y cada morfismo tiene un checkeo nulo. Esto lo logramos en el codigo rodeando cada función con `map` y cada tipo con nuestro functor. Sabemos que cada uno de nuestros tipos y funciones normales, continuaran para componerse en este nuevo mundo. Tecnicamente, cada functor en nuestro codigo se mapea a una sub-categoria de tipos y funciones lo que hace que todos los functores con esta marca sean llamados endofunctores, pero para nuestros propositos, vamos a pensar en esto como una categoria diferente.
 
-We can also visualize the mapping of a morphism and its corresponding objects with this diagram:
+
+Tambien podemos visualizar el mapeo de un morfismo y sus correspondientes objetos con este diagrama:
 
 <img src="images/functormap.png" alt="functor diagram" />
 
-In addition to visualizing the mapped morphism from one category to another under the functor `F`, we see that the diagram commutes, which is to say, if you follow the arrows each route produces the same result. The different routes means different behavior, but we always end at the same type. This formalism gives us principled ways to reason about our code - we can boldly apply formulas without having to parse and examine each individual scenario. Let's take a concrete example.
+Ademas de visualizar el morfismo mapeado de una categoria a otra bajo el functor *f*, podemos ver como el diagrama los conmuta, es decir, si se siguen las flechas, cada ruta procuce el mismo resultado. Las diferentes rutas significan diferentes comportamientos, pero siempre terminamos en el mismo tipo. Este formalismo nos da principios sobre como razonar hacerca de nuestro codigo- donde confiadamente podemos aplicar formulas sin tener que analizar ni examinar cada escenario de manera individual. Veamos un ejemplo en concreto:
 
 ```js
 //  topRoute :: String -> Maybe String
@@ -655,13 +657,13 @@ bottomRoute("hi");
 // Maybe("ih")
 ```
 
-Or visually:
+O visualmente:
 
 <img src="images/functormapmaybe.png" alt="functor diagram 2" />
 
-We can instantly see and refactor code based on properties held by all functors.
+Podemos ver instantaneamente y refactorizar el codigo basandonos en estas propiedades compartidas por todos los functores.
 
-Functors can stack:
+Los functores se pueden apilar:
 
 ```js
 var nested = Task.of([Right.of("pillows"), Left.of("no sleep for you")]);
@@ -670,11 +672,11 @@ map(map(map(toUpperCase)), nested);
 // Task([Right("PILLOWS"), Left("no sleep for you")])
 ```
 
-What we have here with `nested` is a future array of elements that might be errors. We `map` to peel back each layer and run our function on the elements. We see no callbacks, if/else's, or for loops; just an explicit context. We do, however, have to `map(map(map(f)))`. We can instead compose functors. You heard me correctly:
+Lo que tenemos aqui con `nested` es un futuro array de elementos que podrian ser errores. Nosotros aplicamos `map` para pelar cada capa y ejecutar nuestra función en los elementos. No vemos callbacks, if/else's,o bucles for; solo un contexto explicito. Nosotros sin embargo, tuvimos que alicar `map(map(map(f)))`. En cambio podemos componer functores. Si me has oido bien:
 
 ```js
-var Compose = function(f_g_x){
-  this.getCompose = f_g_x;
+var Compose = function(f,g,x){
+  this.getCompose = f(g(x));
 }
 
 Compose.prototype.map = function(f){
@@ -691,15 +693,15 @@ map(concat(", rock on, Chicago"), ctmd);
 ctmd.getCompose;
 // Task(Maybe("Rock over London, rock on, Chicago"))
 ```
+Ahi, un `map`. La composición de functores es asociativa y temprana, definimos `Container`,  que se llama en realidad el functor identidad. Si tenemos la identidad y la composición asociativa tenemos una categoria. Esta categoria en particular tiene categorias como objetos y functores como morfismos, lo cual es suficiente para hacerle transpirar al uno el cerebro. Nosotros no profundizaremos demasiado en esto, pero es bueno para apreciar las implicaciónes arquitectonicas o incluso solo la belleza de este patron.
 
-There, one `map`. Functor composition is associative and earlier, we defined `Container`, which is actually called the `Identity` functor. If we have identity and associative composition we have a category. This particular category has categories as objects and functors as morphisms, which is enough to make one's brain perspire. We won't delve too far into this, but it's nice to appreciate the architectural implications or even just the simple abstract beauty in the pattern.
+
+## En resumen
 
 
-## In Summary
+Hemos visto diferente functores, pero hay un numero infinito. Algunas omisiones notables son las estructura de datos iterables como los arboles, listas, mapas, pares, lo que sea. Los streams de eventos y los observables ambos son functores. Otros pueden ser para la encapsulación o incluso solo para modelar un tipo. Los functores estan a nuestro alrededor y los vamos a usar extensivamente en todo el libro.
 
-We've seen a few different functors, but there are infinitely many. Some notable omissions are iterable data structures like trees, lists, maps, pairs, you name it. eventstreams and observables are both functors. Others can be for encapsulation or even just type modelling. Functors are all around us and we'll use them extensively throughout the book.
-
-What about calling a function with multiple functor arguments? How about working with an order sequence of impure or async actions? We haven't yet acquired the full tool set for working in this boxed up world. Next, we'll cut right to the chase and look at monads.
+¿Que hay de llamar a una función con multiples argumentos de tipo functor?. O sobre como trabajar con una secuencia ordenada de acciones impuras o asincronas?. Todavia no hemos adquirido el conjunto de herramientas completo para trabajar en este mundo encajonado. A continuación, cortaremos con la persecución y veremos las monadas.
 
 [Chapter 9: Monadic Onions](ch9.md)
 
