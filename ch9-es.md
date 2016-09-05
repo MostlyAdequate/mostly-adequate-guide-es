@@ -24,7 +24,9 @@ Either.of("The past, present and future walk into a bar...").map(
 // Right("The past, present and future walk into a bar...it was tense.")
 ```
 
-If you recall, `IO` and `Task`'s constructors expect a function as their argument, but `Maybe` and `Either` do not. The motivation for this interface is a common, consistent way to place a value into our functor without the complexities and specific demands of constructors. The term "default minimal context" lacks precision, yet captures the idea well: we'd like to lift any value in our type and `map` away per usual with the expected behaviour of whichever functor.
+Si recuerdan, los constructores `IO` y `Task` esperan una función como argumento, pero `Maybe` y `Either` no lo hacen. La motivación para esta interface es común, una forma consistente para colocar un valor en nuestro functor sin las complejidades y demandas especificas de los constructores. El termino "Contexto minimo por defecto" carece de presición, sin embargo capta bien la idea: 
+
+If you recall, `IO` and `Task`'s constructors expect a function as their argument, but `Maybe` and `Either` do not. The motivation for this interface is a common, consistent way to place a value into our functor without the complexities and specific demands of constructors. The term "default minimal context" lacks precision, yet captures the idea well, : we'd like to lift any value in our type and `map` away per usual with the expected behaviour of whichever functor.
 
 One important correction I must make at this point, pun intended, is that `Left.of` doesn't make any sense. Each functor must have one way to place a value inside it and with `Either`, that's `new Right(x)`. We define `of` using `Right` because if our type *can* `map`, it *should* `map`. Looking at the examples above, we should have an intuition about how `of` will usually work and `Left` breaks that mold.
 
