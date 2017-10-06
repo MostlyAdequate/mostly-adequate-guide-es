@@ -2,7 +2,7 @@
 
 ## Presentación
 
-Hola soy el Profeso Franklin Risby, un placer el conocerte. Vamos ha estar un tiempo juntos. Supuestamente voy a enseñarte un poco sobre programación funcional. Pero basta de hablar sobre mí, qué tal tú? Espero que estés familiarizado con el lenguaje JavaScript, que tengas un poco de experiencía con programación Orientada a Objectos, y que te apetezca convertirte en un programador a seguir. No necesitas tenen un Doctorado en Entomología, solo necesitas saber como encontrar y solucionar algunos bugs.
+Hola soy el Profesor Franklin Risby, un placer el conocerte. Vamos a estar un tiempo juntos. Supuestamente voy a enseñarte un poco sobre programación funcional. Pero basta de hablar sobre mí, ¿qué tal tú? Espero que estés familiarizado con el lenguaje JavaScript, que tengas un poco de experiencía con programación Orientada a Objectos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un Doctorado en Entomología, solo necesitas saber como encontrar y solucionar algunos bugs.
 
 No voy asumir ningún conocimiento previo sobre programación funcional porque ya sabemos que sucede cuando uno asume mucho, pero espero que te hayas encontrado con ciertos problemas al trabajar con estados mutables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, vamos a ello.
 
