@@ -491,3 +491,4 @@ var validateEmail = function(x){
 //  ex4 :: Email -> Either String (IO String)
 var ex4 = undefined;
 ```
+
