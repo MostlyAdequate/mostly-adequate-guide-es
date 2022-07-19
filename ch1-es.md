@@ -1,125 +1,125 @@
-# Capítulo 1: Que estamos haciendo?
+﻿# Capítulo 1: ¿Qué Estamos Haciendo?
 
-## Presentación
+## Presentaciones
 
-Hola soy el Profesor Franklin Risby, un placer el conocerte. Vamos a estar un tiempo juntos. Supuestamente voy a enseñarte un poco sobre programación funcional. Pero basta de hablar sobre mí, ¿qué tal tú? Espero que estés familiarizado con el lenguaje JavaScript, que tengas un poco de experiencía con programación Orientada a Objectos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un Doctorado en Entomología, solo necesitas saber como encontrar y solucionar algunos bugs.
+¡Hola! soy el Profesor Franklin Frisby, encantado de conocerte. Pasaremos algún tiempo juntos pues se supone que voy a enseñarte un poco sobre programación funcional. Pero basta de hablar sobre mí, ¿qué hay de ti? Espero que estés al menos un poco familiarizado con el lenguaje JavaScript, que tengas un poco de experiencia en programación orientada a objetos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un doctorado en entomología, solo necesitas saber cómo encontrar y solucionar algunos "bugs".
 
-No voy asumir ningún conocimiento previo sobre programación funcional porque ya sabemos que sucede cuando uno asume mucho, pero espero que te hayas encontrado con ciertos problemas al trabajar con estados mutables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, vamos a ello.
+No asumo que tengas ningún conocimiento previo sobre programación funcional porque ya sabemos lo que sucede cuando uno presupone, pero espero que hayas encontrado problemas al trabajar con estados mutables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, sigamos adelante.
 
-El propósito de este capítulo es dar una noción de lo que es escribir programación funcional. Tenemos que tener algunas ideas sobre que hace a un programa *funcional* o acabaremos escribiendo garabatos, evitando objetos a toda costa - un esfuerzo sin sentido. Necesitamos una diana donde apuntar nuestro código y una brújula celestial para cuando las aguas se vuelvan violentas.
+El propósito de este capítulo es darte una idea de lo que buscamos cuando escribimos programas funcionales. Para poder entender los próximos capítulos, hemos que tener una idea sobre qué hace que un programa sea *funcional*. De lo contrario, acabaremos garabateando sin rumbo, evitando objetos a toda costa - un esfuerzo sin sentido. Necesitamos una diana a la que lanzar nuestro código y una brújula celestial para cuando las aguas se agiten.
 
-Hay ciertos principios de programación, varios acrónimos que nos guiarán a través de los túneles oscuros de cualquier aplicación:  DRY (don't repeat yourself, "no te repitas"), acoplamiento débil alta cohesión, YAGNI (ya ain't gonna need it, "no lo vas a necesitar"), principio de mínima sorpresa, única responsabilidad, etc.
+Hay ciertos principios de programación, varios acrónimos, que nos guiarán a través de los túneles oscuros de cualquier aplicación:  DRY (don't repeat yourself, "no te repitas"), alta cohesión bajo acoplamiento, YAGNI (ya ain't gonna need it, "no lo vas a necesitar"), principio de mínima sorpresa, única responsabilidad, etc.
 
-No voy a elaborar una lista de cada guía que he oído durante años... la cuestión es que sostenga de manera funcional, aunque sea meramente tangencial a nuestra meta.
-Lo que me gustaría que te quedase como noción por ahora, antes de que nos adentremos más, es cual será nuestra intención cuando golpeemos y tecleemos; nuestro Xanadu funcional.
+No voy a alargarme enumerando cada una de las guías que he escuchado a lo largo de los años... La cuestión es que siguen vigentes en un entorno funcional, aunque son tangenciales a nuestro objetivo final.
+Lo que me gustaría que entendieses por ahora, antes de seguir adelante, es cuál será nuestra intención cuando nos aferremos al teclado; nuestro Xanadu funcional.
 
 <!--BREAK-->
 
-## Un breve encuentro
+## Un Breve Encuentro
 
-Vamos a empezar con un toque de locura. He aquí una aplicación de gaviotas. Cuando los rebaños se juntan, se convierten en un rebaño más grande y cuando crían, el número de gaviotas aumenta. Este código no intenta ser un buen ejemplo de código Orientado a Objectos , cuidado, este código esta para resaltar los peligros modernos de nuestro enfoque basado en asignación. Aquí tienes:
+Vamos a empezar con un toque de locura. He aquí una aplicación de gaviotas ("seagulls"). Cuando una bandada ("flock") se junta con otra ("conjoin"), se convierten en una bandada más grande y cuando se reproducen ("breed"), aumentan por el número de gaviotas con las que se reproducen. Ahora bien, este no pretende ser un buen ejemplo de código orientado a objetos, ojo, este código está aquí para resaltar los peligros de nuestro moderno enfoque basado en asignación. Contempla:
 
 ```js
-var Flock = function(n) {
-  this.seagulls = n;
-};
+class Flock {
+  constructor(n) {
+    this.seagulls = n;
+  }
 
-Flock.prototype.conjoin = function(other) {
-  this.seagulls += other.seagulls;
-  return this;
-};
+  conjoin(other) {
+    this.seagulls += other.seagulls;
+    return this;
+  }
 
-Flock.prototype.breed = function(other) {
-  this.seagulls = this.seagulls * other.seagulls;
-  return this;
-};
+  breed(other) {
+    this.seagulls = this.seagulls * other.seagulls;
+    return this;
+  }
+}
 
-var flock_a = new Flock(4);
-var flock_b = new Flock(2);
-var flock_c = new Flock(0);
-
-var result = flock_a.conjoin(flock_c)
-    .breed(flock_b).conjoin(flock_a.breed(flock_b)).seagulls;
-//=> 32
+const flockA = new Flock(4);
+const flockB = new Flock(2);
+const flockC = new Flock(0);
+const result = flockA
+  .conjoin(flockC)
+  .breed(flockB)
+  .conjoin(flockA.breed(flockB))
+  .seagulls;
+// 32
 ```
 
-Quién en la faz de la tierra, sería capaz de crear esta abominación? Es irrazonablemente dificil mantener el rastro del estado mutable interno. Y, por si no fuera suficiente, la respuesta es incorrecta! Debería de ser `16`, pero `flock_a` ha sido alterado permanentemente en el proceso. Pobre `flock_a`. Esto es anarquía en I.T.! Esto es aritmética de animales salvajes!
+¿Quién en la faz de la tierra, sería capaz de crear esta espantosa abominación? Es irrazonablemente difícil mantener el rastro del estado mutable interno. Y, por si no fuera suficiente, la respuesta es incorrecta! Debería ser `16`, pero `flockA` ha sido alterado permanentemente en el proceso. Pobre `flockA`. ¡Esto es anarquía en la informática! Esto es aritmética de animales salvajes!
 
 Si no entiendes este programa, no pasa nada, yo tampoco lo entiendo. La cuestión es que el estado y los valores mutables son difíciles de seguir, incluso en un ejemplo tan pequeño.
 
-Vamos a intentarlo otra vez, pero de forma más funcional:
+Vamos a intentarlo de nuevo, esta vez con un enfoque más funcional:
 
 ```js
-var conjoin = function(flock_x, flock_y) { return flock_x + flock_y };
-var breed = function(flock_x, flock_y) { return flock_x * flock_y };
+const conjoin = (flockX, flockY) => flockX + flockY;
+const breed = (flockX, flockY) => flockX * flockY;
 
-var flock_a = 4;
-var flock_b = 2;
-var flock_c = 0;
-
-var result = conjoin(
-  breed(flock_b, conjoin(flock_a, flock_c)), breed(flock_a, flock_b)
-);
-//=>16
+const flockA = 4;
+const flockB = 2;
+const flockC = 0;
+const result =
+    conjoin(breed(flockB, conjoin(flockA, flockC)), breed(flockA, flockB));
+// 16
 ```
 
-Bueno, esta vez la respuesta es correcta. Hay menos código. La anidación de la función es un poco confusa...[^Pondremos remedio a esto en el ch5]. Es mejor, pero vamos a entrar más en detalle. Hay beneficios al llamar a cada cosa por su nombre. Una vez lo hemos hecho, vemos que estamos utilizando simple sumas/adiciones (`conjoin`) y multiplicaciones (`breed`).
+Bueno, esta vez la respuesta es correcta. Con mucho menos código. La anidación de la función es un poco confusa... (pondremos remedio a esto en el capítulo 5). Está mejor, pero profundicemos un poco más. Llamar a las cosas por su nombre tiene sus ventajas. Si hubiéramos examinado nuestras funciones más de cerca, habríamos descubierto que estamos utilizando simples sumas (`conjoin`) y multiplicaciones (`breed`).
 
-No hay nada realmente especial sobre estas dos funciones, a pesar de su nombre. Vamos a renombrar nuestras funciones, revelando su verdadera identidad.
+Realmente no hay nada especial en estas dos funciones a parte de de sus nombres. Vamos a renombrarlas a `multiply` ("multiplicar") y `add` ("añadir") para revelar sus verdaderas identidades.
 
 ```js
-var add = function(x, y) { return x + y };
-var multiply = function(x, y) { return x * y };
+const add = (x, y) => x + y;
+const multiply = (x, y) => x * y;
 
-var flock_a = 4;
-var flock_b = 2;
-var flock_c = 0;
-
-var result = add(
-  multiply(flock_b, add(flock_a, flock_c)), multiply(flock_a, flock_b)
-);
-//=>16
+const flockA = 4;
+const flockB = 2;
+const flockC = 0;
+const result =
+    add(multiply(flockB, add(flockA, flockC)), multiply(flockA, flockB));
+// 16
 ```
-Y con esto, conseguimos el conocimiento de los antiguos:
+Y con esto obtenemos el conocimiento de los antiguos:
 
 ```js
-// associative
-add(add(x, y), z) == add(x, add(y, z));
+// asociativa
+add(add(x, y), z) === add(x, add(y, z));
 
-// commutative
-add(x, y) == add(y, x);
+// conmutativa
+add(x, y) === add(y, x);
 
-// identity
-add(x, 0) == x;
+// identidad
+add(x, 0) === x;
 
-// distributive
-multiply(x, add(y,z)) == add(multiply(x, y), multiply(x, z));
+// distributiva
+multiply(x, add(y,z)) === add(multiply(x, y), multiply(x, z));
 ```
 
-Ah sí, esas antiguas propiedades matemáticas serán de ayuda. No te preocupes si no las sabes todas de memoria. Para muchos de nosotros, hace mucho desde que hemos revisitado esta información. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
+Ah, sí, esas viejas y fieles propiedades matemáticas serán de ayuda. No te preocupes si no las sabes de memoria. Para muchos de nosotros ha pasado mucho tiempo desde que aprendimos sobre ellas. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
 
 ```js
-// Línea original
-add(multiply(flock_b, add(flock_a, flock_c)), multiply(flock_a, flock_b));
+// Linea original
+add(multiply(flockB, add(flockA, flockC)), multiply(flockA, flockB));
 
-// Aplica la propiedad de identidad y elimina el 'add' extra
-// (add(flock_a, flock_c) == flock_a)
-add(multiply(flock_b, flock_a), multiply(flock_a, flock_b));
+// Aplicamos la propiedad de identidad para eliminar la suma sobrante
+// (add(flockA, flockC) == flockA)
+add(multiply(flockB, flockA), multiply(flockA, flockB));
 
-// Aplica la propiedad distributiva para así obtener el resultado
-multiply(flock_b, add(flock_a, flock_a));
+// Aplicamos la propiedad distributiva para llegar a nuestro resultado
+multiply(flockB, add(flockA, flockA));
 ```
 
-Brillante! Solo con una llamada a una función basta, sin hacer falta escribir más código. Usamos `add` y `multiply` en su completo, aunque no hay necesidad de re-escribirlas - seguramente hay librerías ya escritas que nos proporcionen `add` y `multiply`.
+Brillante! No hemos tenido que escribir ni una pizca de código aparte de las llamadas a las funciones. Hemos incluído las implementaciones de `add` y `multiply` por completitud, pero en realidad no hacía falta escribirlas puesto que seguro que ya existen en alguna librería.
 
-A lo mejor estarás pensando "que pícaro, al poner este ejemplo". O "programas del mundo real no son tan simples y no se pueden razonar de esta manera". Hemos seleccionado este ejemplo porque casi todos sabemos que es una suma y multiplicación. Aquí podemos observar fácilmente como las matemáticas pueden ser útiles.
+Seguramente estarás pensando "que pícaro, al poner este ejemplo". O "programas del mundo real no son tan simples y no se pueden razonar de esta manera". He seleccionado este ejemplo porque la mayoría de nosotros ya sabemos sumar y multiplicar, así que es fácil ver cómo las matemáticas pueden sernos útiles.
 
-No te desanimes, a lo largo de este libro hablaremos un poco de teoría de la categoría, aplicar teoría, y cálculo lambda para escribir ejemplos del mundo real, teniendo la misma simplicidad y resultados que nuestro ejemplo de las gaviotas. No necesitas ser un matemático, será como utilizar otro framework o api.
+No te desesperes, a lo largo de este libro hablaremos un poco sobre teoría de categorías, teoría de conjuntos, y cálculo lambda para escribir ejemplos del mundo real que consigan la misma elegante simplicidad y resultados que nuestro ejemplo de la bandada de gaviotas. No necesitas ser un matemático, será como utilizar otro framework o api.
 
-A lo mejor te sorprende oír que podamos escribir por completo, un programa utilizando programación funcional como hemos mostrado en el ejemplo de arriba. Programas que tienen propiedades seguras. Programas cortos, pero fáciles de razonar. Programas que no tienes porque reinventar la rueda una y otra cada vez. No tener leyes es bueno si eres un criminal, pero en este libro, vamos a agradecer y obedecer las leyes matemáticas.
+Puede resultar sorprendente oír que se puedan escribir aplicaciones completas utilizando programación funcional como hemos mostrado en el ejemplo de arriba. Programas que tienen propiedades sólidas. Programas cortos, pero fáciles de razonar. Programas que no reinventan la rueda una y otra vez. La falta de leyes es buena si eres un criminal, pero en este libro, vamos a reconocer y obedecer las leyes de las matemáticas.
 
-Utilizaremos teoría para cada pieza que encaje bien y educadamente. Vamos a representar nuestro problema con términos genéricos y que se puedan componer en pequeñas piezas, y así luego explotar sus propiedades para nuestro beneficio. Se necesita más disciplina que el enfoque de programación imperativa[^Más adelante definiremos programación imperativa, por ahora, solo hablaremos de programación funcional], pero lo que obtendrás a cambio, al trabajar con framework basado en principios matemáticos te sorprenderá.
+Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limpiamente. Querremos representar nuestro problema específico en términos de pequeñas piezas genéricas y componibles, para luego explotar sus propiedades en nuestro propio beneficio. Será necesaria un poco más de disciplina que en el enfoque de "todo vale" de la programación imperativa (más adelante definiremos más precisamente lo que es la programación imperativa, pero por ahora considérala cualquier cosa que no sea programación funcional). La recompesa  de trabajar dentro de un marco de trabajo basado en principios matemáticos realmente te asombrará.
 
-Hemos visto un destello de nuestra estrella del norte funcional, pero necesitamos entender unos cuantos conceptos antes de empezar nuestro viaje.
+Hemos visto un destello de nuestra estrella del norte funcional, pero hay unos cuantos conceptos que necesitamos entender antes de poder realmente empezar nuestro viaje.
 
-[Capítulo 2: Funciones de primera clase](ch2-es.md)
+[Capítulo 2: Funciones de Primera Clase](ch2-es.md)
