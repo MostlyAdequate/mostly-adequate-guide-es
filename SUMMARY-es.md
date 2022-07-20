@@ -1,8 +1,8 @@
 # Sumario
 
-* [Capítulo 1: ¿Qué Estamos Haciendo?](ch1-es.md)
-  * [Presentaciones](ch1-es.md#presentaciones)
-  * [Un Breve Encuentro](ch1-es.md#un-breve-encuentro)
+* [Capítulo 1: ¿Qué Estamos Haciendo?](ch01-es.md)
+  * [Presentaciones](ch01-es.md#presentaciones)
+  * [Un Breve Encuentro](ch01-es.md#un-breve-encuentro)
 * [Capitulo 2: First Class Functions](ch2-es.md)
   * [A quick review](ch2-es.md#a-quick-review)
   * [Why favor first class?](ch2-es.md#why-favor-first-class)
