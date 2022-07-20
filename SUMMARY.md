@@ -1,8 +1,8 @@
 # Summary
 
-* [Chapter 1: What ever are we doing?](ch1.md)
-  * [Introductions](ch1.md#introductions)
-  * [A brief encounter](ch1.md#a-brief-encounter)
+* [Chapter 1: What ever are we doing?](ch01.md)
+  * [Introductions](ch01.md#introductions)
+  * [A brief encounter](ch01.md#a-brief-encounter)
 * [Chapter 2: First Class Functions](ch2.md)
   * [A quick review](ch2.md#a-quick-review)
   * [Why favor first class?](ch2.md#why-favor-first-class)
