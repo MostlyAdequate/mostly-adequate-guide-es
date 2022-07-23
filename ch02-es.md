@@ -17,7 +17,7 @@ hi; // name => `Hi ${name}`
 hi("jonas"); // "Hi jonas"
 ```
 
-Dado que `greeting` tan solo está llamando a `hi` con el mismo argumento, simplemente podríamos escribir:
+Dado que `greeting` tan solo está llamando a `hi` con el mismo argumento, podríamos simplemente escribir:
 
 ```js
 const greeting = hi;
@@ -28,7 +28,7 @@ En otras palabras, `hi` ya es una función que espera un argumento, ¿por qué c
 
 Es demasiado detallado y, también, una mala práctica rodear una función con otra función simplemente para retrasar la evaluación. (Veremos por qué en un momento, pero tiene que ver con el mantenimiento.)
 
-Es fundamental comprender bien esto antes de continuar, así que vamos a examinar algunos otros ejemplos divertidos sacados de paquetes de npm.
+Es fundamental comprender bien esto antes de continuar, así que vamos a examinar algunos otros ejemplos divertidos extraídos de paquetes de npm.
 
 ```js
 // ignorante
@@ -51,7 +51,7 @@ ajaxCall(callback);
 const getServerStuff = callback => ajaxCall(callback);
 
 // ...la cual es equivalente a esto
-const getServerStuff = ajaxCall; // <-- look mum, no ()'s
+const getServerStuff = ajaxCall; // <-- mira mama, sin ()'s
 ```
 
 Y así, amigos, es cómo se hace. Uno más para que entendamos porque estoy siendo tan insistente.
@@ -124,7 +124,7 @@ Debo mencionar que, al igual que con código orientado a objetos, debes ser cons
 ```js
 const fs = require('fs');
 
-// aterrador 
+// aterrador
 fs.readFile('freaky_friday.txt', Db.save);
 
 // no tanto
