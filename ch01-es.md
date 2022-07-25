@@ -122,4 +122,4 @@ Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limp
 
 Hemos visto un destello de nuestra estrella del norte funcional, pero hay unos cuantos conceptos que necesitamos entender antes de poder realmente empezar nuestro viaje.
 
-[Capítulo 2: Funciones de Primera Clase](ch2-es.md)
+[Capítulo 2: Funciones de Primera Clase](ch02-es.md)
