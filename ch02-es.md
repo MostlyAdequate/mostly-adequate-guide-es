@@ -137,4 +137,4 @@ Algunos argumentarán que `this` es necesario para optimizar la velocidad. Si er
 
 Y con eso, estamos listos para seguir adelante.
 
-[Capítulo 3: Pura Felicidad con Funciones Puras](ch3-es.md)
+[Capítulo 3: Pura Felicidad con Funciones Puras](ch03-es.md)
