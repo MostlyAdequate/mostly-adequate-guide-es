@@ -1,20 +1,19 @@
-# Mostly Adequate Exercises
+# Los Ejercicios Más Adecuados
 
-## Overview
+## Información General
 
-All exercises from the book can be completed either:
+Todos los ejercicios del libro pueden completarse de dos maneras:
 
-- in browser (using the version of the book published on [gitbook.io](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/))
-- in your editor & terminal, using `npm`
+- en el navegador (utilizando la versión del libro publicada en [gitbook.io](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/))
+- en tu editor y terminal, usando `npm`
 
-In every folder named `ch**` from this `exercises/` folder, you'll find three types of files:
+En cada carpeta llamada `ch**` de esta carpeta `exercises/`, encontrarás tres tipos de archivos:
 
 - exercises
 - solutions
 - validations
 
-Exercises are structured with a statement in comment, followed by an incomplete
-or incorrect function. For example, `exercise_a` from `ch04` looks like this:
+Los ejercicios están estructurados con un enunciado en un comentario, seguido por una función incompleta o incorrecta. Por ejemplo, el `exercise_a` del `ch04` luce así:
 
 
 ```js
@@ -24,25 +23,25 @@ or incorrect function. For example, `exercise_a` from `ch04` looks like this:
 const words = str => split(' ', str);
 ```
 
-Following the statement, your goal is to refactor the given function `words`. Once done, 
-your proposal can be verified by running:
+Siguiendo el enunciado, tu objetivo es refactorizar la función `words` que se te proporciona. Una vez hecho, 
+tu propuesta puede ser verificada ejecutando:
 
 ```
 npm run ch04
 ```
 
-Alternatively, you can also have a peak at the corresponding solution file: in this case
+Alternativamente, también puedes echar un vistazo al archivo con la solución que corresponda: en este caso
 `solution_a.js`. 
 
-> The files `validation_*.js` aren't really part of the exercises but are used
-> internally to verify your proposal and, offer hints when adequate. The curious 
-> reader may have a look at them :).
+> Los archivos `validation_*.js` realmente no forman parte de los ejercicios pero son utilizados
+> internamente para verificar tu propuesta y dar pistas cuando procede. El lector curioso 
+> puede echarles un ojo :).
 
-Now go and learn some functional programming λ!
+¡Ahora ve y aprende algo de programación funcional λ!
 
-## About the Appendixes
+## Sobre Los Apéndices
 
-Important notice: the exercise runner takes care of bringing all
-data-structures and functions from the appendixes into scope. Therefore, you
-may assume that any function present in the appendix is just available for you
-to use! Amazing, isn't it? 
+Aviso importante: el ejecutor de los ejercicios se encarga de traer al contexto
+de ejecución todas las estructuras de datos y funciones de los apéndices. Por esto, 
+puedes dar por hecho que cualquier función presente en los apéndices está
+disponible para que puedas utilizarla! Increíble, ¿verdad?
