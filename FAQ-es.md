@@ -5,8 +5,8 @@
 - [¿Cuál es el significado de `f a` en una firma?](#cuál-es-el-significado-de-f-a-en-una-firma)
 - [¿Hay disponibles ejemplos de "la vida real"?](#hay-disponibles-ejemplos-de-la-vida-real)
 - [¿Por qué el libro utiliza ES5? ¿Hay disponible alguna versión con ES6?](#por-qué-el-libro-utiliza-es5-hay-disponible-alguna-versión-con-es6)
-- [¿A qué viene esa función reduce?](#a-qué-viene-esa-funcion-reduce)
-- [¿No podrías utilizar un inglés más simple en lugar del estilo actual?](#no-podrías-utilizar-un-ingles-más-simple-en-lugar-del-estilo-actual)
+- [¿A qué viene esa función reduce?](#a-qué-viene-esa-función-reduce)
+- [¿No podrías utilizar un inglés más simple en lugar del estilo actual?](#no-podrías-utilizar-un-inglés-más-simple-en-lugar-del-estilo-actual)
 - [¿Qué es Either? ¿Qué es Future? ¿Qué es Task?](#qué-es-either-qué-es-future-qué-es-task)
 - [¿De dónde vienen métodos como map, filter, compose...?](#de-dónde-vienen-métodos-como-map-filter-compose)
 

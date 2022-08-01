@@ -1,10 +1,10 @@
 # Contribuyendo a La Más Que Adecuada Guía de Programación Funcional
 
-## Concesión de licencias
+## Concesión de Licencias
 
 Al abrir un `pull request` a este repositorio, estás de acuerdo en proveer tu trabajo bajo la [licencia del proyecto](LICENSE). Además, estás de acuerdo en ceder tal licencia de tu trabajo como sea requerida para las futuras ediciones impresas a @DrBoolean. Si tus cambios aparecen en una edición impresa, serás incluido en la lista de contribuidores.
 
-## Pequeñas correcciones
+## Pequeñas Correcciones
 
 Las erratas y aclaraciones simples serán aceptadas si consideramos que mejoran el contenido. También puedes abrir un `issue`, así podemos considerar si necesita ser atendido. Si nunca has hecho esto antes, la [guía de flow](https://guides.github.com/introduction/flow/) puede ser útil.
 
