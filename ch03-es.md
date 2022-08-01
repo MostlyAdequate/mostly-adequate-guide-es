@@ -271,4 +271,4 @@ Hemos visto qué son las funciones puras y por qué nosotros, como programadores
 
 Escribir programas con funciones puras es algo laborioso sin tener algunas herramientas extra en nuestro cinturón. Hemos de hacer malabares con los datos pasando argumentos por todas partes, tenemos prohibido utilizar estado y sin mencionar lo de los efectos secundarios. ¿Cómo afrontar la escritura de estos programas de masoquista? Vamos a obtener una nueva herramienta llamada curry.
 
-[Capítulo 4: Currying](ch4-es.md)
+[Capítulo 4: Currying](ch04-es.md)
