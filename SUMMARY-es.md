@@ -68,7 +68,7 @@
   * [maybe](appendix_a-es.md#maybe)
   * [nothing](appendix_a-es.md#nothing)
   * [reject](appendix_a-es.md#reject)
-* [Apéndice B: Estructuras Algebráicas de Soporte](appendix_b-es.md)
+* [Apéndice B: Estructuras Algebraicas de Soporte](appendix_b-es.md)
   * [Compose](appendix_b-es.md#compose)
   * [Either](appendix_b-es.md#either)
   * [Identity](appendix_b-es.md#identity)

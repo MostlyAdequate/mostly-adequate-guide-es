@@ -1,14 +1,14 @@
 ## FAQ
 
-- [¿Por qué hay fragmentos de código escritos a veces con puntos y comas y a veces sin?](#por-que-hay-fragmentos-de-codigo-escritos-a-veces-con-puntos-y-comas-y-a-veces-sin)
-- [Librerías externas como _ (ramda) o $ (jquery), ¿no están haciendo llamadas impuras?](#librerias-externas-como-_-ramda-o--jquery-no-estan-haciendo-llamadas-impuras)
-- [¿Cuál es el significado de `f a` en una firma?](#cual-es-el-significado-de-f-a-en-una-firma)
+- [¿Por qué hay fragmentos de código escritos a veces con puntos y comas y a veces sin?](#por-qué-hay-fragmentos-de-código-escritos-a-veces-con-puntos-y-comas-y-a-veces-sin)
+- [Librerías externas como _ (ramda) o $ (jquery), ¿no están haciendo llamadas impuras?](#librerías-externas-como-_-ramda-o--jquery-no-están-haciendo-llamadas-impuras)
+- [¿Cuál es el significado de `f a` en una firma?](#cuál-es-el-significado-de-f-a-en-una-firma)
 - [¿Hay disponibles ejemplos de "la vida real"?](#hay-disponibles-ejemplos-de-la-vida-real)
-- [¿Por qué el libro utiliza ES5? ¿Hay disponible alguna versión con ES6?](#por-que-el-libro-utiliza-es5-hay-disponible-alguna-version-con-es6)
-- [¿A qué viene esa función reduce?](#a-que-viene-esa-funcion-reduce)
-- [¿No podrías utilizar un inglés más simple en lugar del estilo actual?](#no-podrias-utilizar-un-ingles-mas-simple-en-lugar-del-estilo-actual)
-- [¿Qué es Either? ¿Qué es Future? ¿Qué es Task?](#que-es-either-que-es-future-que-es-task)
-- [¿De dónde vienen métodos como map, filter, compose...?](#de-donde-vienen-metodos-como-map-filter-compose)
+- [¿Por qué el libro utiliza ES5? ¿Hay disponible alguna versión con ES6?](#por-qué-el-libro-utiliza-es5-hay-disponible-alguna-versión-con-es6)
+- [¿A qué viene esa función reduce?](#a-qué-viene-esa-funcion-reduce)
+- [¿No podrías utilizar un inglés más simple en lugar del estilo actual?](#no-podrías-utilizar-un-ingles-más-simple-en-lugar-del-estilo-actual)
+- [¿Qué es Either? ¿Qué es Future? ¿Qué es Task?](#qué-es-either-qué-es-future-qué-es-task)
+- [¿De dónde vienen métodos como map, filter, compose...?](#de-dónde-vienen-métodos-como-map-filter-compose)
 
 ### ¿Por qué hay fragmentos de código escritos a veces con puntos y comas y a veces sin?
 
@@ -24,7 +24,7 @@ por favor háznoslo saber y nos ocuparemos del descuido.
 
 Estas dependencias están disponibles como si estuviesen en el contexto global,
 parte del lenguaje.
-Así que, no, las llamadas aún se puden considerar como puras.
+Así que, no, las llamadas aún se pueden considerar como puras.
 
 Para más información, dale un vistazo a [este artículo sobre los CoEffects](http://tomasp.net/blog/2014/why-coeffects-matter/)
 
@@ -55,14 +55,14 @@ let maybeNumber = map(f, maybeString) // Maybe(6)
 
 > ver [#77], [#192]
 
-Si aún no has llegado, puedes echar un vistazo al [Capítulo 6](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch06.md), el cuál presenta una aplicación sencilla sobre flick
+Si aún no has llegado, puedes echar un vistazo al [Capítulo 6](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch06.md), el cual presenta una aplicación sencilla sobre flick
 Pronto llegarán otros ejemplos. Por cierto, ¡eres libre de compartir con nosotros tu experiencia!
 
 ### ¿Por qué el libro utiliza ES5? ¿Hay disponible alguna versión con ES6?
 
 > ver [#83], [#235]
 
-El libro pretende ser ampliamente accesible. Empezó antes de la salida de ES6, y,ahora que el nuevo 
+El libro pretende ser ampliamente accesible. Empezó antes de la salida de ES6, y, ahora que el nuevo 
 standard está siendo más y más aceptado, estamos considerando hacer dos ediciones separadas con
 ES5 y ES6. Miembros de la comunidad ya están trabajando en la versión ES6 (echa un vistazo a
 [#235] para más información).
@@ -93,7 +93,7 @@ disponibles que probablemente te sean de ayuda.
 Vamos presentando todas estas estructuras a lo largo del libro. Por lo tanto, no encontrarás ningún uso
 de una estructura que no haya sido previamente definida. No dudes en releer partes antiguas si alguna 
 vez sientes incomodidad con estos tipos.
-Al final habrá un glosario/vade mecum que sintetizará todos estos conceptos.
+Al final habrá un glosario/vademécum que sintetizará todos estos conceptos.
 
 ### ¿De dónde vienen métodos como map, filter, compose...?
 
@@ -101,7 +101,7 @@ Al final habrá un glosario/vade mecum que sintetizará todos estos conceptos.
 
 La mayor parte del tiempo, estos métodos están definidos en librerías de proveedores específicos como
 `ramda` o `underscore`. Deberías también echarle un vistazo al [Apéndice A](./appendix_a-es.md), 
-[Apéndice B](./appendix_b-es.md) y [Apéndice C](./appendix_c-es.md) en los cuáles se definen
+[Apéndice B](./appendix_b-es.md) y [Apéndice C](./appendix_c-es.md) en los cuales se definen
 numerosas implementaciones utilizadas para los ejercicios. Estas funciones son realmente comunes
 en programación funcional y a pesar de que sus implementaciones pueden variar un poco, sus 
 significados permanecen bastante constantes entre librerías.

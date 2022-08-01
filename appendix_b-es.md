@@ -1,7 +1,7 @@
-# Apéndice B: Estructuras Algebráicas de Soporte
+# Apéndice B: Estructuras Algebraicas de Soporte
 
 En este apéndice, encontrarás algunas implementaciones básicas en Javascript de varias estructuras
-algebráicas descritas en el libro. Ten en cuenta que estas implementaciones pueden no ser las más rápidas o las 
+algebraicas descritas en el libro. Ten en cuenta que estas implementaciones pueden no ser las más rápidas o las 
 más eficientes; *tienen únicamente una finalidad educativa*.
 
 Para encontrar estructuras más preparadas para un entorno en producción, échale un vistazo a

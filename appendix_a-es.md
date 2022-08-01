@@ -7,7 +7,7 @@ más eficientes; *tienen únicamente una finalidad educativa*.
 Para encontrar funciones más preparadas para un entorno en producción, échale un vistazo a
 [ramda](https://ramdajs.com/), [lodash](https://lodash.com/), o [folktale](http://folktale.origamitower.com/).
 
-Ten en cuenta que algunas funciones también hacen referencia a estructuras algebráicas definidas en el [Apéndice B](./appendix_b-es.md)
+Ten en cuenta que algunas funciones también hacen referencia a estructuras algebraicas definidas en el [Apéndice B](./appendix_b-es.md)
 
 ## always
 

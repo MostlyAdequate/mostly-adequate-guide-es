@@ -1,4 +1,4 @@
-# Apéndice C:  Utilidades Pointfree
+# Apéndice C: Utilidades Pointfree
 
 En este apéndice, encontrarás versiones pointfree de funciones clásicas de JavaScript
 descritas en el libro. Todas las siguientes funciones están disponibles en los ejercicios como parte de su contexto global. Ten en cuenta que estas implementaciones pueden no ser las más rápidas o las 

@@ -10,7 +10,7 @@ Las erratas y aclaraciones simples serán aceptadas si consideramos que mejoran 
 
 ## Preguntas o Aclaraciones
 
-Por favor, dale un vistazo a la [FAQ](FAQ-es.md) antes de abrir un issue. Tu pregunta puede haber sido respondida con anterioridad. ¿Sigues teniendo que preguntar algo? Siéntete libre de abrir un issue explicarte tú mismo.
+Por favor, dale un vistazo a [FAQ](FAQ-es.md) antes de abrir un issue. Tu pregunta puede haber sido respondida con anterioridad. ¿Sigues teniendo que preguntar algo? Siéntete libre de abrir un issue explicarte tú mismo.
  
 ## Traducciones
 

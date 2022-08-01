@@ -33,7 +33,7 @@ npm run ch04
 Alternativamente, también puedes echar un vistazo al archivo con la solución que corresponda: en este caso
 `solution_a.js`. 
 
-> Los archivos `validation_*.js` realmente no forman parte de los ejercicios pero son utilizados
+> Los archivos `validation_*.js` realmente no forman parte de los ejercicios, pero son utilizados
 > internamente para verificar tu propuesta y dar pistas cuando procede. El lector curioso 
 > puede echarles un ojo :).
 
@@ -43,5 +43,5 @@ Alternativamente, también puedes echar un vistazo al archivo con la solución q
 
 Aviso importante: el ejecutor de los ejercicios se encarga de traer al contexto
 de ejecución todas las estructuras de datos y funciones de los apéndices. Por esto, 
-puedes dar por hecho que cualquier función presente en los apéndices está
+¡puedes dar por hecho que cualquier función presente en los apéndices está
 disponible para que puedas utilizarla! Increíble, ¿verdad?
