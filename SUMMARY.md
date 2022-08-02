@@ -16,6 +16,7 @@
   * [Can't live if livin' is without you](ch04.md#cant-live-if-livin-is-without-you)
   * [More than a pun / Special sauce](ch04.md#more-than-a-pun--special-sauce)
   * [In Summary](ch04.md#in-summary)
+  * [Exercises](ch04.md#exercises)
 * [Chapter 5: Coding by Composing](ch5.md)
   * [Functional Husbandry](ch5.md#functional-husbandry)
   * [Pointfree](ch5.md#pointfree)
