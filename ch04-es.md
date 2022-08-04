@@ -95,7 +95,7 @@ Podemos crear al vuelo nuevas y útiles funciones, simplemente pasándole unos p
 
 Adquiramos otra herramienta esencial llamada `compose`.
 
-[Capitulo 5: Programando por Composición](ch5-es.md)
+[Capitulo 5: Programando por Composición](ch05-es.md)
 
 ## Ejercicios
 
