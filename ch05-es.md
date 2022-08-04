@@ -1,165 +1,162 @@
-# Capítulo 5: Programando por composición
+# Capítulo 5: Programación Mediante Composición
 
-## Reproducción Funcional
-
+## Ganadería Funcional
 Aquí tenemos `compose`:
 
 ```js
-var compose = function(f,g) {
-  return function(x) {
-    return f(g(x));
-  };
-};
+const compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(null, ...res)], args)[0];
 ```
 
-`f` y `g` son funciones y `x` es el valor "pasado" a través.
-
-La composición es como la reproducción funcional. Tú, reproductor de funciones, selecciona dos con las características que te gustaría combinar y mézclalas para formar una nueva. Su uso es así:
+... ¡No te asustes! Este es el nivel-9000-super-Saiyan de _compose_. En aras del razonamiento, olvidemos la implementación variádica y consideremos una forma más simple capaz de componer juntas a dos funciones. Una vez te hayas hecho a la idea, puedes llevar la abstracción más allá y considerar que simplemente funciona para cualquier número de funciones (¡incluso podemos aportar pruebas de ello!)
+Aquí tenemos una _compose_ más amigable para vosotros mis queridos lectores:
 
 ```js
-var toUpperCase = function(x) { return x.toUpperCase(); };
-var exclaim = function(x) { return x + '!'; };
-var shout = compose(exclaim, toUpperCase);
-
-shout("send in the clowns");
-//=> "SEND IN THE CLOWNS!"
+const compose2 = (f, g) => x => f(g(x));
 ```
 
-La composición de dos funciones devuelve una nueva función. Esto tiene sentido: componer dos unidades del mismo tipo (en este caso una función) debería devolver una nueva unidad del mismo tipo. Si juntas dos legos no obtienes una casa de montaña. Existe una teoría, una ley que descubriremos en su debido tiempo.
+`f` y `g` son funciones y `x` es el valor que está siendo canalizado a través de ellas.
 
-En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto es mucho más legible que tener un montón de funciones anidadas. Sin compose, lo escrito arriba sería:
+La composición es una suerte de cría de funciones. Tú, criador de funciones, selecciona dos con las características que te gustaría combinar y mézclalas para crear una nueva. Su uso es el siguiente:
 
 ```js
-var shout = function(x){
-  return exclaim(toUpperCase(x));
-};
+const toUpperCase = x => x.toUpperCase();
+const exclaim = x => `${x}!`;
+const shout = compose(exclaim, toUpperCase);
+
+shout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 
-En vez de adentro hacia afuera, lo ejecutamos de derecha a izquierda, lo cual supongo que es un paso a la izquierda[^boo]. Veamos un ejemplo donde importa la secuencia:
+La composición de dos funciones devuelve una nueva función. Esto tiene todo el sentido: componer dos unidades de algún tipo (en este caso función) debería devolver una nueva unidad de ese mismo tipo. No conectas dos legos entre sí y obtienes un "Lincoln Log" (juego estadounidense de construcción de casitas de madera). Existe una teoría aquí, una ley subyacente que descubriremos a su debido tiempo.
+
+En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto es mucho más legible que tener un montón de funciones anidadas. Sin compose, lo anterior sería:
 
 ```js
-var head = function(x) { return x[0]; };
-var reverse = reduce(function(acc, x){ return [x].concat(acc); }, []);
-var last = compose(head, reverse);
-
-last(['jumpkick', 'roundhouse', 'uppercut']);
-//=> 'uppercut'
+const shout = x => exclaim(toUpperCase(x));
 ```
 
-`reverse` devolverá una lista, mientras `head` coje el elemento inicial. Esto resulta en un efectiva, aunque ineficiente, función `last`. La secuencia de funciones en la composición debería de ser aparente en este ejemplo. Podríamos definir una versión de izquierda a derecha, de todas formas, copiaremos la versión matemática lo mejor posible. Sí, eso es correcto, la composición viene directamente de los libros de matemáticas. De hecho, quizás es el momento de hechar un vistazo a una propiedad que es válida para cualquier composición.
+En vez de adentro hacia afuera, lo ejecutamos de derecha a izquierda, lo cual supongo que es un paso a la izquierda (¡buu!) (*NdT: chiste malo que pierde la gracia en la traducción*).
+
+Veamos un ejemplo donde la secuencia importa:
+
+```js
+const head = x => x[0];
+const reverse = reduce((acc, x) => [x, ...acc], []);
+const last = compose(head, reverse);
+
+last(['jumpkick', 'roundhouse', 'uppercut']); // 'uppercut'
+```
+
+`reverse` le da la vuelta a la lista, mientras que `head` coge el elemento inicial. Esto resulta en una efectiva pero ineficiente función `last`. La secuencia de funciones en la composición debería ser evidente aquí. Podríamos definir una versión de izquierda a derecha, sin embargo, se asemeja más a la versión matemática tal y como está. Sí, eso es correcto, la composición viene directamente de los libros de matemáticas. De hecho, quizás es el momento de ver una propiedad que es válida para cualquier composición.
 
 ```js
 // asociatividad
-var associative = compose(f, compose(g, h)) == compose(compose(f, g), h);
-// true
+compose(f, compose(g, h)) === compose(compose(f, g), h);
 ```
 
-La composición es asociativa, lo cual significa que no importa como los agrupes. Entonces, si queremos capitalizar una cadena, podemos escribir:
+La composición es asociativa, lo cual significa que no importa como agrupes dos de ellas. Entonces, si elegimos pasar la cadena de caracteres a mayúsculas, podemos escribir:
 
 ```js
 compose(toUpperCase, compose(head, reverse));
-
 // o también
 compose(compose(toUpperCase, head), reverse);
 ```
 
-No importa cómo agrupemos nuestras llamadas compose, ya que el resultado será el mismo. Esto nos permite escribir compose como una función *variadic* y usarla así:
+Dado que no importa cómo agrupemos nuestras llamadas a `compose`, el resultado será el mismo. Esto nos permite escribir compose como una función *variádica* y usarla así:
 
 ```js
-// anteriormente hubiesemos tenido que escribir dos composiciones, pero porque es asociativa, podemos componer tantas funciones como queramos y dejarle decidir como agruparlas.
-var lastUpper = compose(toUpperCase, head, reverse);
+// anteriormente hubiésemos tenido que escribir dos composiciones, pero como es asociativa,
+// podemos dar a compose tantas funciones como queramos y dejar que decida como agruparlas.
+const arg = ['jumpkick', 'roundhouse', 'uppercut'];
+const lastUpper = compose(toUpperCase, head, reverse);
+const loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
 
-lastUpper(['jumpkick', 'roundhouse', 'uppercut']);
-//=> 'UPPERCUT'
-
-
-var loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
-
-loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']);
-//=> 'UPPERCUT!'
+lastUpper(arg); // 'UPPERCUT'
+loudLastUpper(arg); // 'UPPERCUT!'
 ```
 
-Aplicar la propiedad asociativa nos da flexibilidad y paz mental, sabiendo que el resultado va a ser equivaliente. Una definición un poco más complicada está incluída con el soporte de librerías para este libro y es la definición que podrás encontrar normalmente en librerías como [lodash][lodash-website], [underscore][underscore-website], y [ramda][ramda-website].
+Aplicar la propiedad asociativa nos da esta flexibilidad y la tranquilidad de que el resultado será equivalente. La definición variádica y un poco más complicada está incluida en las librerías de soporte de este libro y es la definición normal que podrás encontrar en librerías como [lodash][lodash-website], [underscore][underscore-website], y [ramda][ramda-website].
 
-Uno de los beneficios de la asociatividad es que cualquier grupo de funciones puede ser extraído y reagrupado en una composición. Vámos a jugar un poco reescribiendo nuestra ejemplo anterior:
+Un agradable beneficio de la asociatividad es que cualquier grupo de funciones puede ser extraído y agrupado en su propia composición. Juguemos a refactorizar nuestro ejemplo anterior:
 
 ```js
-var loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
+const loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
 
-// o
-var last = compose(head, reverse);
-var loudLastUpper = compose(exclaim, toUpperCase, last);
+// -- o también -------------------------------------------------------
 
-// o
-var last = compose(head, reverse);
-var angry = compose(exclaim, toUpperCase);
-var loudLastUpper = compose(angry, last);
+const last = compose(head, reverse);
+const loudLastUpper = compose(exclaim, toUpperCase, last);
+
+// -- o también -------------------------------------------------------
+
+const last = compose(head, reverse);
+const angry = compose(exclaim, toUpperCase);
+const loudLastUpper = compose(angry, last);
 
 // más variaciones...
 ```
 
-No hay repuestas correctas o incorrectas - solo estamos juntando nuestras piezas de legos de la manera que nos plazca. Normalmente lo mejor es agrupar de manera que se pueda reusar como `last` y `angry`. Si estás familiarizado con Fowler´s "[Refactoring][refactoring-book]", uno quizá reconozca el proceso como "[extract method][extract-method-refactor]"...sin la preocupación de tener en cuenta el estado del objecto.
+No hay repuestas correctas o incorrectas - solo estamos juntando nuestras piezas de lego de la manera que nos plazca. Normalmente lo mejor es agrupar las cosas de manera que se puedan reutilizar como `last` y `angry`. Si se está familiarizado con "[Refactoring][refactoring-book]" de Fowler, quizás pueda reconocerse a este proceso como "[extract function][extract-function-refactor]"... a excepción de no tener el estado de ningún objeto por el que preocuparse.
 
 ## Pointfree
 
-Pointfree significa, no especificar tus datos nunca. Perdona. Significa que las funciones nunca mencionan los datos sobre los que opera. Funciones de primera clase, currying, y composición juegan juntas creando este estilo.
+El estilo pointfree se refiere a no tener que hablar sobre tus datos. Perdóname. Se trata de funciones que nunca mencionan los datos sobre los que operan. Funciones de primera clase, currying, y composición hacen un buen equipo para crear este estilo.
 
+> Sugerencia: Versiones pointfree de `replace` y `toLowerCase` están definidas en el [Apéndice C - Utilidades Pointfree](./appendix_c-es.md). ¡No dudes en echar un vistazo!
+ 
 ```js
-//no es pointfree porque mencionamos los datos: word
-var snakeCase = function (word) {
-  return word.toLowerCase().replace(/\s+/ig, '_');
-};
+// no es pointfree porque mencionamos a los datos: word
+const snakeCase = word => word.toLowerCase().replace(/\s+/ig, '_');
 
-//pointfree
-var snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase);
+// pointfree
+const snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase);
 ```
 
-Ves como hemos aplicado `replace` parcialmente? Lo que estamos haciendo es pasando nuestros datos a través de cada función con un solo argumento. Currying nos permite preparar cada función para que solo coja sus datos, opere con ellos, y los devuelva. En la versión pointfree, se puede ver, como no se necesita los data para construir nuestra función, en contra, conla función  no pointfree (pointful), necesitamos tener `word` disponible antes de nada.
+¿Ves como hemos aplicado `replace` parcialmente? Lo que estamos haciendo es canalizar nuestros datos a través de cada función con un solo argumento. Currying nos permite preparar cada función para que solo coja sus datos, opere con ellos, y los devuelva. Algo más a destacar es como, en la versión pointfree, no necesitamos los data para construir nuestra función, mientras que con la función no pointfree, necesitamos tener disponible a nuestra `word` antes que nada.
 
 Vamos a ver otro ejemplo.
 
 ```js
-//no es pointfree porque mencionamos los datos: name
-var initials = function (name) {
-  return name.split(' ').map(compose(toUpperCase, head)).join('. ');
-};
+// no es pointfree porque mencionamos a los datos: name
+const initials = name => name.split(' ').map(compose(toUpperCase, head)).join('. ');
 
-//pointfree
-var initials = compose(join('. '), map(compose(toUpperCase, head)), split(' '));
+// pointfree
+// NOTA: utilizamos 'intercalate' del apéndice en lugar de 'join' presentada en el capítulo 9!
+const initials = compose(intercalate('. '), map(compose(toUpperCase, head)), split(' '));
 
-initials("hunter stockton thompson");
-// 'H. S. T'
+initials('hunter stockton thompson'); // 'H. S. T'
 ```
 
-Código Pointfree puede, ayudarnos a eleminar nombres innecesarios y manternos genéricos y concisos. Pointfree es una buena prueba de fuego para saber si nuestro código funcional esta compuesto de pequeñas funciones que tienen toman un input y devuelven in output. No puedes componer un bucle while, por ejemplo. Sin embargo, pointfree es una espada de doble filo y a veces puede no dejar clara cual es su intención. No todo código funcional es pointfree y esto es O.K. Lo utilizaremos cuando podamos y sino, usaremos funciones comúnes.
+El código pointfree puede de nuevo ayudarnos a eliminar nombres innecesarios y mantenernos concisos y genéricos. Pointfree es un buen indicador para saber si nuestro código funcional está compuesto de pequeñas funciones que toman un input y devuelven un output. No se puede componer un bucle while, por ejemplo. Sin embargo, ten cuidado porque pointfree es un arma de doble filo y a veces puede no dejar clara cuál es la intención. No todo código funcional es pointfree y eso está bien. Lo utilizaremos cuando podamos y si no, de lo contrario, utilizaremos funciones normales.
 
 ## Depurando
-Un error común es el componer algo como `map`, una función de dos argumentos, sin antes aplicarlar parcialmente.
+Un error común es componer algo como `map`, una función de dos argumentos, sin antes aplicarla parcialmente.
 
 ```js
-//Inconrrecto - terminamos dando un array a angry y aplicamos map parcialmente con díos sabe que.
-var latin = compose(map, angry, reverse);
+// incorrecto - terminamos pasando un array a angry y aplicamos map parcialmente con quién sabe qué.
+const latin = compose(map, angry, reverse);
 
-latin(["frog", "eyes"]);
-// error
+latin(['frog', 'eyes']); // error
 
+// correcto - cada función espera 1 argumento.
+const latin = compose(map(angry), reverse);
 
-// derecha - cada función espera 1 argumento.
-var latin = compose(map(angry), reverse);
-
-latin(["frog", "eyes"]);
-// ["EYES!", "FROG!"])
+latin(['frog', 'eyes']); // ['EYES!', 'FROG!'])
 ```
 
-Si tienes problemas depurarando esta composición, podemos utilizar una función para rastrear que es lo que pasa, aunque esta función sea impura puede ser de gran ayuda.
+Si estás teniendo problemas para depurar una composición, podemos utilizar esta útil, pero impura función `trace` para ver qué es lo que está pasando.
 
 ```js
-var trace = curry(function(tag, x){
+const trace = curry((tag, x) => {
   console.log(tag, x);
   return x;
 });
 
-var dasherize = compose(join('-'), toLower, split(' '), replace(/\s{2,}/ig, ' '));
+const dasherize = compose(
+  intercalate('-'),
+  toLower,
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
 
 dasherize('The world is a vampire');
 // TypeError: Cannot read property 'apply' of undefined
@@ -168,172 +165,188 @@ dasherize('The world is a vampire');
 Parece que algo fue mal, vamos a probar con `trace`
 
 ```js
-var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
+const dasherize = compose(
+  intercalate('-'),
+  toLower,
+  trace('after split'),
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
+
+dasherize('The world is a vampire');
 // después de split [ 'The', 'world', 'is', 'a', 'vampire' ]
 ```
 
-Ah! Necesitamos ejecutar `map` a `toLower` ya que es un array.
+¡Ah! Necesitamos usar `toLower` con `map` ya que está trabajando con un array.
 
 ```js
-var dasherize = compose(join('-'), map(toLower), split(' '), replace(/\s{2,}/ig, ' '));
+const dasherize = compose(
+  intercalate('-'),
+  map(toLower),
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
 
-dasherize('The world is a vampire');
-
-// 'the-world-is-a-vampire'
+dasherize('The world is a vampire'); // 'the-world-is-a-vampire'
 ```
 
-La función `trace` es para depuración y nos permite observar los datos en ciertos momentos. Lenguajes como haskell y purescript tienen funciones similares para agilizar el desarrollo.
+La función `trace` nos permite observar los datos en un cierto punto con propósitos de depuración. Lenguajes como Haskell y PureScript tienen funciones similares para facilitar el desarrollo.
 
-Composición será nuestra herramienta para construir programas y, afortunadamente, esta respaldada por una teoría poderosa que asegura que las cosas funcionarán. Vamos a examinar esta teoría.
+La composición será nuestra herramienta para construir programas y, afortunadamente, está respaldada por una poderosa teoría que asegura que las cosas funcionarán. Examinemos esta teoría.
 
 
-## Teoría categórica.
+## Teoría de Categorías
 
-Teoría categorica es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de ramas distintas como teoría de conjuntos, teoría de tipos, teoría de grupos, lógica, y más. Principalmente lidia con objetos, morfismos, y transformaciones, el cual se asemeja a progrmación bastante. Aquí tenemos una gráfica de los mismos conceptos visto desde cada teoría separada.
+La teoría de categorías es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de distintas ramas como la teoría de conjuntos, la teoría de tipos, la teoría de grupos, lógica, y más. Principalmente maneja objetos, morfismos, y transformaciones, lo cual se asemeja bastante a programar. He aquí una gráfica de los mismos conceptos vistos según las distintas teorías.
 
-<img src="images/cat_theory.png" />
+<img src="images/cat_theory.png" alt="category theory" />
 
-Lo siento, no prentendí asustarte. No espero que estés intimamente familiarizado con todos estos conceptos. Mi intención es mostrate cuanta duplicación tenemos, y como la teoría categórica apunta a unificar estas cosas.
+Lo siento, no pretendía asustarte. No espero que estés íntimamente familiarizado con todos estos conceptos. Mi intención es mostrarte cuanta duplicación existe y así puedas ver cómo la teoría de categorías tiene por objeto unificar estas cosas.
 
-En la teoría categórica, tenemos algo que se llama... una categoría. Esta definida como una colección con los siguientes componentes:
+En la teoría de categorías, tenemos algo que se llama... una categoría. Está definida como una colección con los siguientes componentes:
 
-  * Una colección de objectos
-  * Una colección de morfismos.
+  * Una colección de objetos
+  * Una colección de morfismos
   * Una noción de composición en los morfismos
-  * Un morfismo distinguido llamado identidad
+  * Un morfismo en particular llamado identidad
 
-La teoría categórica es suficientemente abstracta para modelar muchas cosas, vamos aplicar estos tipos y funciones, que es lo único que nos importat en este momento.
+La teoría de categorías es suficientemente abstracta como para modelar muchas cosas, pero vamos a aplicar esto a tipos y funciones, que es lo que nos importa en este momento.
 
-**Una colección de objectos**
-Los objectos serán tipo de datos. Por ejemplo, ``String``, ``Boolean``, ``Number``, ``Object``, etc. Frecuentemente vemos tipos de datos como un conjunto de todos los valores posibles. Uno podría ver un ``Boolean`` como un conjunto de `[true, false]` y ``Number`` como un conjunto de todos los valore numéricos posibles. Tratar los tipos como conjuntos es útil porque podemos utilizar la teoría del conjunto con ellos.
+**Una colección de objetos**
+Los objetos serán tipos de datos. Por ejemplo, ``String``, ``Boolean``, ``Number``, ``Object``, etc. Frecuentemente vemos a los tipos de datos como un conjunto de todos los valores posibles. Se puede ver a ``Boolean`` como el conjunto de `[true, false]` y a ``Number`` como el conjunto de todos los valore numéricos posibles. Tratar a los tipos como conjuntos es útil porque podemos utilizar la teoría de conjuntos con ellos.
 
 **Una colección de morfismos**
-Los morfismos serán nuestras funciones puras estándard de cada día.
+Los morfismos serán nuestras funciones puras estándar de cada día.
 
 **Una noción de composición en los morfismos**
-Esto, como ya habrás adivinado, es nuestro nuevo juguete a estrenar - `compose`. Anteriormente vimos que nuestra función `compose` es asociativa, lo cual no es una coincidencia ya que es una propiedad necesaria para cualquier composición de la teoría categórica.
+Esto, como ya habrás adivinado, es nuestro flamante juguete nuevo - `compose`. Hemos visto que nuestra función `compose` es asociativa, lo cual no es una coincidencia, ya que es una propiedad que debe mantenerse para cualquier composición en la teoría de categorías.
 
 Aquí tenemos una imagen que demuestra la composición:
 
-<img src="images/cat_comp1.png" />
-<img src="images/cat_comp2.png" />
+<img src="images/cat_comp1.png" alt="category composition 1" />
+<img src="images/cat_comp2.png" alt="category composition 2" />
 
-Aquí un ejemplo concreto en códig:
-
-```js
-var g = function(x){ return x.length; };
-var f = function(x){ return x === 4; };
-var isFourLetterWord = compose(f, g);
-```
-
-**Un morfismo distinguido llamado identidad**
-Vamos a introducir otra útil función llamada `id`. Esta función simplemente acepta una entrada y te la escupe de vuelta. Hechale un vistazo:
+He aquí un ejemplo concreto en código:
 
 ```js
-var id = function(x){ return x; };
+const g = x => x.length;
+const f = x => x === 4;
+const isFourLetterWord = compose(f, g);
 ```
 
-Quizás te preguntes a tí mismo "¿Para que demónios puede ser esto útil?". En los siguientes capítulos haremos un uso extenso de esta función, pero por ahora piensa sobre esta función como si fuese un valor, una función que enmascara nuestros datos.
+**Un morfismo en particular llamado identidad**
+Introduzcamos una útil función llamada `id`. Esta función simplemente acepta una entrada y te la escupe de vuelta. Echa un vistazo:
 
-`id` tiene que interactúar bien con compose (composición). Aquí tenemos una propiedad que cumple siempre para cada unario[^unario: función de un argumento] función f:
+```js
+const id = x => x;
+```
+
+Quizás te preguntes a tí mismo "¿Para qué demonios puede ser esto útil?". En los siguientes capítulos haremos un uso intensivo de esta función, pero por ahora piensa en ella como una función que puede sustituir a nuestro valor - una función que se hace pasar por datos cotidianos.
+
+`id` tiene que interactuar bien con compose. Aquí tenemos una propiedad que siempre se cumple para cualquier función unaria f (unaria: función de un solo argumento):
 
 ```js
 // identidad
-compose(id, f) == compose(f, id) == f;
+compose(id, f) === compose(f, id) === f;
 // true
 ```
 
-Hey, es como la propiedad de identidad con números! Si esto no lo tienes claro aún, tomate tú tiempo. Entiende la futilidad. Pronto veremos como `id` será usado en muchos sitios, pero por ahora considera esta función como una función que actúa como soporte para un valor dado. Será bastante útil cuando escribamos código pointfree.
+¡Eh, es como la propiedad de identidad en los números! Si esto no lo ves claro inmediatamente, dedícale algún tiempo. Entiende la futilidad. Pronto veremos a `id` usada en todas partes, pero por ahora veámosla como a una función que actúa como sustituto de un valor dado. Esto es bastante útil al escribir código pointfree.
 
-Ahi lo tienes, una categória de tipos y funciones. Si esta es tú primera introducción, imagino que estarás un poco confuso con la idea de que es una categoría y su utilidad. Trabajaremos sobre estos conocimientos a lo largo del libro. Por el momento, en este capítulo, en esta línea, lo puedes ver como algo que nos provee con conocimientos relacionados con la composición - llamalo, propiedades de identidad y asociativas.
+Así que ahí lo tienes, una categoría de tipos y funciones. Si esta es tu primera introducción, imagino que seguirás algo confuso sobre qué es una categoría y su utilidad. Trabajaremos sobre estos conocimientos a lo largo del libro. Por el momento, en este capítulo, en esta línea, puedes verlo al menos como que nos provee algo de sabiduría relacionada con la composición - concretamente las propiedades de identidad y asociatividad.
 
-¿Cuáles son otras categorías, te preguntas? Bien, podemos definir gráfos dirigidos con nodos como objetos, we can define one for directed graphs with nodes being objects, edges being morphisms, y composición solo como camino de concatenación. Podemos definir números como objectos y `>=` como morfismos[^realmente cualquier orden parcial o total puede ser una categoría]. Hay un montón de categorías, pero para el propósito de este libro, solo nos preocuparemos del que hemos definido anteriormente. Hemos cubierto bastante la superficie y tenemos que seguir.
+¿Qué otras categorías hay, te preguntarás? Bien, podemos definir una para grafos dirigidos en la que los nodos son objetos, las aristas son morfismos, y la composición es simplemente una concatenación de caminos. Podemos definir con Números como objetos y `>=` como morfismos (en realidad cualquier orden parcial o total puede ser una categoría). Hay montones de categorías, pero para el propósito de este libro, solo tendremos en cuenta la definida anteriormente. Hemos mirado por encima lo suficiente y tenemos que seguir.
 
 
-## Resúmen
-Composición conecta nuestras funciones como una serie de tuberías. Datos fluyen a través de nuestra aplicación como tiene que ser - funciones puras son entrada a salida después de todo, romper con esta cadena sería descuidar la sálida, siendo nuestro software inútil.
+## En Resumen
+La composición conecta nuestras funciones con una especie de tuberías. Los datos fluirán como es debido a través de nuestra aplicación - las funciones puras son de entrada a salida después de todo, por lo que romper esta cadena descuidaría la salida, volviendo inútil a nuestro software.
 
-Ante todo, mantenemos composición como principio de diseño. Porque nos permite mantener nuestra app simple y razonable. Teoría categórica tiene un gran rol en la arquitectura de nuestra app, modelando efectos secundarios, y no asegura exactitud.
+Mantenemos a la composición como el principio de diseño que está por encima de todos los demás. Esto se debe a que mantiene a nuestra app simple y razonable. La teoría de categorías desempeñará un papel importante en la arquitectura de aplicaciones, modelando los efectos secundarios, y asegurando que está libre de errores.
 
-Hemos llegado al punto donde nos será útil ver algunos ejemplos prácticos. Vamos a hacer una aplicación como ejemplo.
+Hemos llegado a un punto donde nos será útil ver algo de esto en la práctica. Hagamos una aplicación de ejemplo.
 
-[Capítulo 6: Aplicación de ejemplo](ch6.md)
+[Capítulo 6: Aplicación de Ejemplo](ch6.md)
 
 ## Ejercicios
 
+En cada uno de los siguientes ejercicios, consideraremos objetos Car con la siguiente forma:
+
 ```js
-var _ = require('ramda');
-var accounting = require('accounting');
-
-// Datos de ejemplo
-var CARS = [
-    {name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true},
-    {name: "Spyker C12 Zagato", horsepower: 650, dollar_value: 648000, in_stock: false},
-    {name: "Jaguar XKR-S", horsepower: 550, dollar_value: 132000, in_stock: false},
-    {name: "Audi R8", horsepower: 525, dollar_value: 114200, in_stock: false},
-    {name: "Aston Martin One-77", horsepower: 750, dollar_value: 1850000, in_stock: true},
-    {name: "Pagani Huayra", horsepower: 700, dollar_value: 1300000, in_stock: false}
-  ];
-
-// Ejercicio 1:
-// ============
-// utiliza _.compose() para reescribir la siguiente función. Pista: _.prop() está currieada.
-var isLastInStock = function(cars) {
-  var last_car = _.last(cars);
-  return _.prop('in_stock', last_car);
-};
-
-// Ejercicio 2:
-// ============
-// utiliza _.compose(), _.prop() and _.head() para obtener el nombre del primer coche.
-var nameOfFirstCar = undefined;
-
-
-// Ejercicio 3:
-// ============
-// Utiliza la función de ayuda _average para reescribir averageDollarValue como composición.
-var _average = function(xs) { return _.reduce(_.add, 0, xs) / xs.length; }; // <- déjalo
-
-var averageDollarValue = function(cars) {
-  var dollar_values = _.map(function(c) { return c.dollar_value; }, cars);
-  return _average(dollar_values);
-};
-
-
-// Ejercicio 4:
-// ============
-// Escribe la función: sanitizeNames() que devuelva una lista de con los nombres de coches en minúsculas y los espacios por subrayado, utilizando compose: ejemplo: sanitizeNames([{name: "Ferrari FF", horsepower: 660, dollar_value: 700000, in_stock: true}]) //=> ["ferrari_ff"].
-
-var _underscore = _.replace(/\W+/g, '_'); //<-- déjalo y utiliza sanitize
-
-var sanitizeNames = undefined;
-
-
-// Bonus 1:
-// ============
-// Reescribe availablePrices con compose.
-
-var availablePrices = function(cars) {
-  var available_cars = _.filter(_.prop('in_stock'), cars);
-  return available_cars.map(function(x){
-    return accounting.formatMoney(x.dollar_value);
-  }).join(', ');
-};
-
-
-// Bonus 2:
-// ============
-// Convierte esta función a pointfree. Pista: puedes usar _.flip()
-
-var fastestCar = function(cars) {
-  var sorted = _.sortBy(function(car){ return car.horsepower }, cars);
-  var fastest = _.last(sorted);
-  return fastest.name + ' is the fastest';
-};
+{
+  name: 'Aston Martin One-77',
+  horsepower: 750,
+  dollar_value: 1850000,
+  in_stock: true,
+}
 ```
 
+
+{% exercise %}  
+Utiliza `compose()` para reescribir la función de abajo.  
+  
+{% initial src="./exercises/ch05/exercise_a.js#L12;" %}  
+```js  
+const isLastInStock = (cars) => {  
+  const lastCar = last(cars);  
+  return prop('in_stock', lastCar);  
+};  
+```  
+  
+{% solution src="./exercises/ch05/solution_a.js" %}  
+{% validation src="./exercises/ch05/validation_a.js" %}  
+{% context src="./exercises/support.js" %}  
+{% endexercise %}  
+
+
+---
+
+
+Teniendo en cuenta la siguiente función:
+
+```js
+const average = xs => reduce(add, 0, xs) / xs.length;
+```
+
+{% exercise %}  
+Usa la función de ayuda `average` para refactorizar `averageDollarValue` a una composición.  
+  
+{% initial src="./exercises/ch05/exercise_b.js#L7;" %}  
+```js  
+const averageDollarValue = (cars) => {  
+  const dollarValues = map(c => c.dollar_value, cars);  
+  return average(dollarValues);  
+};  
+```  
+  
+{% solution src="./exercises/ch05/solution_b.js" %}  
+{% validation src="./exercises/ch05/validation_b.js" %}  
+{% context src="./exercises/support.js" %}  
+{% endexercise %}  
+
+
+---
+
+
+{% exercise %}  
+Refactoriza `fastestCar` utilizando `compose()` y otras funciones en estilo pointfree. Pista, la función  
+`append` puede resultar útil.  
+  
+{% initial src="./exercises/ch05/exercise_c.js#L4;" %}  
+```js  
+const fastestCar = (cars) => {  
+  const sorted = sortBy(car => car.horsepower);  
+  const fastest = last(sorted);  
+  return concat(fastest.name, ' is the fastest');  
+};  
+```  
+  
+{% solution src="./exercises/ch05/solution_c.js" %}  
+{% validation src="./exercises/ch05/validation_c.js" %}  
+{% context src="./exercises/support.js" %}  
+{% endexercise %}  
+
 [lodash-website]: https://lodash.com/
-[underscore-website]: http://underscorejs.org/
-[ramda-website]: http://ramdajs.com/
-[refactoring-book]: http://martinfowler.com/books/refactoring.html
-[extract-method-refactor]: http://refactoring.com/catalog/extractMethod.html
+[underscore-website]: https://underscorejs.org/
+[ramda-website]: https://ramdajs.com/
+[refactoring-book]: https://martinfowler.com/books/refactoring.html
+[extract-function-refactor]: https://refactoring.com/catalog/extractFunction.html
