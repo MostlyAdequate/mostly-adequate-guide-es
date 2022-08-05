@@ -265,7 +265,7 @@ Mantenemos a la composición como el principio de diseño que está por encima d
 
 Hemos llegado a un punto donde nos será útil ver algo de esto en la práctica. Hagamos una aplicación de ejemplo.
 
-[Capítulo 6: Aplicación de Ejemplo](ch6.md)
+[Capítulo 6: Aplicación de Ejemplo](ch06-es.md)
 
 ## Ejercicios
 
