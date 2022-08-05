@@ -1,32 +1,31 @@
-# Mostly Adequate Guide to Functional Programming - Support
+# La Más Que Adecuada Guía de Programación Funcional - Soporte
 
-## Overview 
+## Información General 
 
-This package contains all functions and data-structure referenced in the
-appendixes of the [Mostly Adequate Guide to Functional Programming](https://github.com/MostlyAdequate/mostly-adequate-guide).
+Este paquete contiene todas las funciones y estructuras de datos referenciadas en los 
+apéndices de [La Más Que Adecuada Guía de Programación Funcional](https://github.com/MostlyAdequate/mostly-adequate-guide-es).
 
-These functions have an educational purpose and aren't intended to be used in
-any production environment. They are however, a good learning material for anyone
-interested in functional programming.
+Estas funciones tienen un propósito pedagógico y no pretenden que sean utilizadas en
+ningún entorno en producción. Son sin embargo, un buen material de aprendizaje para
+cualquiera interesado en la programación funcional.
 
-## How to install
+## Cómo instalarlo
 
-The package is available on `npm` and can be installed via the following incantation:
+La versión en inglés del paquete está disponible en `npm` y puede instalarse mediante el siguiente conjuro:
 
 ```
 npm install @mostly-adequate/support
 ```
 
-## How to use
+## Cómo utilizarlo
 
-There's no particular structure to the module, everything is flat and exported
-from the root (the curious reader may have a quick glance at the `index.js` to
-get convinced about this). 
+El módulo no está estructurado de ninguna forma en particular, todo está plano y exportado
+desde la raíz (el lector curioso puede echar un vistazo rápido al `index.js` para quedar convencido).
 
-Also, all top-level functions are curried so you don't have to worry about calling
-`curry` on any of them.
+Además, todas la funciones del nivel superior, están currificadas para que no tengas que preocuparte de
+llamar a `curry` en ninguna de ellas.
 
-For example:
+Por ejemplo:
 
 ```js
 const { Maybe, liftA2, append, concat, reverse } = require('@mostly-adequate/support');
