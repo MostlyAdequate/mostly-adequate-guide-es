@@ -54,9 +54,9 @@ censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
 Lo que demostramos aquí es la habilidad para precargar una función con un argumento o dos con el fin de recibir una nueva función que recuerda dichos argumentos.
 
 Os aliento a clonar el repositorio de Mostly Adequate (`git clone
-https://github.com/MostlyAdequate/mostly-adequate-guide.git`), copiar el código anterior y probarlo en la consola REPL. La función curry, igual que cualquier cosa definida en los apéndices, están disponibles en el módulo `support/index.js`.
+https://github.com/MostlyAdequate/mostly-adequate-guide-es.git`), copiar el código anterior y probarlo en la consola REPL. La función curry, igual que cualquier cosa definida en los apéndices, están disponibles en el módulo `support/index.js`.
 
-Alternativamente, dale un vistazo a la versión publicada en `npm`:
+Alternativamente, dale un vistazo a la versión en inglés publicada en `npm`:
 
 ```
 npm install @mostly-adequate/support
