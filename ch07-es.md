@@ -1,194 +1,172 @@
-# Hindley-Milner y yo
+# Capítulo 07: Hindley-Milner y Yo
 
-## ¿Cuál es tu tipo?
-Si eres nuevo a la programación funcional, no tomará mucho tiempo en verte perdido en firmas de tipos de datos de las funciones. Los tipos, son el meta lenguaje que permite a cualquier persona de cualquier contexto, comunicarse de manera sucinta y efectiva. En la mayoría de las veces están escritas en un sistema llamado "Hindley-Minler", la cual estaremos examinando en este capítulo.
+## ¿Cuál Es Tu Tipo?
+Si tu llegada al mundo funcional es reciente, no tardarás en verte hasta las rodillas en las firmas de tipos. Los tipos son el meta lenguaje que permite a personas de todos los ámbitos comunicarse de forma sucinta y eficaz. La mayoría de las veces están escritas en un sistema llamado "Hindley-Milner" que examinaremos juntos en este capítulo.
 
-Cuando trabajamos con funciones puras, las firmas de tipos de datos tienen un poder expresivo, que con el Español (o inglés) no pueden lograr. Estas firmas suspiran al oído los secretos íntimos de la función. En una sola línea, expresan el comportamiento e intención. Podemos derivar "Teoremas Gratis" de ellos. Los tipos también pueden ser inferidos, así que no tienen que ser explícitos con anotaciones de tipo. Pueden ser afinados a lo más granular ó dejarse generales y abstractos. No solo son útiles al momento de compilar, sino que son excelente documentación. Es por lo cual, las firmas de tipos tienen un papel angular en la programación funcional, mucho más de lo que se asume al principio.  
+Cuando trabajamos con funciones puras, las firmas de tipos tienen un poder expresivo que el español no puede lograr. Estas firmas te susurran al oído los íntimos secretos de la función. En una única y compacta línea, exponen comportamiento e intención. Podemos derivar "teoremas gratuitos" de ellos. Los tipos pueden ser inferidos, así que no hay necesidad de anotaciones de tipo explícitas. Pueden ser afinados a lo más granular o dejarse como algo general y abstracto. No solo son útiles para comprobaciones en tiempo de compilación, sino que resultan ser la mejor documentación posible disponible. Las firmas de tipos juegan, por tanto, un papel importante en la programación funcional - mucho más de lo que cabría esperar en un principio.  
 
-JavaScript es un lenguaje dinámico, pero eso no significa que omita los tipos. Todavía trabajamos, con strings, números, booleanos, y más. Es solo que no hay un integración al nivel del lenguaje que mantega esta información en nuestras cabezas. Sin embargo, si usamos las firmas como documentación, podemos usar comentarios para evitar este problema.
+JavaScript es un lenguaje dinámico, pero eso no significa que evitemos los tipos por completo. Seguimos trabajando con strings, números, booleanos, etc. Es solo que no hay un integración a nivel de lenguaje, por lo que mantenemos esta información en nuestras cabezas. No hay que preocuparse, dado que usamos las firmas como documentación, podemos utilizar comentarios para servir a nuestro propósito.
 
-Existen herramientas para chequear los tipos en JavaScript cómo [Flow](http://flowtype.org/) ó el dialecto tipado [TypeScript](http://www.typescriptlang.org/).
+Existen herramientas de comprobación de tipos para JavaScript como [Flow](https://flow.org/) o el dialecto con tipos, [TypeScript](https://www.typescriptlang.org/). La finalidad de este libro es equiparnos con las herramientas para escribir código funcional, así que nos quedaremos con el sistema de tipos estándar utilizado en muchos lenguajes de programación funcional.
 
 
-## Historias del más allá
+## Historias De Lo Críptico
 
-Desde lás páginas empolvadas de los libros de matemática, por un oceano de papers académicos, pasando por blog post casuales de domingo en la mañana, hasta en los anales del código base, vamos a toparnos con firmas de Hindley-Milner. El sistema es bien sencillo, pero requiere una explicación sencilla y un poco de práctica para absorber completamente este lenguaje.
-
-```js
-//  capitalize :: String -> String
-var capitalize = function(s){
-  return toUpperCase(head(s)) + toLowerCase(tail(s));
-}
-
-capitalize("smurf");
-//=> "Smurf"
-```
-
-Acá, `capitalize` recibe un `String` y retorna un `String`. Por ahora no nos importa la implementación, es la firma de tipos que nos interesa.
-
-En HM, las funciones se escriben como `a -> b` dónde `a` y `b` son variables de cualquier tipo. Entonces las firma para `capitalize` se puede leer como "una función de `String` a `String`". Ó en otras palabras, toma un `String` cómo parámetro inicial y retorna un `String` como salida.
-
-Revisemos otras firmas de funciones:
+Desde las polvorientas páginas de los libros de matemáticas, a través del vasto océano de papers académicos, entre publicaciones casuales de blogs en sábado por la mañana, hasta en el propio código fuente, encontramos firmas de tipos de Hindley-Milner. El sistema es bien sencillo, pero merece una rápida explicación y algo de práctica para absorber completamente el pequeño lenguaje.
 
 ```js
-//  strLength :: String -> Number
-var strLength = function(s){
-  return s.length;
-}
+// capitalize :: String -> String
+const capitalize = s => toUpperCase(head(s)) + toLowerCase(tail(s));
 
-//  join :: String -> [String] -> String
-var join = curry(function(what, xs){
-  return xs.join(what);
-});
-
-//  match :: Regex -> String -> [String]
-var match = curry(function(reg, s){
-  return s.match(reg);
-});
-
-//  replace :: Regex -> String -> String -> String
-var replace = curry(function(reg, sub, s){
-  return s.replace(reg, sub);
-});
+capitalize('smurf'); // 'Smurf'
 ```
 
-`strLength` tiene la misma idea que la firma anterior: Recibe un `String` y retorna un `Number`.
+Aquí, `capitalize` recibe un `String` y retorna un `String`. No importa la implementación, es la firma de tipos lo que nos interesa.
 
-Las otras firmas, pueden parecer más complejas a primera vista. Sin entrar en detalles de la implementación, siempre podríamos comenzar a ver el tipo que retorna la función. Entonces para `match` podemos interpretarla como: Toma un `Regex` y un `String` y retorna `[String]`. Pero, hay algo interesante ocurriendo acá que me gustaría tomar un tiempo para explicar. 
+En HM, las funciones se escriben como `a -> b` dónde `a` y `b` son variables de cualquier tipo. Así que la firma para `capitalize` se puede leer como "una función de `String` a `String`". En otras palabras, toma un `String` como entrada y retorna un `String` como salida.
+
+Veamos otras firmas de funciones más:
+
+```js
+// strLength :: String -> Number
+const strLength = s => s.length;
+
+// join :: String -> [String] -> String
+const join = curry((what, xs) => xs.join(what));
+
+// match :: Regex -> String -> [String]
+const match = curry((reg, s) => s.match(reg));
+
+// replace :: Regex -> String -> String -> String
+const replace = curry((reg, sub, s) => s.replace(reg, sub));
+```
+
+`strLength` es la misma idea que antes: tomamos un `String` y te retorna un `Number`.
+
+Las otras pueden dejarte perplejo en un principio. Sin entender del todo los detalles, siempre puedes ver el último tipo como el valor de retorno. Así que podemos interpretar `match` como: Toma un `Regex` y un `String` y te devuelve `[String]`. Pero una cosa interesante ocurre aquí y me gustaría tomarme un tiempo para explicarla, si se me permite. 
 
 Para `match` podemos agrupar las firmas como queramos:
 
 ```js
-//  match :: Regex -> (String -> [String])
-var match = curry(function(reg, s){
-  return s.match(reg);
-});
+// match :: Regex -> (String -> [String])
+const match = curry((reg, s) => s.match(reg));
 ```
 
-Ajá!, agrupando la última parte en paréntesis revela más información. Ahora, leemos que es una función que recibe un `Regex` y retorna una función que va de `String` a `[String]`. Gracias al Currying, este es claramente el caso: Le entregamos un `Regex` y nos entrega una función de regreso que espera él parámetro `String`. Claro, no necesariamente tenemos que interpretarla de esta manera. Pero, es una buena manera de entender porqué el último tipo es el que retorna.
+Ah si, agrupar la última parte con paréntesis revela más información. Ahora se ve como una función que toma un `Regex` y nos devuelve una función de `String` a `[String]`. Gracias al currying, este es claramente el caso: Le entregamos un `Regex` y obtenemos de vuelta una función que espera su argumento `String`. Por supuesto, no tenemos que verlo así, pero es una buena forma de entender por qué el último tipo es el que se devuelve.
 
 ```js
-//  match :: Regex -> (String -> [String])
-
-//  onHoliday :: String -> [String]
-var onHoliday = match(/holiday/ig);
+// match :: Regex -> (String -> [String])
+// onHoliday :: String -> [String]
+const onHoliday = match(/holiday/ig);
 ```
 
-Cada argumento pasa un tipo en frente de la firma. `onHoliday` y `match` tiene ya un `Regex`.
+Cada argumento hace saltar un tipo de delante de la firma. `onHoliday` es `match` que ya tiene un `Regex`.
 
 ```js
-//  replace :: Regex -> (String -> (String -> String))
-var replace = curry(function(reg, sub, s){
-  return s.replace(reg, sub);
-});
+// replace :: Regex -> (String -> (String -> String))
+const replace = curry((reg, sub, s) => s.replace(reg, sub));
 ```
 
-Cómo se puede ver en el paréntesis más grande de `replase`, la notación extra puede volverse ruidosa y redundante, así que simplemente la omitiremos. Podemos entregarle todos los argumentos al tiempo si decidiéramos hacerlo ya que es más simple razonar la como: `replace` toma como argumentos un `Regex`, un `String`, otro `String`, y retorna un `String`.
+Como puedes ver en los paréntesis de `replace`, la notación extra puede ser algo ruidosa y redundante así que simplemente la omitimos. Podemos entregarle todos los argumentos a la vez si lo deseamos, así que es más fácil pensar en ello como: `replace` toma un `Regex`, un `String`, otro `String`, y te devuelve un `String`.
 
-Unas cosas sin embargo a mencionar acá:
+Unas últimas cosas:
 
 
 ```js
-//  id :: a -> a
-var id = function(x){ return x; }
+// id :: a -> a
+const id = x => x;
 
-//  map :: (a -> b) -> [a] -> [b]
-var map = curry(function(f, xs){
-  return xs.map(f);
-});
+// map :: (a -> b) -> [a] -> [b]
+const map = curry((f, xs) => xs.map(f));
 ```
 
-La función `id` toma cualquier dato del tipo `a` y retorna algo del mismo tipo `a`. Podemos usar las variables en los tipos, así como lo hacemos en el código. Variables como `a` y `b` son convenciones, pero son arbitrarias y pueden ser remplazadas con cualquier cosa que queramos. Si son la misma variable, tienen que ser del mismo tipo. Esta es una regla que vale la pena reiterar, `a -> b` pueden ser cualquier tipo `a` y `b`, pero ` a -> a` significa que tienen que ser del mismo tipo. Por ejemplo, `id` puede ser `String -> String` ó `Number -> Number`, pero no `String -> Bool`.
+La función `id` toma cualquier tipo `a` y devuelve algo del mismo tipo `a`. Podemos usar variables en los tipos, igual que en el código. Los nombres de las variables como `a` y `b` son una convención, pero son arbitrarios y pueden ser remplazadas por el nombre que prefieras. Si son la misma variable, tienen que ser del mismo tipo. Esta es una regla importante así que vamos a repetirnos: `a -> b` puede ser cualquier tipo `a` a cualquier tipo `b`, pero ` a -> a` significa que tienen que ser del mismo tipo. Por ejemplo, `id` puede ser `String -> String` o `Number -> Number`, pero no `String -> Bool`.
 
-`map` al igual, usa tipos variables, pero esta vez introducimos `b` que puede ó no ser del mismo tipo que `a`. Podemos entonces leer la función como: `map` toma cualquier tipo `a` para retornar el mismo o diferente tipo `b`, luego toma un array de `a`s para retornar un array de `b`s.
+`map` usa variables de tipos de forma parecida, pero esta vez introducimos `b` que puede ser del mismo tipo que `a` o no. Podemos leerla como: `map` toma una función de cualquier tipo `a` al mismo o distinto tipo `b`, luego toma un array de `a`s y devuelve un array de `b`s.
 
-Ojalá, el lector haya sido agobiado por la belleza de este sistema de firma. Nos dice, de manera literal, qué está pasando en la función paso por paso. Nos dice que una función que va de `a` a `b`, un array de `a` nos devuelve un array de `b`. A este punto lo único sensible para hacer, si no se cree en la firma, es ejecutar la función. 
+Ojalá te hayas dejado llevar por la belleza expresiva de esta firma de tipos. Nos dice literalmente lo que hace la función casi palabra por palabra. Se le da una función de `a` a `b`, un array de `a`, y nos entrega un array de `b`. Lo único sensato que puede hacer es llamar a la maldita función para cada `a`. Cualquier otra cosa sería una mentira descarada. 
 
-Ser capaces de razonar acerca de los tipos y sus implicaciones es una habilidad que nos llevará muy lejos en el mundo de la programación funcional. No solo papers académicos, blogs, documentación se volverá más digerible, pero la firma prácticamente nos dira a los oídos su funcionalidad. Toma práctica convertirse en un lector ávido, pero si se es perseverante, cantidades infinitas de información será ahora accesible sin necesidad de leer todo el manual (RTFMing de sus siglas en inglés).
+Ser capaz de razonar sobre los tipos y sus implicaciones es una habilidad que te llevará lejos en el mundo funcional. No solo los artículos académicos, blogs, documentación, etcétera, se volverán más digeribles, sino que la propia firma prácticamente te enseñará su funcionalidad. Lleva práctica ganar fluidez lectora, pero si perseveras, un montón de información se volverá accesible para ti sin necesidad de leer todo el manual.
 
-Acá hay otros ejemplos para que el lector busque descifraras
+Aquí hay algunas más para ver si puedes descifrarlas por ti mismo.
 
 ```js
-//  head :: [a] -> a
-var head = function(xs){ return xs[0]; }
+// head :: [a] -> a
+const head = xs => xs[0];
 
-//  filter :: (a -> Bool) -> [a] -> [a]
-var filter = curry(function(f, xs){
-  return xs.filter(f);
-});
+// filter :: (a -> Bool) -> [a] -> [a]
+const filter = curry((f, xs) => xs.filter(f));
 
-//  reduce :: (b -> a -> b) -> b -> [a] -> b
-var reduce = curry(function(f, x, xs){
-  return xs.reduce(f, x);
-});
+// reduce :: ((b, a) -> b) -> b -> [a] -> b
+const reduce = curry((f, x, xs) => xs.reduce(f, x));
 ```
-`reduce` es deporto, la más expresiva de todas. Es la más engañosa, sin embargo, no debe sintiese mal al no poder interpretarla del todo. Para los curiosos, intentaré hacer una explicación en Español para el ciudadano de a pie, claro está, hacer este ejercicio por su propia cuenta resultará aún más instructivo.
 
-Revisando la firma, vemos que el primer argumento es una función que espera un `b` y una `a` y retorna un `b`. De dónde tomará todas las `a`s y `b`s? Bueno, el siguiente argumento de la función es `b`, y un array de `a`, por lo que podemos asumir de que `b` y cada uno de los `a` serán inyectados a la función. También podemos ver que el resultado de la función es `b`, entonces nuestra conclusión es que esto es lo que será parte de nuestro valor de salida. Ahora, conociendo lo que `reduce` hace, podemos decir que la investigación es correcta. 
+`reduce` quizás sea la más expresiva de todas. Sin embargo, es difícil, así que no te sientas mal si te cuesta entenderla. Para los curiosos, intentaré hacer una explicación en castellano, aunque estudiar la firma por tu cuenta es mucho más instructivo.
 
-## Limitando las posibilidades
+Ejem, aquí va mi intento... revisando la firma, vemos que el primer argumento es una función que espera `b` y `a` y produce un `b`. ¿De dónde tomará todas esas `a`s y `b`s? Bueno, los siguientes argumentos en la firma son una `b`, y un array de `a`, por lo que solo podemos asumir que la `b` y cada uno de esas `a`s serán inyectados a la función. También podemos ver que el resultado de la función es `b`, por lo que la conclusión será que nuestro último encantamiento producido por la función pasada será nuestro valor de salida. Conociendo lo que hace `reduce`, podemos afirmar que la investigación anterior es correcta. 
 
-Una vez una variable de tipo es introducida, una propiedad curiosa emerge llamada *parametricidad*[^http://en.wikipedia.org/wiki/Parametricity]. Esta propiedad dice que una función actuará *en todos los tipos de manera uniforme*. Investiguemos:
+## Reduciendo las Posibilidades
+
+Una vez que se introduce una variable de tipo, surge una curiosa propiedad llamada *[parametricidad](http://en.wikipedia.org/wiki/Parametricity)*. Esta propiedad establece que una función *actuará en todos los tipos de manera uniforme*. Investiguemos:
 
 ```js
 // head :: [a] -> a
 ```
 
-Mirando a `head`, podemos ver que toma `[a]` y retorna `a`. Aparte de el tipo concreto de `array`, no tenemos mas información disponible, por lo que su funcionalidad está limitada a trabajar con el array únicamente. ¿Qué podría hacer la función con la variable `a` si no sabe nada de ella? en otras palabras, `a` dice que no puede ser un tipo *específico*, lo que significa que puede ser *cualquier* tipo, lo que nos deja con una función que debe funcionar de manera uniforme para *cada* tipo concebible. Esto es lo que *parametricidad* significa. Adivinando, podemos asumir que toma el primer, último o algún elemento aleatorio del array y lo retorna, ahora la palabra `head` (cabeza) debería de darnos la última pista.
+Observando `head`, vemos que toma `[a]` y retorna `a`. Aparte del tipo concreto `array`, no dispone de más información, y, por lo tanto, su funcionalidad se limita a trabajar solamente con el array. ¿Qué podría hacer con la variable `a` si no sabe nada de ella? En otras palabras, `a` dice que no puede ser un tipo *específico*, lo que significa que puede ser *cualquier* tipo, lo que nos deja con una función que debe funcionar de manera uniforme para *todos* los tipos concebibles. Esto es todo en lo que consiste la *parametricidad*. Adivinando la implementación, las únicas suposiciones razonables son que toma el primer, el último o un elemento aleatorio del array. El nombre `head` (cabeza) debería servirnos de pista.
 
-Acá tenemos otro:
+He aquí otro más:
 
 ```js
 // reverse :: [a] -> [a]
 ```
 
-De la firma de tipos sola, que podríamos inferir de ¿`reverse` (reversa)?. De nuevo, no puede ser nada específico a `a`. No puede cambiar `a` a otro tipo o de lo contrario tendríamos que introducir el tipo `b` en la firma. Puede hacer un `sort` (ordenar), bueno, no tiene la suficiente información para ejecutar esa acción. ¿Puede reorganizar los elementos? Sí, se podría asumir esto, pero tendría que hacerlo siempre de la misma manera. Otra posibilidad es que pueda decidir remover ó duplicar elementos. Cualquiera sea el caso, el punto es que comportamiento se puede reducir considerablemente solo por su tipo polifórmico.
+De la firma de tipos por sí sola, ¿qué podríamos inferir de `reverse`? De nuevo, no puede hacer nada específico a `a`. No puede cambiar `a` a otro tipo o tendríamos que introducir el tipo `b`. ¿Puede ordenar? Bueno, no, no tendría suficiente información para ordenar todos los tipos posibles. ¿Puede reordenar? Sí, supongo que puede hacerlo, pero siempre tendría que hacerlo exactamente de la misma y predecible forma. Otra posibilidad es que decida eliminar o duplicar un elemento. En cualquier caso, la cuestión es que el posible comportamiento se ve masivamente reducido por su tipo polimórfico.
 
 
-Esta reducción de posibilidades nos permite el uso de buscadores de funciones a través de las firmas como por ejemplo [Hoogle](https://www.haskell.org/hoogle) para encontrar las funciones que queremos implementar. La información que se entrega en la firma es de verdad muy poderosa. 
+Esta reducción de posibilidades nos permite utilizar buscadores de firmas de tipos como [Hoogle](https://hoogle.haskell.org/) para encontrar la función que estamos buscando. La información contenida en una firma es, en efecto, muy poderosa. 
 
-## Teoremas gratis
+## Teoremas Gratis
 
-Además de deducir posiblidades de implementación, este tipo de razonamiento nos entregan *teoremas gratis*. Lo que sigue en este capítulo son unas ejemplos aleatorios, extraídos directamente del [paper académico de Wadler](http://ttic.uchicago.edu/~dreyer/course/papers/wadler.pdf).
+Además de deducir posibilidades de implementación, este tipo de razonamiento nos entrega *teoremas gratis*. Lo que sigue son algunos teoremas de ejemplo aleatorios, extraídos directamente del [artículo académico de Wadler sobre el tema](http://ttic.uchicago.edu/~dreyer/course/papers/wadler.pdf).
 
 ```js
 // head :: [a] -> a
-compose(f, head) == compose(head, map(f));
+compose(f, head) === compose(head, map(f));
 
 // filter :: (a -> Bool) -> [a] -> [a]
-compose(map(f), filter(compose(p, f))) == compose(filter(p), map(f));
+compose(map(f), filter(compose(p, f))) === compose(filter(p), map(f));
 ```
 
-No se necesita saber código para obtener estos teoremas directamente de los tipos. El primero dice que si obtenemos `head` de nuestro array y luego corremos la función `f` en el, es equivalente, y de paso, mucho más rápido que, sí primero hacemos `map(f)` sobre cada elemento y luego tomamos `head` a el resultado.
+No necesitas ningún código para entender estos teoremas, se deducen directamente de los tipos. El primero dice que si aplicamos `head` a nuestro array y luego ejecutamos una función `f` sobre él, esto es equivalente a, y de paso, mucho más rápido que, si primero hacemos `map(f)` sobre cada elemento y luego aplicamos `head` al resultado.
 
-Se pensarían: Por supuesto, esto es sentido común. Pero la última vez que se revisó, los computadores no tienen sentido común. En efecto, los computadores deben tener una manera formalizada para automatizar este tipo de optimizaciones de código. Las matemáticas tienen una manera de formalizar lo intuitivo, lo que es muy beneficioso en medio del terreno de la lógica computacional. 
+Podrías pensar, bueno, eso es de sentido común. Pero la última vez que lo comprobé, los ordenadores no tenían sentido común. De hecho, han de tener una manera formal de automatizar este tipo de optimizaciones de código. Las matemáticas tienen una manera de formalizar lo intuitivo, lo que es muy útil en medio del rígido terreno de la lógica computacional. 
 
-El teorema `filter` es similar. Dice que si componemos `f` y `p` para revisar cual debería ser filtrado, entonces realmente aplicando la función `f` via `map` (recordando: filter, no transforma los elementos, su firma de tipos, dice que `a` no será tocado), lo anterior es equivalente a mapear nuestros `f` y luego filtrar los resultados aplicando el predicado.
+El teorema `filter` es parecido. Dice que si componemos `f` y `p` para comprobar cuál debe ser filtrado, y luego aplicamos `f` via `map` (recuerda que `filter` no transformará a los elementos - su firma dice que `a` no será tocado), siempre será equivalente a mapear nuestra `f` y luego filtrar el resultado con el predicado `p`.
+
+Estos son solo dos ejemplos, pero puedes aplicar este razonamiento a cualquier firma de tipo polimórfico y siempre se mantendrá. En JavaScript, hay disponibles algunas herramientas para declarar reglas de reescritura. También se podría hacer a través de la propia función `compose`. La fruta está al alcance de tu mano y las posibilidades son infinitas. 
 
 
-Estos son solo dos ejemplos, pero uno puede aplicar este razonamiento a cualquier firma polifórmica y esto se mantendrá. En JavaScript, hay unas herramientas disponibles para reesrcrbir reglas. Uno pesaría que se puede hacer a través de la función `compose`. Realmente este es la manera más fácil de hacerlo y las posibilidades son infinitas. 
+## Restricciones
 
-
-## Limitantes
-
-La ultima cosa a anotar es que tenemos limitantes de tipos en una interface.
+Una última cosa a tener en cuenta es que podemos restringir los tipos a una interfaz.
 
 ```js
 // sort :: Ord a => [a] -> [a]
 ```
 
-Lo que se ve a la izquierda de nuestra función flecha es la declaración de hecho: `a` debe ser de tipo `Ord`. Ó en otras palabras, `a` debe implementar la interfase `Ord`. ¿Qué es `Ord` y de dónde viene? En un lenguaje de tipos sería una interface declarada que dice que están compuesta, Esto no solo nos dice más acerca de `a` y de nuestra función `sort`, sino que también nos restringe el dominio. Llamamos a estas declaraciones de interface *limitaciones de tipo*.
+Lo que vemos en el lado izquierdo de nuestra función flecha es la declaración de un hecho: `a` debe ser un `Ord`. O en otras palabras, `a` debe implementar la interfaz `Ord`. ¿Qué es `Ord` y de dónde viene? En un lenguaje con tipos sería una interfaz definida que dice que podemos ordenar los valores. Esto no solo nos dice más acerca de `a` y lo que nuestra función `sort` hace, sino que también restringe el dominio. Llamamos *restricciones de tipo* a estas declaraciones de interfaz.
 
 ```js
 // assertEqual :: (Eq a, Show a) => a -> a -> Assertion
 ```
 
-Acá, tenemos dos limitantes: `Eq` y `Show`. Estas asegurarán que podamos revisar la igualdad de nuestros `a` e imprimir la diferencia si no son iguales. 
+Aquí, tenemos dos restricciones: `Eq` y `Show`. Así podremos comprobar la igualdad de nuestras `a`s e imprimir la diferencia si no son iguales. 
 
-Verémos más ejemplos de las limitantes de tipo, esta idea tomará vuelo en los siguientes capítulos.
+Veremos más ejemplos de restricciones y la idea debería coger más forma en capítulos posteriores.
 
-## En Conclusión
+## En Resumen
 
-Las firmas de tipo Hindley-Milner son oblicuas en los lenguajes funcionales. Aunque sean simples de leer y de escribir, toma tiempo en dominar la técnica para entender programas basados solo en sus firmas. De ahora en adelante pondremos firmas de tipos a cada función en lo restante del libro. 
+Las firmas de tipo Hindley-Milner son omnipresentes en el mundo funcional. Aunque son sencillas de leer y escribir, lleva tiempo dominar la técnica de entender los programas tan solo a través de sus firmas. A partir de ahora añadiremos firmas de tipos a cada línea de código. 
 
-[Chapter 8: Tupperware](ch8-es.md)
+[Capítulo 8: Tupperware](ch8-es.md)
