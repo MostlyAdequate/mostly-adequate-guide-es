@@ -217,4 +217,4 @@ const images = compose(map(mediaToImg), prop('items'));
 
 Hemos visto con una aplicación pequeña, pero real, como poner en práctica nuestras nuevas habilidades. Hemos utilizado nuestro marco matemático para razonar sobre nuestro código y refactorizarlo. Pero ¿qué hay del manejo de errores y la ramificación de código? ¿Cómo podemos hacer que toda la aplicación sea completamente pura en vez de tan solo agregar a un espacio de nombres las funciones destructivas? ¿Cómo podemos hacer que nuestra aplicación sea más segura y expresiva? Estas son las preguntas que abordaremos en la parte 2.
 
-[Capítulo 7: Hindley-Milner y Yo](ch7-es.md)
+[Capítulo 7: Hindley-Milner y Yo](ch07-es.md)
