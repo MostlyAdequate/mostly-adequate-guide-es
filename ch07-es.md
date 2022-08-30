@@ -169,4 +169,4 @@ Veremos más ejemplos de restricciones y la idea debería coger más forma en ca
 
 Las firmas de tipo Hindley-Milner son omnipresentes en el mundo funcional. Aunque son sencillas de leer y escribir, lleva tiempo dominar la técnica de entender los programas tan solo a través de sus firmas. A partir de ahora añadiremos firmas de tipos a cada línea de código. 
 
-[Capítulo 8: Tupperware](ch8-es.md)
+[Capítulo 8: Tupperware](ch08-es.md)
