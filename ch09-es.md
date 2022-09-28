@@ -383,7 +383,7 @@ Si, las mónadas son muy potentes, pero aún y así seguimos viéndonos en la ne
 
 En el próximo capítulo, veremos como encajan los functores aplicativos en el mundo de los contenedores y por qué en muchos casos los preferimos a las mónadas.
 
-[Capítulo 10: Functores Aplicativos](ch10.md)
+[Capítulo 10: Functores Aplicativos](ch10-es.md)
 
 
 ## Ejercicios
