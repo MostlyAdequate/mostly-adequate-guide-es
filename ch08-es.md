@@ -700,9 +700,9 @@ Hemos visto unos cuantos functores distintos, pero hay una infinidad de ellos. A
 
 ¿Qué pasa con la llamada a una función con múltiples functores como argumentos? ¿Qué hay de trabajar con una secuencia ordenada de acciones impuras o asíncronas? Todavía no hemos adquirido el conjunto completo de herramientas para trabajar en este mundo de cajas. A continuación, iremos al grano y veremos las mónadas.
 
-[Chapter 9: Monadic Onions](ch9.md)
+[Capítulo 09: Cebollas Monádicas](ch09-es.md)
 
-## Exercises
+## Ejercicios
 
 {% exercise %}  
 Utiliza `add` y `map` para crear una función que incremente el valor de dentro de un functor.  
