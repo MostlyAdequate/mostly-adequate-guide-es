@@ -327,7 +327,7 @@ Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos
 
 Casi hemos terminado con las apis de los contenedores. Hemos aprendido como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos como trabajar mejor con múltiples functores y a desmontarlos basándonos en principios.
 
-[Capítulo 11: Transformación Otra Vez, Naturalmente](ch11-es.md)
+[Capítulo 11: Transforma Otra Vez, Naturalmente](ch11-es.md)
 
 
 ## Ejercicios
