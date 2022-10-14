@@ -1,12 +1,12 @@
-# Chapter 12: Traversing the Stone
+# Capítulo 12: Atravesando la Piedra
 
-So far, in our cirque du conteneur, you've seen us tame the ferocious [functor](ch08.md#my-first-functor), bending it to our will to perform any operation that strikes our fancy. You've been dazzled by the juggling of many dangerous effects at once using function [application](ch10.md) to collect the results. Sat there in amazement as containers vanished in thin air by [joining](ch09.md) them together. At the side effect sideshow, we've seen them [composed](ch08.md#a-spot-of-theory) into one. And most recently, we've ventured beyond what's natural and [transformed](ch11.md) one type into another before your very eyes.
+Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [functor](ch08-es.md#mi-primer-functor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos de una sola vez utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
 
-And now for our next trick, we'll look at traversals. We'll watch types soar over one another as if they were trapeze artists holding our value intact. We'll reorder effects like the trolleys in a tilt-a-whirl. When our containers get intertwined like the limbs of a contortionist, we can use this interface to straighten things out. We'll witness different effects with different orderings. Fetch me my pantaloons and slide whistle, let's get started.
+Y ahora, para nuestro siguiente truco, veremos los "traversables". Veremos tipos volar unos sobre otros como si fuesen trapecistas, manteniendo nuestro valor intacto. Reordenaremos los efectos como a las cabinas de una atracción de feria. Cuando nuestros contenedores se entrelacen como las extremidades de un contorsionista podremos utilizar esta interfaz para enderezar las cosas. Con distintas disposiciones presenciaremos distintos efectos. Tráeme mis bombachos y mi flauta de émbolo, comencemos.
 
-## Types n' Types
+## Tipos y Tipos
 
-Let's get weird:
+Pongámonos raros:
 
 ```js
 // readFile :: FileName -> Task Error String
@@ -21,9 +21,9 @@ map(tldr, ['file1', 'file2']);
 // [Task('hail the monarchy'), Task('smash the patriarchy')]
 ```
 
-Here we read a bunch of files and end up with a useless array of tasks. How might we fork each one of these? It would be most agreeable if we could switch the types around to have `Task Error [String]` instead of `[Task Error String]`. That way, we'd have one future value holding all the results, which is much more amenable to our async needs than several future values arriving at their leisure.
+Aquí estamos leyendo un grupo de archivos y terminamos con un inútil array de tareas. ¿Cómo podríamos ejecutar cada una de ellas? Sería de lo más agradable si pudiésemos cambiar los tipos de sitio para tener `Task Error [String]` en vez de `[Task Error String]`. De esta manera tendríamos un valor futuro conteniendo todos los resultados, que es más agradable para nuestras necesidades asíncronas que varios valores futuros llegando a su antojo.
 
-Here's one last example of a sticky situation:
+He aquí un último ejemplo de una situación complicada:
 
 ```js
 // getAttribute :: String -> Node -> Maybe String
@@ -33,13 +33,13 @@ Here's one last example of a sticky situation:
 const getControlNode = compose(map(map($)), map(getAttribute('aria-controls')), $);
 ```
 
-Look at those `IO`s longing to be together. It'd be just lovely to `join` them, let them dance cheek to cheek, but alas a `Maybe` stands between them like a chaperone at prom. Our best move here would be to shift their positions next to one another, that way each type can be together at last and our signature can be simplified to `IO (Maybe Node)`.
+Mira esos `IO` anhelando estar juntos. Sería simplemente encantador unirlos con `join`, dejar que bailen mejilla con mejilla, pero, por desgracia, un `Maybe` se interpone entre ellos como una carabina en el baile de graduación. Nuestro mejor movimiento aquí sería colocarlos uno junto al otro para que sus tipos estuviesen al fin juntos, y así simplificar nuestra firma a `IO (Maybe Node)`.
 
-## Type Feng Shui
+## Feng Shui de Tipos
 
-The *Traversable* interface consists of two glorious functions: `sequence` and `traverse`.
+La interfaz *Traversable* consiste en dos gloriosas funciones: `sequence` y `traverse`.
 
-Let's rearrange our types using `sequence`:
+Reordenemos nuestros tipos utilizando `sequence`:
 
 ```js
 sequence(List.of, Maybe.of(['the facts'])); // [Just('the facts')]
@@ -49,16 +49,16 @@ sequence(Either.of, [Either.of('wing')]); // Right(['wing'])
 sequence(Task.of, left('wing')); // Task(Left('wing'))
 ```
 
-See what has happened here? Our nested type gets turned inside out like a pair of leather trousers on a humid summer night. The inner functor is shifted to the outside and vice versa. It should be known that `sequence` is bit particular about its arguments. It looks like this:
+¿Ves lo que ha ocurrido aquí? Nuestro tipo con anidamiento es dado la vuelta como a unos pantalones de piel en una húmeda noche de verano. El functor de dentro es movido hacia el exterior y viceversa. Debe saberse que `sequence` es un poco particular en cuanto a sus argumentos. Tiene el siguiente aspecto:
 
 ```js
 // sequence :: (Traversable t, Applicative f) => (a -> f a) -> t (f a) -> f (t a)
 const sequence = curry((of, x) => x.sequence(of));
 ```
 
-Let's start with the second argument. It must be a *Traversable* holding an *Applicative*, which sounds quite restrictive, but just so happens to be the case more often than not. It is the `t (f a)` which gets turned into a `f (t a)`. Isn't that expressive? It's clear as day the two types do-si-do around each other. That first argument there is merely a crutch and only necessary in an untyped language. It is a type constructor (our *of*) provided so that we can invert map-reluctant types like `Left` - more on that in a minute.
+Comencemos por el segundo argumento. Ha de ser un *Traversable* que contenga un *Aplicativo*, lo que suena bastante restrictivo, pero resulta que eso suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. Ese primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
 
-Using `sequence`, we can shift types around with the precision of a sidewalk thimblerigger. But how does it work? Let's look at how a type, say `Either`, would implement it:
+Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, por ejemplo `Either`, la implementaría.
 
 ```js
 class Right extends Either {
@@ -69,9 +69,9 @@ class Right extends Either {
 }
 ```
 
-Ah yes, if our `$value` is a functor (it must be an applicative, in fact), we can simply `map` our constructor to leap frog the type.
+Ah, si, si nuestro valor `$value` es un functor (de hecho debe ser un aplicativo), podemos simplemente aplicar `map` a nuestro constructor para que salte por encima del tipo.    
 
-You may have noticed that we've ignored the `of` entirely. It is passed in for the occasion where mapping is futile, as is the case with `Left`:
+Puede que te hayas dado cuenta de que hemos ignorado por completo el `of`. Se pasa para cuando el mapeo es inútil, como es en el caso de `Left`:
 
 ```js
 class Left extends Either {
@@ -82,11 +82,11 @@ class Left extends Either {
 }
 ```
 
-We'd like the types to always end up in the same arrangement, therefore it is necessary for types like `Left` who don't actually hold our inner applicative to get a little help in doing so. The *Applicative* interface requires that we first have a *Pointed Functor* so we'll always have a `of` to pass in. In a language with a type system, the outer type can be inferred from the signature and does not need to be explicitly given.
+Nos gustaría que los tipos acabasen siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Functor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita que se entregue explícitamente.
 
-## Effect Assortment
+## Surtido de Efectos
 
-Different orders have different outcomes where our containers are concerned. If I have `[Maybe a]`, that's a collection of possible values whereas if I have a `Maybe [a]`, that's a possible collection of values. The former indicates we'll be forgiving and keep "the good ones", while the latter means it's an "all or nothing" type of situation. Likewise, `Either Error (Task Error a)` could represent a client side validation and `Task Error (Either Error a)` could be a server side one. Types can be swapped to give us different effects.
+Distintas disposiciones tienen distintos resultados en cuanto a nuestros contenedores se refiere. Si tengo `[Maybe a]`, eso es una colección de posibles valores mientras que si tengo un `Maybe [a]`, eso es una colección de valores. Lo primero indica que seremos indulgentes y nos quedaremos con "los buenos", mientras que el último significa que es una situación del tipo "todo o nada". De igual manera, `Either Error (Task Error a)` puede representar una validación del lado del cliente y `Task Error (Either Error a)` puede ser del lado del servidor. Los tipos pueden ser intercambiados para proporcionarnos diferentes efectos.
 
 ```js
 // fromPredicate :: (a -> Bool) -> a -> Either e a
@@ -98,9 +98,9 @@ const partition = f => map(fromPredicate(f));
 const validate = f => traverse(Either.of, fromPredicate(f));
 ```
 
-Here we have two different functions based on if we `map` or `traverse`.  The first, `partition` will give us an array of `Left`s and `Right`s according to the predicate function. This is useful to keep precious data around for future use rather than filtering it out with the bathwater. `validate` instead will give us the first item that fails the predicate in `Left`, or all the items in `Right` if everything is hunky dory. By choosing a different type order, we get different behavior.
+Aquí tenemos dos funciones distintas basadas en si aplicamos `map` o `traverse`. La primera, `partition`, nos dará un array de `Left`s y `Right`s de acuerdo con la función predicado. Esto es útil para mantener los preciosos datos a mano para futuros usos en vez de descartarlos junto con el agua del baño. En cambio, `validate` nos devolverá en `Left` el primer elemento que no supere el predicado, o todos los elementos en un `Right` si todo está bien. Al escoger un orden diferente de tipos, obtenemos un comportamiento diferente:
 
-Let's look at the `traverse` function of `List`, to see how the `validate` method is made. 
+Veamos la función `traverse` de `List` para ver como está hecho el método `validate`.
 
 ```js
 traverse(of, fn) {
@@ -111,39 +111,39 @@ traverse(of, fn) {
   }
 ```
 
-This just runs a `reduce` on the list. The reduce function is `(f, a) => fn(a).map(b => bs => bs.concat(b)).ap(f)`, which looks a bit scary, so let's step through it.
+Esto tan solo ejecuta un `reduce` en la lista. La función reduce es `(f, a) => fn(a).map(b => bs => bs.concat(b)).ap(f)`, que da algo de miedo, así que veámosla paso a paso.
 
 1. `reduce(..., ...)`
 
-   Remember the signature of `reduce :: [a] -> (f -> a -> f) -> f -> f`. The first argument is actually provided by the dot-notation on `$value`, so it's a list of things. 
-   Then we need a function from a `f` (the accumulator) and a `a` (the iteree) to return us a new accumulator. 
+   Recuerda la firma de `reduce :: [a] -> (f -> a -> f) -> f -> f`. El primer argumento es en realidad proporcionado por la notación con punto en `$value`, así que es una lista de cosas.
+   Después necesitamos una función desde un `f` (el acumulador) y un `a` (el iterado) para devolvernos un nuevo acumulador.
 
 2. `of(new List([]))`
 
-   The seed value is `of(new List([]))`, which in our case is `Right([]) :: Either e [a]`. Notice that `Either e [a]` will also be our final resulting type!
+   El valor semilla es `of(new List([]))`, el cual en nuestro caso es `Right([]) :: Either e [a]`. ¡Fíjate que `Either e [a]` también será nuestro tipo resultante!
 
 3. `fn :: Applicative f => a -> f a`
 
-   If we apply it to our example above, `fn` is actually `fromPredicate(f) :: a -> Either e a`.  
+   Si lo aplicamos a nuestro ejemplo de arriba, `fn` es en realidad `fromPredicate(f) :: a -> Either e a`.
    > fn(a) :: Either e a
 
 4. `.map(b => bs => bs.concat(b))`
 
-   When `Right`, `Either.map` passes the right value to the function and returns a new `Right` with the result. In this case the function has one parameter (`b`), and returns another function (`bs => bs.concat(b)`, where `b` is in scope due to the closure). When `Left`, the left value is returned.  
+   Cuando es `Right`, `Either.map` pasa el valor correcto a la función y devuelve un nuevo `Right` con el resultado. En este caso, la función tiene un parámetro (`b`), y devuelve otra función (`bs => bs.concat(b)`, donde `b` está al alcance gracias a la closure). Cuando es `Left`, el valor de left es devuelto.
    > fn(a).map(b => bs => bs.concat(b)) :: Either e ([a] -> [a])
 
 5. .`ap(f)`
 
-   Remember that `f` is an Applicative here, so we can apply the function `bs => bs.concat(b)` to whatever value `bs :: [a]` is in `f`. Fortunately for us, `f` comes from our initial seed and has the following type: `f :: Either e [a]` which is by the way, preserved when we apply `bs => bs.concat(b)`. 
-   When `f` is `Right`, this calls `bs => bs.concat(b)`, which returns a `Right` with the item added to the list. When `Left`, the left value (from the previous step or previous iteration respectively) is returned. 
+   Recuerda que aquí `f` es un Aplicativo, así que podemos aplicar la función `bs => bs.concat(b)` a cualquier valor `bs :: [a]` que esté en `f`. Afortunadamente para nosotros, `f` proviene de nuestra semilla inicial y tiene el siguiente tipo: `f :: Either e [a]` que, por cierto, se conserva cuando aplicamos `bs => bs.concat(b)`.
+   Cuando `f` es `Right` llama a `bs => bs.concat(b)`, quien a su vez devuelve un `Right` con el elemento añadido a la lista. Cuando es `Left`, el valor izquierdo (del paso anterior o de la iteración anterior respectivamente) es devuelto.
    > fn(a).map(b => bs => bs.concat(b)).ap(f) :: Either e [a]
 
-This apparently miraculous transformation is achieved with just 6 measly lines of code in `List.traverse`, and is accomplished with `of`, `map` and `ap`, so will work for any Applicative Functor. This is a great example 
-of how those abstraction can help to write highly generic code with only a few assumptions (that can, incidentally, be declared and checked at the type level!).
+Esta transformación aparentemente milagrosa se consigue con tan solo 6 míseras líneas de código en `List.traverse`, y se logra con `of`, `map` y `ap` por lo que funcionará para cualquier Functor Aplicativo. Este es un gran ejemplo
+de cómo estas abstracciones puede ayudar a escribir código altamente genérico con solo unas pocas suposiciones (¡que pueden, por cierto, ser declaradas y comprobadas a nivel de tipo!)
 
-## Waltz of the Types
+## El Vals de los Tipos
 
-Time to revisit and clean our initial examples.
+Es momento de revisitar y limpiar nuestros ejemplos iniciales.
 
 ```js
 // readFile :: FileName -> Task Error String
@@ -158,9 +158,9 @@ traverse(Task.of, tldr, ['file1', 'file2']);
 // Task(['hail the monarchy', 'smash the patriarchy']);
 ```
 
-Using `traverse` instead of `map`, we've successfully herded those unruly `Task`s into a nice coordinated array of results. This is like `Promise.all()`, if you're familiar, except it isn't just a one-off, custom function, no, this works for any *traversable* type. These mathematical apis tend to capture most things we'd like to do in an interoperable, reusable way, rather than each library reinventing these functions for a single type.
+Utilizando `traverse` en vez de `map`, hemos conseguido formar un rebaño con esas revoltosas `Task` convirtiéndolas en un bonito y coordinado array de resultados. Esto es como `Promise.all()`, si estás familiarizado, excepto que no es una única función personalizada, no, esto funciona para cualquier tipo *traversable*. Estas apis matemáticas tienden a capturar de una forma interoperable y reusable la mayor parte de las cosas que nos gustaría hacer, en vez de que cada librería reinvente estas funciones para un solo tipo.
 
-Let's clean up the last example for closure (no, not that kind):
+Limpiemos el último ejemplo de closure:
 
 ```js
 // getAttribute :: String -> Node -> Maybe String
@@ -170,23 +170,23 @@ Let's clean up the last example for closure (no, not that kind):
 const getControlNode = compose(chain(traverse(IO.of, $)), map(getAttribute('aria-controls')), $);
 ```
 
-Instead of `map(map($))` we have `chain(traverse(IO.of, $))` which inverts our types as it maps then flattens the two `IO`s via `chain`.
+En vez de `map(map($))` tenemos `chain(traverse(IO.of, $))`, que invierte nuestros tipos dado que, mediante `chain`, aplica map y luego aplana los dos `IO`.
 
-## No Law and Order
+## Sin Ley Ni Orden
 
-Well now, before you get all judgemental and bang the backspace button like a gavel to retreat from the chapter, take a moment to recognize that these laws are useful code guarantees. 'Tis my conjecture that the goal of most program architecture is an attempt to place useful restrictions on our code to narrow the possibilities, to guide us into the answers as designers and readers.
+Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código que reduzcan las posibilidades para guiarnos hacia las respuestas como diseñadores y lectores.
 
-An interface without laws is merely indirection. Like any other mathematical structure, we must expose properties for our own sanity. This has a similar effect as encapsulation since it protects the data, enabling us to swap out the interface with another law abiding citizen.
+Una interfaz sin leyes es simple indirección. Como cualquier otra estructura matemática, debemos exponer las propiedades para nuestra propia cordura. Esto tiene un efecto similar a la encapsulación, dado que protege a los datos, permitiéndonos intercambiar la interfaz por otro ciudadano ejemplar.
 
-Come along now, we've got some laws to suss out.
+Ven ahora, tenemos algunas leyes que averiguar.
 
-### Identity
+### Identidad
 
 ```js
 const identity1 = compose(sequence(Identity.of), map(Identity.of));
 const identity2 = Identity.of;
 
-// test it out with Right
+// pruébalo con Right
 identity1(Either.of('stuff'));
 // Identity(Right('stuff'))
 
@@ -194,16 +194,16 @@ identity2(Either.of('stuff'));
 // Identity(Right('stuff'))
 ```
 
-This should be straightforward. If we place an `Identity` in our functor, then turn it inside out with `sequence` that's the same as just placing it on the outside to begin with. We chose `Right` as our guinea pig as it is easy to try the law and inspect. An arbitrary functor there is normal, however, the use of a concrete functor here, namely `Identity` in the law itself might raise some eyebrows. Remember a [category](ch05.md#category-theory) is defined by morphisms between its objects that have associative composition and identity. When dealing with the category of functors, natural transformations are the morphisms and `Identity` is, well identity. The `Identity` functor is as fundamental in demonstrating laws as our `compose` function. In fact, we should give up the ghost and follow suit with our [Compose](ch08.md#a-spot-of-theory) type:
+Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro functor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Elegimos a `Right` como conejillo de indias, ya que con él es fácil probar a aplicar la ley e inspeccionarlo. Allí, un functor arbitrario es normal, sin embargo, el uso aquí de un functor concreto como `Identity` en la propia ley podría levantar algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) se define por morfismos entre sus objetos que tienen composición asociativa e identidad. Cuando se trata de la categoría de functores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El functor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos darnos por vencidos y seguir el ejemplo de nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
 
-### Composition
+### Composición
 
 ```js
 const comp1 = compose(sequence(Compose.of), map(Compose.of));
 const comp2 = (Fof, Gof) => compose(Compose.of, map(sequence(Gof)), sequence(Fof));
 
 
-// Test it out with some types we have lying around
+// Pruébalo con algunos tipos que tengamos por ahí
 comp1(Identity(Right([true])));
 // Compose(Right([Identity(true)]))
 
@@ -211,17 +211,17 @@ comp2(Either.of, Array)(Identity(Right([true])));
 // Compose(Right([Identity(true)]))
 ```
 
-This law preserves composition as one would expect: if we swap compositions of functors, we shouldn't see any surprises since the composition is a functor itself. We arbitrarily chose `true`, `Right`, `Identity`, and `Array` to test it out. Libraries like [quickcheck](https://hackage.haskell.org/package/QuickCheck) or [jsverify](http://jsverify.github.io/) can help us test the law by fuzz testing the inputs.
+Esta ley preserva la composición tal y como se esperaba: si intercambiamos la composición de functores, no deberíamos tener ninguna sorpresa dado que la composición es un functor en sí mismo. Arbitrariamente escogimos `true`, `Right`, `Identity` y `Array` para probarlo. Librerías como [quickcheck](https://hackage.haskell.org/package/QuickCheck) o [jsverify](http://jsverify.github.io/) pueden ayudarnos a comprobar la ley mediante pruebas con datos aleatorios en las entradas.
 
-As a natural consequence of the above law, we get the ability to [fuse traversals](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf), which is nice from a performance standpoint.
+Como consecuencia natural de la ley de arriba, obtenemos la capacidad de [fusionar *traversals*](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf), que está bien desde el punto de vista del rendimiento.
 
-### Naturality
+### Naturalidad
 
 ```js
 const natLaw1 = (of, nt) => compose(nt, sequence(of));
 const natLaw2 = (of, nt) => compose(sequence(of), map(nt));
 
-// test with a random natural transformation and our friendly Identity/Right functors.
+// comprobar con una transformación natural al azar y nuestros amigables functores Identity/Right.
 
 // maybeToEither :: Maybe a -> Either () a
 const maybeToEither = x => (x.$value ? new Right(x.$value) : new Left());
@@ -233,24 +233,24 @@ natLaw2(Either.of, maybeToEither)(Identity.of(Maybe.of('barlow one')));
 // Right(Identity('barlow one'))
 ```
 
-This is similar to our identity law. If we first swing the types around then run a natural transformation on the outside, that should equal mapping a natural transformation, then flipping the types.
+Esto es parecido a nuestra ley de la identidad. Si primero hacemos girar a los tipos y luego ejecutamos una transformación natural en el exterior, debería ser lo mismo que mapear una transformación natural y después voltear los tipos.
 
-A natural consequence of this law is:
+Una consecuencia natural de esta ley es:
 
 ```js
 traverse(A.of, A.of) === A.of;
 ```
 
-Which, again, is nice from a performance standpoint.
+Lo cual, de nuevo, es bueno desde el punto de vista del rendimiento.
 
 
-## In Summary
+## En Resumen
 
-*Traversable* is a powerful interface that gives us the ability to rearrange our types with the ease of a telekinetic interior decorator. We can achieve different effects with different orders as well as iron out those nasty type wrinkles that keep us from `join`ing them down. Next, we'll take a bit of a detour to see one of the most powerful interfaces of functional programming and perhaps even algebra itself: [Monoids bring it all together](ch13.md)
+*Traversable* es una poderosa interfaz que nos provee con la capacidad de reordenar nuestros tipos con la facilidad de un interiorista con telequinesis. Con distintas disposiciones podemos conseguir distintos efectos, así como planchar los tipos con esas feas arrugas que nos impiden unirlos con `join`. A continuación, nos desviaremos un poco para ver una de las interfaces más poderosas de la programación funcional y puede que incluso del propio álgebra: [Los Monoides lo unen todo](ch13-es.md)
 
-## Exercises
+## Ejercicios
 
-Considering the following elements:
+Teniendo en cuenta los siguientes elementos:
 
 ```js
 // httpGet :: Route -> Task Error JSON
@@ -261,7 +261,7 @@ const routes = new Map({ '/': '/', '/about': '/about' });
 
 
 {% exercise %}  
-Use the traversable interface to change the type signature of `getJsons` to
+Utiliza la interfaz traversable para cambiar la firma de tipo de `getJsons` a
 Map Route Route → Task Error (Map Route JSON)
 
   
@@ -281,7 +281,7 @@ const getJsons = map(httpGet);
 ---  
 
 
-We now define the following validation function:
+Ahora definimos la siguiente función de validación:
 
 ```js
 // validate :: Player -> Either String Player
@@ -290,8 +290,8 @@ const validate = player => (player.name ? Either.of(player) : left('must have na
 
 
 {% exercise %}  
-Using traversable, and the `validate` function, update `startGame` (and its signature)
-to only start the game if all players are valid
+Usando traversable, y la función `validate`, actualiza `startGame` (y su firma)
+para que solo comience el juego si todos los jugadores son válidos
 
   
 {% initial src="./exercises/ch12/exercise_b.js#L7;" %}  
@@ -310,7 +310,7 @@ const startGame = compose(map(map(always('game started!'))), map(validate));
 ---  
 
 
-Finally, we consider some file-system helpers:
+Finalmente, teniendo en cuenta algunas funciones de ayuda para el sistema de archivos:
 
 ```js
 // readfile :: String -> String -> Task Error String
@@ -318,7 +318,7 @@ Finally, we consider some file-system helpers:
 ```
 
 {% exercise %}  
-Use traversable to rearrange and flatten the nested Tasks & Maybe
+Utiliza traversable para reordenar y aplanar los Task y Maybe anidados
 
   
 {% initial src="./exercises/ch12/exercise_c.js#L8;" %}  
