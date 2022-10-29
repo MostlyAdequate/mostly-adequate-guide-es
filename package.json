@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christiantakle/mostly-adequate-guide.git"
+    "url": "git+https://github.com/MostlyAdequate/mostly-adequate-guide-es.git"
   },
   "keywords": [
     "gitbook",
@@ -29,7 +29,7 @@
   "author": "Mostly Adequate Core Team",
   "license": "CC BY-SA",
   "bugs": {
-    "url": "https://github.com/christiantakle/mostly-adequate-guide/issues"
+    "url": "https://github.com/MostlyAdequate/mostly-adequate-guide-es/issues"
   },
-  "homepage": "https://github.com/christiantakle/mostly-adequate-guide#readme"
+  "homepage": "https://github.com/MostlyAdequate/mostly-adequate-guide-es#readme"
 }
