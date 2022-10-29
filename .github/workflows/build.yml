@@ -2,7 +2,8 @@ name: build
 
 on:
   push:
-    branches: [ 'github-actions' ]
+    branches: 
+      - master
 
 jobs:
   build:
