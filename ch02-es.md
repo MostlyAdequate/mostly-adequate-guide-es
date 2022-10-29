@@ -1,4 +1,4 @@
-# Capítulo 2: Funciones de Primera Clase
+# Capítulo 02: Funciones de Primera Clase
 
 ## Una Revisión Rápida
 Cuando decimos que las funciones son de "primera clase", queremos decir que son como todas las demás... o sea, una clase normal. Podemos tratar a las funciones como a cualquier otro tipo de dato y no hay nada particularmente especial en ellas - pueden ser almacenadas en arreglos, pasadas como parámetros de otras funciones, asignadas a variables, y lo que quieras.

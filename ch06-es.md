@@ -1,4 +1,4 @@
-# Capítulo 6: Aplicación de Ejemplo
+# Capítulo 06: Aplicación de Ejemplo
 
 ## Programación Declarativa
 

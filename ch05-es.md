@@ -1,4 +1,4 @@
-# Capítulo 5: Programación Mediante Composición
+# Capítulo 05: Programación Mediante Composición
 
 ## Ganadería Funcional
 Aquí tenemos `compose`:
