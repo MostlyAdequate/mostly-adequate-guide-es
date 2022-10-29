@@ -11,16 +11,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Update APT
-        run: |
-          sudo apt update
-
-      - name: Install packages
-        run: |
-          sudo apt install -y libopengl0 libegl1
-
       - name: Install Calibre
         run: |
+          sudo apt install -y libopengl0 libegl1
           wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
           mkdir -p ~/.local/bin
           ln -s /opt/calibre/calibre ~/.local/bin/calibre
