@@ -6,5 +6,8 @@
   "plugins": [
     "exercises@git+https://github.com/MostlyAdequate/plugin-exercises.git",
     "include-codeblock@3.1.2"
-  ]
+  ],
+  "structure": {
+      "summary": "SUMMARY-es.md"
+  }
 }
