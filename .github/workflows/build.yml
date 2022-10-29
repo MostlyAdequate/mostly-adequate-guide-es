@@ -27,7 +27,7 @@ jobs:
 
       - name: Setup gitbook
         run: |
-          npm install
+          npm ci
           npm run setup
       - name: Generate PDF
         run: |
