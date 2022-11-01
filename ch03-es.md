@@ -1,4 +1,4 @@
-# Capítulo 3: Pura Felicidad con Funciones Puras
+# Capítulo 03: Pura Felicidad con Funciones Puras
 
 ## Oh Ser Puro Otra Vez
 

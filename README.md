@@ -47,7 +47,7 @@ $ npm run ch04
 
 ## Descárgalo
 
-Encuentra archivos **PDF** y **EPUB** pregenerados como [artefactos construidos desde la última versión inglesa](https://github.com/MostlyAdequate/mostly-adequate-guide/releases/latest).
+Encuentra archivos **PDF** y **EPUB** pregenerados como [artefactos construidos desde la última versión](https://github.com/MostlyAdequate/mostly-adequate-guide-es/releases/latest).
 
 ## Hazlo tú mismo
 

@@ -1,0 +1,34 @@
+{
+  "name": "mostly-adequate-guide-es",
+  "version": "1.0.0",
+  "description": "The Mostly Adequate Guide to Functional Programming",
+  "dependencies": {
+    "gitbook-plugin-exercises": "git+https://github.com/MostlyAdequate/plugin-exercises.git",
+    "gitbook-plugin-include-codeblock": "^3.2.2"
+  },
+  "devDependencies": {
+    "gitbook-cli": "^2.3.2"
+  },
+  "scripts": {
+    "setup": "$(npm bin)/gitbook install",
+    "start": "$(npm bin)/gitbook serve",
+    "generate-epub": "gitbook epub",
+    "generate-pdf": "gitbook pdf"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MostlyAdequate/mostly-adequate-guide-es.git"
+  },
+  "keywords": [
+    "gitbook",
+    "javascript",
+    "guide",
+    "functional programming"
+  ],
+  "author": "Mostly Adequate Core Team",
+  "license": "CC BY-SA",
+  "bugs": {
+    "url": "https://github.com/MostlyAdequate/mostly-adequate-guide-es/issues"
+  },
+  "homepage": "https://github.com/MostlyAdequate/mostly-adequate-guide-es#readme"
+}
