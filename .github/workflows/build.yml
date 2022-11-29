@@ -32,20 +32,20 @@ jobs:
       - name: Generate PDF
         run: |
           npm run generate-pdf
-          mv book.pdf mostly-adequate-guide-to-functional-programming-spanish-version.pdf
+          mv book.pdf la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
       - name: Generate EPUB
         run: |
           npm run generate-epub
-          mv book.epub mostly-adequate-guide-to-functional-programming-spanish-version.epub
+          mv book.epub la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
       - uses: actions/upload-artifact@v2
         with:
           name: PDF
-          path: mostly-adequate-guide-to-functional-programming-spanish-version.pdf
+          path: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
 
       - uses: actions/upload-artifact@v2
         with:
           name: EPUB
-          path: mostly-adequate-guide-to-functional-programming-spanish-version.epub
+          path: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
 
       - run: echo "ID=$(git describe --tags --always)" >> $GITHUB_OUTPUT
         id: release-id
@@ -54,5 +54,5 @@ jobs:
         with:
           tag_name: ${{ steps.release-id.outputs.ID }}
           files: |
-            mostly-adequate-guide-to-functional-programming-spanish-version.pdf
-            mostly-adequate-guide-to-functional-programming-spanish-version.epub
+            la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
+            la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
