@@ -3,7 +3,7 @@
 ## Información General 
 
 Este paquete contiene todas las funciones y estructuras de datos referenciadas en los 
-apéndices de [La Más Que Adecuada Guía de Programación Funcional](https://github.com/MostlyAdequate/mostly-adequate-guide-es).
+apéndices de [La Guía del Profesor Frisby en su Mayor Parte Adecuada para la Programación Funcional](https://github.com/MostlyAdequate/mostly-adequate-guide-es).
 
 Estas funciones tienen un propósito pedagógico y no pretenden que sean utilizadas en
 ningún entorno en producción. Son sin embargo, un buen material de aprendizaje para
