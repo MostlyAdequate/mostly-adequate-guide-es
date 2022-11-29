@@ -5,6 +5,9 @@ on:
     branches: 
       - master
 
+env:
+  BOOK_FILENAME: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -32,20 +35,20 @@ jobs:
       - name: Generate PDF
         run: |
           npm run generate-pdf
-          mv book.pdf la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
+          mv book.pdf ${BOOK_FILENAME}.pdf
       - name: Generate EPUB
         run: |
           npm run generate-epub
-          mv book.epub la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
+          mv book.epub ${BOOK_FILENAME}.epub
       - uses: actions/upload-artifact@v2
         with:
           name: PDF
-          path: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
+          path: ${{ env.BOOK_FILENAME }}.pdf
 
       - uses: actions/upload-artifact@v2
         with:
           name: EPUB
-          path: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
+          path: ${{ env.BOOK_FILENAME }}.epub
 
       - run: echo "ID=$(git describe --tags --always)" >> $GITHUB_OUTPUT
         id: release-id
@@ -54,5 +57,5 @@ jobs:
         with:
           tag_name: ${{ steps.release-id.outputs.ID }}
           files: |
-            la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.pdf
-            la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional.epub
+            ${{ env.BOOK_FILENAME }}.pdf
+            ${{ env.BOOK_FILENAME }}.epub
