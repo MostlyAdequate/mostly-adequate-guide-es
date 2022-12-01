@@ -5,6 +5,9 @@ on:
     branches: 
       - master
 
+env:
+  BOOK_FILENAME: la-guia-del-profesor-frisby-en-su-mayor-parte-adecuada-para-la-programacion-funcional
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -25,27 +28,35 @@ jobs:
         with:
           node-version: 10.22.1
 
+      - name: Put title on cover
+        run: |
+          sudo apt install -y xfonts-scalable
+          npm run generate-cover
+          
       - name: Setup gitbook
         run: |
           npm ci
           npm run setup
+          
       - name: Generate PDF
         run: |
           npm run generate-pdf
-          mv book.pdf mostly-adequate-guide-to-functional-programming-spanish-version.pdf
+          mv book.pdf ${BOOK_FILENAME}.pdf
+
       - name: Generate EPUB
         run: |
           npm run generate-epub
-          mv book.epub mostly-adequate-guide-to-functional-programming-spanish-version.epub
+          mv book.epub ${BOOK_FILENAME}.epub
+          
       - uses: actions/upload-artifact@v2
         with:
           name: PDF
-          path: mostly-adequate-guide-to-functional-programming-spanish-version.pdf
+          path: ${{ env.BOOK_FILENAME }}.pdf
 
       - uses: actions/upload-artifact@v2
         with:
           name: EPUB
-          path: mostly-adequate-guide-to-functional-programming-spanish-version.epub
+          path: ${{ env.BOOK_FILENAME }}.epub
 
       - run: echo "ID=$(git describe --tags --always)" >> $GITHUB_OUTPUT
         id: release-id
@@ -54,5 +65,5 @@ jobs:
         with:
           tag_name: ${{ steps.release-id.outputs.ID }}
           files: |
-            mostly-adequate-guide-to-functional-programming-spanish-version.pdf
-            mostly-adequate-guide-to-functional-programming-spanish-version.epub
+            ${{ env.BOOK_FILENAME }}.pdf
+            ${{ env.BOOK_FILENAME }}.epub

@@ -1,7 +1,7 @@
 {
   "name": "mostly-adequate-guide-es",
   "version": "1.0.0",
-  "description": "The Mostly Adequate Guide to Functional Programming",
+  "description": "La Guía del Profesor Frisby en su Mayor Parte Adecuada para la Programación Funcional",
   "dependencies": {
     "gitbook-plugin-exercises": "git+https://github.com/MostlyAdequate/plugin-exercises.git",
     "gitbook-plugin-include-codeblock": "^3.2.2"
@@ -12,6 +12,7 @@
   "scripts": {
     "setup": "$(npm bin)/gitbook install",
     "start": "$(npm bin)/gitbook serve",
+    "generate-cover": "sh ./.generate-cover.sh",
     "generate-epub": "gitbook epub",
     "generate-pdf": "gitbook pdf"
   },
