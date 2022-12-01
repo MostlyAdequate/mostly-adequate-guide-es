@@ -28,18 +28,25 @@ jobs:
         with:
           node-version: 10.22.1
 
+      - name: Put title on cover
+        run: |
+          npm run generate-cover
+          
       - name: Setup gitbook
         run: |
           npm ci
           npm run setup
+          
       - name: Generate PDF
         run: |
           npm run generate-pdf
           mv book.pdf ${BOOK_FILENAME}.pdf
+
       - name: Generate EPUB
         run: |
           npm run generate-epub
           mv book.epub ${BOOK_FILENAME}.epub
+          
       - uses: actions/upload-artifact@v2
         with:
           name: PDF
