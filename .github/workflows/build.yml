@@ -30,6 +30,7 @@ jobs:
 
       - name: Put title on cover
         run: |
+          sudo apt install -y xfonts-scalable
           npm run generate-cover
           
       - name: Setup gitbook
