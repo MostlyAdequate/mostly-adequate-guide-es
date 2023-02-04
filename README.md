@@ -2,11 +2,11 @@
 
 ## Sobre este libro
 
-Este es un libro sobre el paradigma funcional en general. Utilizaremos el lenguaje de programación funcional más popular del mundo: JavaScript. Algunos pueden pensar que es una mala elección, ya que va en contra de la cultura que, por el momento, se siente predominantemente imperativa. Sin embargo, creo que esta es la mejor forma de aprender PF por diversas razones:
+Este es un libro sobre el paradigma funcional en general. Utilizaremos el lenguaje de programación funcional más popular del mundo: JavaScript. Algunos pueden pensar que es una mala elección, ya que va en contra de la cultura que, por el momento, es predominantemente imperativa. Sin embargo, creo que esta es la mejor forma de aprender programación funcional por diversas razones:
 
  * **Seguramente lo utilizes cada día en el trabajo.**
 
-    Esto hace posible practicar y aplicar cada día en programas del mundo real los conocimientos adquiridos en vez de en proyectos de una sola noche o de un fin de semana con un lenguaje de PF esotérico.
+    Esto hace posible practicar y aplicar cada día en programas del mundo real los conocimientos adquiridos en vez de en proyectos de una sola noche o de un fin de semana con un lenguaje de programación funcional esotérico.
 
 
  * **No tenemos que aprenderlo todo desde cero para empezar a escribir programas**
@@ -16,9 +16,9 @@ Este es un libro sobre el paradigma funcional en general. Utilizaremos el lengua
 
  * **El lenguaje está completamente capacitado para escribir código funcional de primera categoría.**
 
-    Tenemos todas las características necesarias para imitar a un lenguaje como Scala o Haskell con la ayuda de una o dos pequeñas librerías. La programación orientada a objetos domina actualmente la industria, pero es claramente torpe en JavaScript. Es similar a acampar en una autopista o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, tenemos varias soluciones para el extraño comportamiento cuando olvidas usar `new`, los miembros privados solo están disponibles mediante closures. Para muchos de nosotros, la PF parece más natural de todos modos.
+    Tenemos todas las características necesarias para imitar a un lenguaje como Scala o Haskell con la ayuda de una o dos pequeñas librerías. La programación orientada a objetos domina actualmente la industria, pero es claramente torpe en JavaScript. Es similar a acampar en una autopista o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, tenemos varias soluciones para el extraño comportamiento cuando olvidas usar `new`, los miembros privados solo están disponibles mediante closures. Para muchos de nosotros, la programación funcional parece más natural de todos modos.
 
-Dicho esto, lenguajes funcionales tipados serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuestro medio para aprender un paradigma, dónde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te sentirás como en casa con Swiftz, Scalaz, Haskell, PureScript, y otros entornos inclinados hacia las matemáticas.
+Dicho esto, los lenguajes funcionales tipados serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuestro medio para aprender un paradigma, dónde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te sentirás como en casa con Swiftz, Scalaz, Haskell, PureScript, y otros entornos inclinados hacia las matemáticas.
 
 
 ## Léelo Online
