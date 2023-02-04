@@ -1,4 +1,4 @@
-﻿# Capítulo 01: ¿Qué Estamos Haciendo?
+# Capítulo 01: ¿Qué Estamos Haciendo?
 
 ## Presentaciones
 
