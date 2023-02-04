@@ -12,7 +12,7 @@
   * [Matemáticas de Octavo Grado](ch03-es.md#matemáticas-de-octavo-grado)
   * [Los Argumentos Para La Pureza](ch03-es.md#los-argumentos-para-la-pureza)
   * [En Resumen](ch03-es.md#en-resumen)
-* [Capítulo 04: Currying](ch04-es.md)
+* [Capítulo 04: Currificación](ch04-es.md)
   * [No puedo Vivir Si Vivir Es Sin Ti](ch04-es.md#no-puedo-vivir-si-vivir-es-sin-ti)
   * [Más Que Un Juego De Palabras / Salsa Especial](ch04-es.md#más-que-un-juego-de-palabras--salsa-especial)
   * [En Resumen](ch04-es.md#en-resumen)
