@@ -2,13 +2,13 @@
 
 ## Presentaciones
 
-¡Hola! Soy el Profesor Franklin Frisby, encantado de conocerte. Pasaremos algún tiempo juntos pues se supone que voy a enseñarte un poco de programación funcional. Pero basta de hablar sobre mí, ¿qué hay de ti? Espero que estés al menos un poco familiarizado con el lenguaje JavaScript, que tengas un poco de experiencia en programación orientada a objetos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un doctorado en entomología, solo necesitas saber cómo encontrar y solucionar algunos "bugs".
+¡Hola! Soy el Profesor Franklin Frisby, encantado de conocerte. Vamos a pasar algo de tiempo juntos pues se supone que voy a enseñarte un poco de programación funcional. Pero basta de hablar sobre mí, ¿qué hay de ti? Espero que estés al menos un poco familiarizado con el lenguaje JavaScript, que tengas un poco de experiencia en programación orientada a objetos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un doctorado en entomología, solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*].
 
-No asumo que tengas ningún conocimiento previo sobre programación funcional porque ya sabemos lo que sucede cuando uno presupone, pero espero que hayas encontrado problemas al trabajar con estados mutables, efectos secundarios no restringidos, y diseño sin principios. Ahora que ya nos hemos presentado, sigamos adelante.
+No asumo que tengas ningún conocimiento previo sobre programación funcional porque ya sabemos lo que sucede cuando uno presupone, pero espero que hayas encontrado problemas al trabajar con estados mutables, con efectos secundarios no restringidos, y con diseño sin principios. Ahora que ya nos hemos presentado, sigamos adelante.
 
-El propósito de este capítulo es darte una idea de lo que buscamos cuando escribimos programas funcionales. Para poder entender los próximos capítulos, hemos que tener una idea sobre qué hace que un programa sea *funcional*. De lo contrario, acabaremos garabateando sin rumbo, evitando objetos a toda costa - un esfuerzo sin sentido. Necesitamos una diana a la que lanzar nuestro código y una brújula celestial para cuando las aguas se agiten.
+El propósito de este capítulo es darte una idea de lo que buscamos cuando escribimos programas funcionales. Para poder entender los próximos capítulos, hemos de tener una idea sobre qué hace que un programa sea *funcional*. De lo contrario, acabaremos garabateando sin rumbo, evitando objetos a toda costa; un esfuerzo sin sentido. Necesitamos una diana a la que lanzar nuestro código, una brújula celestial para cuando las aguas se agiten.
 
-Hay ciertos principios de programación, varios acrónimos, que nos guiarán a través de los túneles oscuros de cualquier aplicación:  DRY (don't repeat yourself, "no te repitas"), alta cohesión bajo acoplamiento, YAGNI (ya ain't gonna need it, "no lo vas a necesitar"), principio de mínima sorpresa, única responsabilidad, etc.
+Hay ciertos principios de programación, varios acrónimos, que nos guiarán a través de los túneles oscuros de cualquier aplicación:  DRY (don't repeat yourself [*no te repitas*]), YAGNI (ya ain't gonna need it [*no lo vas a necesitar*]), alta cohesión bajo acoplamiento, principio de mínima sorpresa, única responsabilidad, etc.
 
 No voy a alargarme enumerando cada una de las guías que he escuchado a lo largo de los años... La cuestión es que siguen vigentes en un entorno funcional, aunque son tangenciales a nuestro objetivo final.
 Lo que me gustaría que entendieses por ahora, antes de seguir adelante, es cuál será nuestra intención cuando nos aferremos al teclado; nuestro Xanadu funcional.
@@ -47,7 +47,7 @@ const result = flockA
 // 32
 ```
 
-¿Quién en la faz de la tierra, sería capaz de crear esta espantosa abominación? Es irrazonablemente difícil mantener el rastro del estado mutable interno. Y, por si no fuera suficiente, la respuesta es incorrecta! Debería ser `16`, pero `flockA` ha sido alterado permanentemente en el proceso. Pobre `flockA`. ¡Esto es anarquía en la informática! ¡Esto es aritmética de animales salvajes!
+¿Quién en la faz de la tierra, sería capaz de crear esta espantosa abominación? Es irrazonablemente difícil mantener el rastro del estado interno mutable. Y, por si no fuera suficiente, ¡la respuesta es incorrecta! Debería ser `16`, pero `flockA` ha sido alterado permanentemente en el proceso. Pobre `flockA`. ¡Esto es anarquía en la informática! ¡Esto es aritmética de animales salvajes!
 
 Si no entiendes este programa, no pasa nada, yo tampoco lo entiendo. La cuestión es que el estado y los valores mutables son difíciles de seguir, incluso en un ejemplo tan pequeño.
 
@@ -65,7 +65,7 @@ const result =
 // 16
 ```
 
-Bueno, esta vez la respuesta es correcta. Con mucho menos código. La anidación de la función es un poco confusa... (pondremos remedio a esto en el capítulo 5). Está mejor, pero profundicemos un poco más. Llamar a las cosas por su nombre tiene sus ventajas. Si hubiéramos examinado nuestras funciones más de cerca, habríamos descubierto que estamos utilizando simples sumas (`conjoin`) y multiplicaciones (`breed`).
+Bueno, esta vez la respuesta es correcta. Con mucho menos código. La anidación de funciones es algo confusa... (pondremos remedio a esto en el capítulo 5). Está mejor, pero profundicemos un poco más. Llamar a las cosas por su nombre tiene sus ventajas. Si hubiéramos examinado nuestras funciones más de cerca, habríamos descubierto que estamos utilizando simples sumas (`conjoin`) y multiplicaciones (`breed`).
 
 Realmente no hay nada especial en estas dos funciones a parte de de sus nombres. Vamos a renombrarlas a `multiply` ("multiplicar") y `add` ("añadir") para revelar sus verdaderas identidades.
 
@@ -96,7 +96,7 @@ add(x, 0) === x;
 multiply(x, add(y,z)) === add(multiply(x, y), multiply(x, z));
 ```
 
-Ah, sí, esas viejas y fieles propiedades matemáticas serán de ayuda. No te preocupes si no las sabes de memoria. Para muchos de nosotros ha pasado mucho tiempo desde que aprendimos sobre ellas. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
+Ah, sí, esas viejas y fieles propiedades matemáticas serán de ayuda. No te preocupes si no las sabes de memoria. Para muchos de nosotros ha pasado mucho tiempo desde que las estudiamos. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
 
 ```js
 // Línea original
@@ -112,14 +112,14 @@ multiply(flockB, add(flockA, flockA));
 
 ¡Brillante! No hemos tenido que escribir ni una pizca de código aparte de las llamadas a las funciones. Hemos incluído las implementaciones de `add` y `multiply` por completitud, pero en realidad no hacía falta escribirlas puesto que seguro que ya existen en alguna librería.
 
-Seguramente estarás pensando "qué pícaro, al poner este ejemplo". O "programas del mundo real no son tan simples y no se pueden razonar de esta manera". He seleccionado este ejemplo porque la mayoría de nosotros ya sabemos sumar y multiplicar, así que es fácil ver cómo las matemáticas pueden sernos útiles.
+Seguramente estarás pensando "qué pícaro, al poner este ejemplo". O "en la realidad los programas no son tan simples y no se pueden razonar de esta manera". He seleccionado este ejemplo porque la mayoría de nosotros ya sabemos sumar y multiplicar, así que es fácil ver cómo las matemáticas pueden sernos útiles.
 
-No te desesperes, a lo largo de este libro hablaremos un poco sobre teoría de categorías, teoría de conjuntos, y cálculo lambda para escribir ejemplos del mundo real que consigan la misma elegante simplicidad y resultados que nuestro ejemplo de la bandada de gaviotas. No necesitas ser un matemático, será como utilizar otro framework o api.
+No te desesperes, a lo largo de este libro hablaremos un poco sobre teoría de categorías, teoría de conjuntos, y cálculo lambda para escribir ejemplos de la vida real que consigan la misma elegante simplicidad y que resulten como nuestro ejemplo de la bandada de gaviotas. No necesitas ser un matemático, será como utilizar otro framework o API.
 
-Puede resultar sorprendente oír que se puedan escribir aplicaciones completas utilizando programación funcional como hemos mostrado en el ejemplo de arriba. Programas que tienen propiedades sólidas. Programas cortos, pero fáciles de razonar. Programas que no reinventan la rueda una y otra vez. La falta de leyes es buena si eres un criminal, pero en este libro, vamos a reconocer y obedecer las leyes de las matemáticas.
+Puede resultar sorprendente oír que se puedan escribir aplicaciones completas y reales utilizando programación funcional como hemos mostrado en el ejemplo anterior. Programas con sólidas propiedades. Programas cortos, pero fáciles de razonar. Programas que no reinventan la rueda una y otra vez. La falta de leyes es buena si eres un criminal, pero en este libro, vamos a reconocer y obedecer las leyes de las matemáticas.
 
-Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limpiamente. Querremos representar nuestro problema específico en términos de pequeñas piezas genéricas y componibles, para luego explotar sus propiedades en nuestro propio beneficio. Será necesaria un poco más de disciplina que en el enfoque de "todo vale" de la programación imperativa (más adelante definiremos más precisamente lo que es la programación imperativa, pero por ahora considérala cualquier cosa que no sea programación funcional). La recompensa  de trabajar dentro de un marco de trabajo basado en principios matemáticos realmente te asombrará.
+Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limpiamente. Querremos representar nuestro problema específico en términos de pequeñas piezas genéricas y combinables, para luego explotar sus propiedades en nuestro propio beneficio. Será necesaria un poco más de disciplina que en el enfoque del "todo vale" de la programación imperativa (más adelante definiremos más precisamente lo que es la programación imperativa, pero por ahora considérala cualquier cosa que no sea programación funcional). La recompensa  de trabajar dentro de un marco de trabajo basado en principios matemáticos realmente te asombrará.
 
-Hemos visto un destello de nuestra estrella del norte funcional, pero hay unos cuantos conceptos que necesitamos entender antes de poder realmente empezar nuestro viaje.
+Hemos visto un destello de nuestra estrella del norte funcional, pero hay unos cuantos conceptos que necesitamos entender antes de poder empezar realmente nuestro viaje.
 
 [Capítulo 2: Funciones de Primera Clase](ch02-es.md)
