@@ -20,6 +20,9 @@ Este es un libro sobre el paradigma funcional en general. Utilizaremos el lengua
 
 Dicho esto, los lenguajes funcionales tipados serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuestro medio para aprender un paradigma, dónde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te sentirás como en casa con Swiftz, Scalaz, Haskell, PureScript, y otros entornos inclinados hacia las matemáticas.
 
+## Sobre la traducción
+
+Se han añadido notas de traducción donde se ha visto necesario. Para no interferir con el ritmo de lectura se ha optado por incluir la nota seguidamente de aquello que se esté anotando y entre corchetes y en cursiva. Por ejemplo, "solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*]". En caso de anotar un título la anotación se incluirá al comienzo del párrafo.
 
 ## Léelo Online
 
