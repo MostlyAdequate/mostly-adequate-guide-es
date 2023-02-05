@@ -43,7 +43,7 @@
   * [Casos de Uso](ch08-es.md#casos-de-uso)
   * [Liberando el Valor](ch08-es.md#liberando-el-valor)
   * [Manejo de Errores Puro](ch08-es.md#manejo-de-errores-puro)
-  * [El Viejo McDonald Tuvo Efectos...](ch08-es.md#el-viejo-mcdonald-tuvo-efectos)
+  * [El Viejo McDonald Tenía Efectos...](ch08-es.md#el-viejo-mcdonald-tenía-efectos)
   * [Tareas Asíncronas](ch08-es.md#tareas-asíncronas)
   * [Un Poco de Teoría](ch08-es.md#un-poco-de-teoría)
   * [En Resumen](ch08-es.md#en-resumen)
