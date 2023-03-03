@@ -1,6 +1,6 @@
 # Capítulo 12: Atravesando la Piedra
 
-Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [functor](ch08-es.md#mi-primer-functor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos de una sola vez utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
+Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [functor](ch08-es.md#mi-primer-functor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos de una sola vez utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
 
 Y ahora, para nuestro siguiente truco, veremos los "traversables". Veremos tipos volar unos sobre otros como si fuesen trapecistas, manteniendo nuestro valor intacto. Reordenaremos los efectos como a las cabinas de una atracción de feria. Cuando nuestros contenedores se entrelacen como las extremidades de un contorsionista podremos utilizar esta interfaz para enderezar las cosas. Con distintas disposiciones presenciaremos distintos efectos. Tráeme mis bombachos y mi flauta de émbolo, comencemos.
 
@@ -33,7 +33,7 @@ He aquí un último ejemplo de una situación complicada:
 const getControlNode = compose(map(map($)), map(getAttribute('aria-controls')), $);
 ```
 
-Mira esos `IO` anhelando estar juntos. Sería simplemente encantador unirlos con `join`, dejar que bailen mejilla con mejilla, pero, por desgracia, un `Maybe` se interpone entre ellos como una carabina en el baile de graduación. Nuestro mejor movimiento aquí sería colocarlos uno junto al otro para que sus tipos estuviesen al fin juntos, y así simplificar nuestra firma a `IO (Maybe Node)`.
+Mira esos `IO` anhelando estar juntos. Sería simplemente encantador poder unirlos con `join` y dejar que bailasen mejilla con mejilla, pero, por desgracia, un `Maybe` se interpone entre ellos como una carabina en el baile de graduación. Nuestro mejor movimiento aquí sería colocarlos uno junto al otro para que sus tipos estuviesen al fin juntos, y así simplificar nuestra firma a `IO (Maybe Node)`.
 
 ## Feng Shui de Tipos
 
@@ -49,14 +49,14 @@ sequence(Either.of, [Either.of('wing')]); // Right(['wing'])
 sequence(Task.of, left('wing')); // Task(Left('wing'))
 ```
 
-¿Ves lo que ha ocurrido aquí? Nuestro tipo con anidamiento es dado la vuelta como a unos pantalones de piel en una húmeda noche de verano. El functor de dentro es movido hacia el exterior y viceversa. Debe saberse que `sequence` es un poco particular en cuanto a sus argumentos. Tiene el siguiente aspecto:
+¿Ves lo que ha ocurrido aquí? Nuestro tipo con anidamiento es dado la vuelta como a unos pantalones de piel en una húmeda noche de verano. El functor de dentro es movido hacia el exterior y viceversa. Has de saber que `sequence` es un poco particular en cuanto a sus argumentos. Tiene el siguiente aspecto:
 
 ```js
 // sequence :: (Traversable t, Applicative f) => (a -> f a) -> t (f a) -> f (t a)
 const sequence = curry((of, x) => x.sequence(of));
 ```
 
-Comencemos por el segundo argumento. Ha de ser un *Traversable* que contenga un *Aplicativo*, lo que suena bastante restrictivo, pero resulta que eso suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. Ese primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
+Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aún sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. Ese primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
 
 Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, por ejemplo `Either`, la implementaría.
 
@@ -69,9 +69,9 @@ class Right extends Either {
 }
 ```
 
-Ah, si, si nuestro valor `$value` es un functor (de hecho debe ser un aplicativo), podemos simplemente aplicar `map` a nuestro constructor para que salte por encima del tipo.    
+Ah, si, si nuestro valor `$value` es un functor (de hecho debe ser un aplicativo), podemos simplemente aplicarle nuestro constructor mediante `map` para que salte por encima del tipo.    
 
-Puede que te hayas dado cuenta de que hemos ignorado por completo el `of`. Se pasa para cuando el mapeo es inútil, como es en el caso de `Left`:
+Puede que te hayas dado cuenta de que hemos ignorado por completo el `of`. Se pasa como argumento para cuando el mapeo es inútil, como es en el caso de `Left`:
 
 ```js
 class Left extends Either {
@@ -82,11 +82,11 @@ class Left extends Either {
 }
 ```
 
-Nos gustaría que los tipos acabasen siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Functor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita que se entregue explícitamente.
+Nos gustaría que los tipos acabasen siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Functor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita ser proporcionado explícitamente.
 
 ## Surtido de Efectos
 
-Distintas disposiciones tienen distintos resultados en cuanto a nuestros contenedores se refiere. Si tengo `[Maybe a]`, eso es una colección de posibles valores mientras que si tengo un `Maybe [a]`, eso es una colección de valores. Lo primero indica que seremos indulgentes y nos quedaremos con "los buenos", mientras que el último significa que es una situación del tipo "todo o nada". De igual manera, `Either Error (Task Error a)` puede representar una validación del lado del cliente y `Task Error (Either Error a)` puede ser del lado del servidor. Los tipos pueden ser intercambiados para proporcionarnos diferentes efectos.
+Distintas disposiciones tienen distintos resultados en cuanto a nuestros contenedores se refiere. Si tengo `[Maybe a]`, es una colección de posibles valores mientras que si tengo un `Maybe [a]`, es una posible colección de valores. Lo primero indica que seremos indulgentes y nos quedaremos con "los buenos", mientras que lo último significa que es una situación del tipo "todo o nada". De igual manera, `Either Error (Task Error a)` puede representar una validación del lado del cliente y `Task Error (Either Error a)` puede ser del lado del servidor. Los tipos pueden ser intercambiados para proporcionarnos diferentes efectos.
 
 ```js
 // fromPredicate :: (a -> Bool) -> a -> Either e a
@@ -139,7 +139,7 @@ Esto tan solo ejecuta un `reduce` en la lista. La función reduce es `(f, a) => 
    > fn(a).map(b => bs => bs.concat(b)).ap(f) :: Either e [a]
 
 Esta transformación aparentemente milagrosa se consigue con tan solo 6 míseras líneas de código en `List.traverse`, y se logra con `of`, `map` y `ap` por lo que funcionará para cualquier Functor Aplicativo. Este es un gran ejemplo
-de cómo estas abstracciones puede ayudar a escribir código altamente genérico con solo unas pocas suposiciones (¡que pueden, por cierto, ser declaradas y comprobadas a nivel de tipo!)
+de cómo estas abstracciones pueden ayudar a escribir código altamente genérico con solo unas pocas suposiciones (¡que pueden, por cierto, ser declaradas y comprobadas a nivel de tipos!)
 
 ## El Vals de los Tipos
 
@@ -158,7 +158,7 @@ traverse(Task.of, tldr, ['file1', 'file2']);
 // Task(['hail the monarchy', 'smash the patriarchy']);
 ```
 
-Utilizando `traverse` en vez de `map`, hemos conseguido formar un rebaño con esas revoltosas `Task` convirtiéndolas en un bonito y coordinado array de resultados. Esto es como `Promise.all()`, si estás familiarizado, excepto que no es una única función personalizada, no, esto funciona para cualquier tipo *traversable*. Estas apis matemáticas tienden a capturar de una forma interoperable y reusable la mayor parte de las cosas que nos gustaría hacer, en vez de que cada librería reinvente estas funciones para un solo tipo.
+Utilizando `traverse` en vez de `map`, hemos conseguido formar un rebaño con esas revoltosas `Task`, convirtiéndolas en un bonito y coordinado array de resultados. Esto es como `Promise.all()`, si estás familiarizado, excepto que no es una única función personalizada, no, esto funciona para cualquier tipo *traversable*. Estas apis matemáticas tienden a capturar de una forma interoperable y reusable la mayor parte de las cosas que nos gustaría hacer, en vez de que cada librería reinvente estas funciones para un solo tipo.
 
 Limpiemos el último ejemplo de closure:
 
@@ -174,11 +174,11 @@ En vez de `map(map($))` tenemos `chain(traverse(IO.of, $))`, que invierte nuestr
 
 ## Sin Ley Ni Orden
 
-Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código que reduzcan las posibilidades para guiarnos hacia las respuestas como diseñadores y lectores.
+Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código para reducir las posibilidades, para guiarnos hacia las respuestas cuando lo diseñamos y cuando lo leemos.
 
 Una interfaz sin leyes es simple indirección. Como cualquier otra estructura matemática, debemos exponer las propiedades para nuestra propia cordura. Esto tiene un efecto similar a la encapsulación, dado que protege a los datos, permitiéndonos intercambiar la interfaz por otro ciudadano ejemplar.
 
-Ven ahora, tenemos algunas leyes que averiguar.
+Acompáñame, tenemos algunas leyes que averiguar.
 
 ### Identidad
 
@@ -194,7 +194,7 @@ identity2(Either.of('stuff'));
 // Identity(Right('stuff'))
 ```
 
-Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro functor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Elegimos a `Right` como conejillo de indias, ya que con él es fácil probar a aplicar la ley e inspeccionarlo. Allí, un functor arbitrario es normal, sin embargo, el uso aquí de un functor concreto como `Identity` en la propia ley podría levantar algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) se define por morfismos entre sus objetos que tienen composición asociativa e identidad. Cuando se trata de la categoría de functores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El functor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos darnos por vencidos y seguir el ejemplo de nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
+Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro functor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Hemos elegido a `Right` como conejillo de indias porque con él es fácil probar a aplicar la ley e inspeccionarlo. Podríamos haber usado cualquier otro functor, sin embargo, el usar un functor concreto como `Identity` en la propia ley, podría haber levantado algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) es definida por morfismos entre sus objetos con composición asociativa e identidad. Cuando se trata de la categoría de functores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El functor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos dejar aquí este tema y pasar a hacer lo mismo con nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
 
 ### Composición
 
@@ -211,9 +211,9 @@ comp2(Either.of, Array)(Identity(Right([true])));
 // Compose(Right([Identity(true)]))
 ```
 
-Esta ley preserva la composición tal y como se esperaba: si intercambiamos la composición de functores, no deberíamos tener ninguna sorpresa dado que la composición es un functor en sí mismo. Arbitrariamente escogimos `true`, `Right`, `Identity` y `Array` para probarlo. Librerías como [quickcheck](https://hackage.haskell.org/package/QuickCheck) o [jsverify](http://jsverify.github.io/) pueden ayudarnos a comprobar la ley mediante pruebas con datos aleatorios en las entradas.
+Esta ley preserva la composición tal y como se esperaba: si intercambiamos la composición de functores, no deberíamos tener ninguna sorpresa dado que la composición es un functor en sí mismo. Arbitrariamente hemos escogido `true`, `Right`, `Identity` y `Array` para probarlo. Librerías como [quickcheck](https://hackage.haskell.org/package/QuickCheck) o [jsverify](http://jsverify.github.io/) pueden ayudarnos a comprobar la ley mediante pruebas con datos aleatorios en las entradas.
 
-Como consecuencia natural de la ley de arriba, obtenemos la capacidad de [fusionar *traversals*](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf), que está bien desde el punto de vista del rendimiento.
+Como consecuencia natural de la ley de arriba, obtenemos la capacidad de [fusionar *traversals*](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf), lo que es bueno desde el punto de vista del rendimiento.
 
 ### Naturalidad
 
@@ -246,7 +246,7 @@ Lo cual, de nuevo, es bueno desde el punto de vista del rendimiento.
 
 ## En Resumen
 
-*Traversable* es una poderosa interfaz que nos provee con la capacidad de reordenar nuestros tipos con la facilidad de un interiorista con telequinesis. Con distintas disposiciones podemos conseguir distintos efectos, así como planchar los tipos con esas feas arrugas que nos impiden unirlos con `join`. A continuación, nos desviaremos un poco para ver una de las interfaces más poderosas de la programación funcional y puede que incluso del propio álgebra: [Los Monoides lo unen todo](ch13-es.md)
+*Traversable* es una poderosa interfaz que nos provee con la capacidad de reordenar nuestros tipos con la facilidad de un interiorista con telequinesis. Con distintas disposiciones podemos conseguir distintos efectos, así como planchar esas feas arrugas en los tipos que nos impiden unirlos con `join`. A continuación, nos desviaremos un poco para ver una de las interfaces más poderosas de la programación funcional y puede que incluso del propio álgebra: [Los Monoides lo unen todo](ch13-es.md)
 
 ## Ejercicios
 
