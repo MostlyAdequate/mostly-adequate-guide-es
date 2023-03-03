@@ -691,21 +691,21 @@ ctmd2.getCompose;
 // Task(Just('Rock over London, rock on, Chicago'))
 ```
 
-Ahí lo tienes, un solo `map`. La composición de functores es asociativa y anteriormente definimos `Container` que en realidad se llama functor `Identidad`. Si tenemos identidad y composición asociativa tenemos una categoría. Esta categoría en particular tiene categorías como objetos y functores como morfismos, lo que es suficiente para hacer que a uno le transpire el cerebro. No profundizaremos demasiado en esto, pero es bueno apreciar las implicaciones arquitectónicas o incluso solo la simple belleza abstracta en el patrón.
+Ahí lo tienes, un solo `map`. La composición de funtores es asociativa y anteriormente definimos `Container` que en realidad se llama funtor `Identidad`. Si tenemos identidad y composición asociativa tenemos una categoría. Esta categoría en particular tiene categorías como objetos y funtores como morfismos, lo que es suficiente para hacer que a uno le transpire el cerebro. No profundizaremos demasiado en esto, pero es bueno apreciar las implicaciones arquitectónicas o incluso solo la simple belleza abstracta en el patrón.
 
 
 ## En Resumen 
 
-Hemos visto unos cuantos functores distintos, pero hay una infinidad de ellos. Algunas omisiones notables son las estructuras de datos iterables como árboles, listas, mapas, pares, lo que sea. Los event streams [*flujos de eventos*] y los observables son ambos functores. Otros pueden usarse para encapsular o incluso solo para el modelado de tipos. Los functores nos rodean y los utilizaremos ampliamente a lo largo del libro. 
+Hemos visto unos cuantos funtores distintos, pero hay una infinidad de ellos. Algunas omisiones notables son las estructuras de datos iterables como árboles, listas, mapas, pares, lo que sea. Los event streams [*flujos de eventos*] y los observables son ambos funtores. Otros pueden usarse para encapsular o incluso solo para el modelado de tipos. Los funtores nos rodean y los utilizaremos ampliamente a lo largo del libro. 
 
-¿Qué pasa con la llamada a una función con múltiples functores como argumentos? ¿Qué hay de trabajar con una secuencia ordenada de acciones impuras o asíncronas? Todavía no hemos adquirido el conjunto completo de herramientas para trabajar en este mundo de cajas. A continuación, iremos al grano y veremos las mónadas.
+¿Qué pasa con la llamada a una función con múltiples funtores como argumentos? ¿Qué hay de trabajar con una secuencia ordenada de acciones impuras o asíncronas? Todavía no hemos adquirido el conjunto completo de herramientas para trabajar en este mundo de cajas. A continuación, iremos al grano y veremos las mónadas.
 
 [Capítulo 09: Cebollas Monádicas](ch09-es.md)
 
 ## Ejercicios
 
 {% exercise %}  
-Utiliza `add` y `map` para crear una función que incremente el valor de dentro de un functor.  
+Utiliza `add` y `map` para crear una función que incremente el valor de dentro de un funtor.  
   
 {% initial src="./exercises/ch08/exercise_a.js#L3;" %}  
 ```js  
