@@ -38,7 +38,7 @@ Qué desorden tan espantoso. Un collage de tipos abstractos, expresionismo de ti
 
 ## Todo Natural
 
-Una *Transformación Natural* es un "morfismo entre functores", o sea, una función que opera en los contenedores mismos. Tipológicamente, es una función `(Functor f, Functor g) => f a -> g a`. Lo que la hace especial es que no podemos, bajo ningún concepto, asomarnos al contenido de nuestro functor. Piensa en ello como un intercambio de información clasificada; las dos partes ignoran lo que hay en el sobre de manila sellado con "top secret". Es una operación estructural. Un cambio funcional de vestuario. Formalmente, una *transformación natural* es cualquier función para la que se cumple lo siguiente:
+Una *Transformación Natural* es un "morfismo entre funtores", o sea, una función que opera en los contenedores mismos. Tipológicamente, es una función `(Functor f, Functor g) => f a -> g a`. Lo que la hace especial es que no podemos, bajo ningún concepto, asomarnos al contenido de nuestro funtor. Piensa en ello como un intercambio de información clasificada; las dos partes ignoran lo que hay en el sobre de manila sellado con "top secret". Es una operación estructural. Un cambio funcional de vestuario. Formalmente, una *transformación natural* es cualquier función para la que se cumple lo siguiente:
 
 <img width=600 src="images/natural_transformation.png" alt="diagrama de transformación natural" />
 
@@ -49,7 +49,7 @@ o en código:
 compose(map(f), nt) === compose(nt, map(f));
 ```
 
-Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Casualmente esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratis), aunque las transformaciones naturales (y los functores) no están limitadas a funciones sobre tipos.
+Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Casualmente esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratis), aunque las transformaciones naturales (y los funtores) no están limitadas a funciones sobre tipos.
 
 ## Conversión de Tipos Basada en Principios
 
@@ -77,7 +77,7 @@ const maybeToTask = x => (x.isNothing ? Task.rejected() : Task.of(x.$value));
 const arrayToMaybe = x => Maybe.of(x[0]);
 ```
 
-¿Ves la idea? Solo estamos cambiando un functor por otro. Se nos permite perder información por el camino, siempre y cuando el valor al que aplicaremos `map` no se pierda con tanto cambio de forma. Ese es el punto: `map` debe continuar, según nuestra definición, incluso después de la transformación.
+¿Ves la idea? Solo estamos cambiando un funtor por otro. Se nos permite perder información por el camino, siempre y cuando el valor al que aplicaremos `map` no se pierda con tanto cambio de forma. Ese es el punto: `map` debe continuar, según nuestra definición, incluso después de la transformación.
 
 Una manera de ver todo esto es que estamos transformando a nuestros efectos. Bajo esta luz, podemos ver a `ioToTask` como convertir de síncrono a asíncrono o a `arrayToMaybe` como convertir de no determinístico a posible fallo. Date cuenta que no podemos convertir de asíncrono a síncrono en JavaScript, así que no podemos escribir `taskToIO`; eso sería una transformación supernatural.
 
@@ -174,11 +174,11 @@ const saveComment = compose(
 );
 ```
 
-¿Qué tenemos aquí? Tan solo hemos añadido `chain(maybeToTask)` y `chain(eitherToTask)`. Ambas tienen el mismo efecto; de manera natural, transforman el functor que guarda nuestro `Task`, en otro `Task` y luego une los dos con `join`. De esta manera evitamos el anidamiento justo desde el origen igual que los pinchos para palomas en el alféizar de una ventana. Como dicen en la Ciudad de la Luz, "Mieux vaut prévenir que guérir"; más vale prevenir que curar.
+¿Qué tenemos aquí? Tan solo hemos añadido `chain(maybeToTask)` y `chain(eitherToTask)`. Ambas tienen el mismo efecto; de manera natural, transforman el funtor que guarda nuestro `Task`, en otro `Task` y luego une los dos con `join`. De esta manera evitamos el anidamiento justo desde el origen igual que los pinchos para palomas en el alféizar de una ventana. Como dicen en la Ciudad de la Luz, "Mieux vaut prévenir que guérir"; más vale prevenir que curar.
 
 ## En Resumen
 
-Las *Transformaciones Naturales* son funciones sobre nuestros functores. Son un concepto extremadamente importante en la teoría de categorías y empezarán a aparecer por todas partes una vez que adoptemos más abstracciones, pero, por ahora, las hemos limitado a unas pocas aplicaciones concretas. Como hemos visto, podemos conseguir diferentes efectos al convertir tipos, con la garantía de que mantendremos nuestra composición. También pueden ayudarnos con el anidamiento de tipos, aunque tienen el efecto general de homogeneizar nuestros functores al mínimo común denominador que, en la práctica, es el functor con los efectos más volátiles (`Task` en la mayoría de los casos).
+Las *Transformaciones Naturales* son funciones sobre nuestros funtores. Son un concepto extremadamente importante en la teoría de categorías y empezarán a aparecer por todas partes una vez que adoptemos más abstracciones, pero, por ahora, las hemos limitado a unas pocas aplicaciones concretas. Como hemos visto, podemos conseguir diferentes efectos al convertir tipos, con la garantía de que mantendremos nuestra composición. También pueden ayudarnos con el anidamiento de tipos, aunque tienen el efecto general de homogeneizar nuestros funtores al mínimo común denominador que, en la práctica, es el funtor con los efectos más volátiles (`Task` en la mayoría de los casos).
 
 Esta continuada y tediosa clasificación de tipos es el precio que pagamos por haberlos materializado; convocados desde el éter. Por supuesto, los efectos implícitos son mucho más insidiosos, así que aquí estamos, librando esta justa batalla. Necesitaremos algunas herramientas más en nuestro equipamiento antes de poder enrollar las más largas amalgamas de tipos. A continuación, veremos cómo reordenar nuestros tipos con *Traversable*.
 

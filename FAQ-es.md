@@ -36,9 +36,9 @@ En una firma, como:
 
 `map :: Functor f => (a -> b) -> f a -> f b`
 
-`f` se refiere a un `functor` que puede ser, por ejemplo, Maybe o IO. Así pues, la firma 
-abstrae la elección de ese functor mediante el uso de una variable de tipo, lo que básicamente 
-significa que cualquier functor puede ser usado donde aparece `f` siempre que todas las `f` 
+`f` se refiere a un `funtor` que puede ser, por ejemplo, Maybe o IO. Así pues, la firma 
+abstrae la elección de ese funtor mediante el uso de una variable de tipo, lo que básicamente 
+significa que cualquier funtor puede ser usado donde aparece `f` siempre que todas las `f` 
 sean del mismo tipo (si el primer `f a` en la firma representa un `Maybe a`, entonces el 
 segundo **no puede referirse a** un `IO b` si no que debe referirse a un `Maybe b`). Por ejemplo:
 

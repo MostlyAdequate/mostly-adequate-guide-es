@@ -89,7 +89,7 @@ Ver [FAQ-es.md](FAQ-es.md)
 # Planes para el futuro
 
 * **Parte 1** (capítulos 1-7) es una guía básica. La actualizaré a medida que encuentre errores, ya que esto es un borrador inicial. ¡Siéntete libre de ayudar!
-* **Parte 2** (capítulos 8-13) aborda clases de tipos como functores y mónadas de forma transversal. Espero poder meterme con transformers y con una aplicación pura.
+* **Parte 2** (capítulos 8-13) aborda clases de tipos como funtores y mónadas de forma transversal. Espero poder meterme con transformers y con una aplicación pura.
 * **Parte 3** (capítulos 14+) cruzará la delgada línea entre la programación práctica y la absurdidad académica. Veremos comónadas, f-algebras, mónadas libres, yoneda, y otras construcciones categóricas.
 
 

@@ -74,7 +74,7 @@ Los efectos secundarios pueden incluir, pero no limitarse a
   
 Y el listado sigue y sigue. Cualquier interacción con el mundo de afuera de una función es un efecto secundario, hecho que puede llevarte a sospechar de la practicidad de programar sin ellos. La filosofía de la programación funcional postula que los efectos secundarios son la principal causa de las incorrecciones en el comportamiento.
 
-No es que tengamos prohibido usarlos, más bien queremos contenerlos y ejecutarlos de manera controlada. Aprenderemos como hacerlo cuando lleguemos a los functores y mónadas en capítulos posteriores, pero por ahora, trataremos de mantener estas insidiosas funciones apartadas de las puras.
+No es que tengamos prohibido usarlos, más bien queremos contenerlos y ejecutarlos de manera controlada. Aprenderemos como hacerlo cuando lleguemos a los funtores y mónadas en capítulos posteriores, pero por ahora, trataremos de mantener estas insidiosas funciones apartadas de las puras.
 
 Los efectos secundarios descalifican a una función para ser *pura* y tiene sentido: las funciones puras, por definición, deben devolver siempre la misma salida dada la misma entrada, lo que no es garantizable cuando se manejan asuntos externos a nuestra función local.
 

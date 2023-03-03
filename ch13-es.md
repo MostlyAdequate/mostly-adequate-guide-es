@@ -58,7 +58,7 @@ Sum(4).concat(Sum(37)) // Sum(41)
 
 Así podemos programar para la interfaz, no para la implementación. Dado que esta interfaz viene de la teoría de grupos, tiene siglos de literatura respaldándola. ¡Documentación sin esfuerzo adicional!
 
-Como mencionaba antes, `Sum` no es *pointed*, y tampoco es un *functor*. Como ejercicio, vuelve atrás y comprueba las leyes para ver por qué. Vale, yo te lo diré: únicamente puede mantener un número, así que `map` no tiene sentido aquí dado que no podemos transformar al valor subyacente en otro tipo. ¡Ese sería un `map` muy limitado de hecho!
+Como mencionaba antes, `Sum` no es *pointed*, y tampoco es un *funtor*. Como ejercicio, vuelve atrás y comprueba las leyes para ver por qué. Vale, yo te lo diré: únicamente puede mantener un número, así que `map` no tiene sentido aquí dado que no podemos transformar al valor subyacente en otro tipo. ¡Ese sería un `map` muy limitado de hecho!
 
 Y entonces, ¿por qué es útil? Bien, como con cualquier interfaz, podemos cambiar nuestro ejemplar para conseguir distintos resultados:
 
@@ -94,9 +94,9 @@ Si los miras fijamente el tiempo suficiente, el patrón aparecerá como en un es
 Ya he usado `Map` unas cuantas veces. Perdóname si no te lo he presentado adecuadamente. `Map` tan solo envuelve a `Object` para así poder embellecerlo con algunos métodos extra sin alterar el tejido del universo.
 
 
-## Todos Mis Functores Favoritos Son Semigrupos
+## Todos Mis Funtores Favoritos Son Semigrupos
 
-Los tipos que hemos visto hasta ahora y que implementan la interfaz functor también implementan la interfaz semigrupo. Veamos a `Identity` (el artista antes conocido como Contenedor):
+Los tipos que hemos visto hasta ahora y que implementan la interfaz funtor también implementan la interfaz semigrupo. Veamos a `Identity` (el artista antes conocido como Contenedor):
 
 ```js
 Identity.prototype.concat = function(other) {
@@ -140,7 +140,7 @@ En el ejemplo de arriba, hemos combinado un `IO` que contiene un `Either` que a 
 
 Estos ejemplos podrían haber utilizado `chain` o `ap`, pero los *semigrupos* capturan lo que queremos de forma mucho más concisa.
 
-Esto se extiende más allá de los functores. De hecho, resulta que cualquier cosa hecha enteramente de semigrupos es ella misma un semigrupo.
+Esto se extiende más allá de los funtores. De hecho, resulta que cualquier cosa hecha enteramente de semigrupos es ella misma un semigrupo.
 
 ```js
 const Analytics = (clicks, path, idleTime) => ({
@@ -309,11 +309,11 @@ Dado que todos son del mismo tipo, podemos concatenar a través de `compose`, qu
 
 ### Mónada Como Monoide
 
-Puede que hayas notado que `join` es una operación que toma dos mónadas (anidadas) y las aplasta en una sola de manera asociativa. Es también una transformación natural o una "función functor". Como establecimos anteriormente, podemos crear una categoría con functores como objetos y transformaciones naturales como morfismos. Si la especializamos en *Endofunctores*, o sea, functores del mismo tipo, entonces `join` nos provee de un monoide en la categoría de Endofunctores también conocida como Mónada. Mostrar en código la formulación exacta requiere de algunos trucos que te animo a googlear, pero esta es la idea general.
+Puede que hayas notado que `join` es una operación que toma dos mónadas (anidadas) y las aplasta en una sola de manera asociativa. Es también una transformación natural o una "función funtor". Como establecimos anteriormente, podemos crear una categoría con funtores como objetos y transformaciones naturales como morfismos. Si la especializamos en *Endofuntores*, o sea, funtores del mismo tipo, entonces `join` nos provee de un monoide en la categoría de Endofuntores también conocida como Mónada. Mostrar en código la formulación exacta requiere de algunos trucos que te animo a googlear, pero esta es la idea general.
 
 ### Aplicativo Como Monoide
 
-Incluso lo functores aplicativos tienen una formulación monoidal conocida en teoría de categorías como *functor monoidal laxo*. Podemos implementar la interfaz como un monoide y recuperar `ap` de él:
+Incluso lo funtores aplicativos tienen una formulación monoidal conocida en teoría de categorías como *funtor monoidal laxo*. Podemos implementar la interfaz como un monoide y recuperar `ap` de él:
 
 ```js
 // concat :: f a -> f b -> f [a, b]

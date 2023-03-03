@@ -1,10 +1,10 @@
 # Capítulo 09: Cebollas Monádicas
 
-## Fábrica de Functores Puntiagudos
+## Fábrica de Funtores Puntiagudos
 
 Antes de seguir avanzando, tengo algo que confesar: No he sido completamente honesto sobre ese método `of` que hemos colocado en cada uno de nuestros tipos. Resulta que no está ahí para evitar la palabra clave `new`, si no para colocar los valores en lo que se llama *contexto mínimo por defecto*. Sí, `of` no sustituye a un constructor sino que forma parte de una importante interfaz a la que llamamos *Pointed*.
 
-> Un *functor pointed* es un functor con un método `of`
+> Un *funtor pointed* es un funtor con un método `of`
 
 Lo importante aquí es la capacidad de dejar caer cualquier valor dentro de nuestro tipo y poder empezar a aplicar map.
 
@@ -22,13 +22,13 @@ Either.of('The past, present and future walk into a bar...').map(concat('it was 
 // Right('The past, present and future walk into a bar...it was tense.')
 ```
 
-Si recuerdas, los constructores de `IO` y `Task` esperan una función como argumento, pero `Maybe` y `Either` no. La motivación para esta interfaz es tener una forma común y consistente de colocar un valor en nuestro functor sin las complejidades y demandas específicas de cada constructor. El término "contexto mínimo por defecto" carece de precisión, pero recoge bien la idea: nos gustaría levantar cualquier valor a dentro de nuestro tipo y aplicarle `map` como de costumbre, obteniendo el comportamiento esperado de cualquier functor.
+Si recuerdas, los constructores de `IO` y `Task` esperan una función como argumento, pero `Maybe` y `Either` no. La motivación para esta interfaz es tener una forma común y consistente de colocar un valor en nuestro funtor sin las complejidades y demandas específicas de cada constructor. El término "contexto mínimo por defecto" carece de precisión, pero recoge bien la idea: nos gustaría levantar cualquier valor a dentro de nuestro tipo y aplicarle `map` como de costumbre, obteniendo el comportamiento esperado de cualquier funtor.
 
-Una corrección importante que debo hacer llegados a este punto (el juego de palabras es intencionado), es que `Left.of` no tiene ningún sentido. Cada functor debe tener una forma de colocarle dentro un valor y en `Either` eso se hace con `new Right(x)`. Definimos `of` usando `Right` porque si nuestro tipo *puede* aplicar `map`, debe aplicar `map`. Viendo los ejemplos anteriores, deberíamos intuir como funcionará `of` normalmente y `Left` rompe ese molde.
+Una corrección importante que debo hacer llegados a este punto (el juego de palabras es intencionado), es que `Left.of` no tiene ningún sentido. Cada funtor debe tener una forma de colocarle dentro un valor y en `Either` eso se hace con `new Right(x)`. Definimos `of` usando `Right` porque si nuestro tipo *puede* aplicar `map`, debe aplicar `map`. Viendo los ejemplos anteriores, deberíamos intuir como funcionará `of` normalmente y `Left` rompe ese molde.
 
 Es posible que hayas oído hablar de funciones como `pure`, `point`, `unit`, y `return`. Estos son varios alias para nuestro método `of`, la función internacional del misterio. `of` será importante cuando empecemos a usar mónadas porque, como veremos, es nuestra responsabilidad volver a colocar los valores en el tipo manualmente.
 
-Para evitar la palabra clave `new`, hay varios trucos estándar en JavaScript o en librerías así que los utilizaremos y de ahora en adelante usaremos `of` como adultos responsables que somos. Recomiendo usar functores de `folktale`, `ramda` o `fantasy-land` ya que proporcionan el método `of` correcto así como amables constructores que no dependen de `new`.
+Para evitar la palabra clave `new`, hay varios trucos estándar en JavaScript o en librerías así que los utilizaremos y de ahora en adelante usaremos `of` como adultos responsables que somos. Recomiendo usar funtores de `folktale`, `ramda` o `fantasy-land` ya que proporcionan el método `of` correcto así como amables constructores que no dependen de `new`.
 
 
 ## Mezclando Metáforas
@@ -91,9 +91,9 @@ firstAddressStreet({
 // Maybe(Maybe(Maybe({name: 'Mulburry', number: 8402})))
 ```
 
-De nuevo vemos esta situación en la que tenemos functores anidados donde se puede ver claramente que hay tres posibilidades de fallo en nuestra función, pero es un poco presuntuoso esperar que quien nos llama aplicará `map` tres veces para llegar al valor, que acabamos de conocer. Este patrón aparecerá una y otra vez y es la principal situación por la que necesitaremos hacer brillar en el cielo nocturno al poderoso símbolo de la mónada.
+De nuevo vemos esta situación en la que tenemos funtores anidados donde se puede ver claramente que hay tres posibilidades de fallo en nuestra función, pero es un poco presuntuoso esperar que quien nos llama aplicará `map` tres veces para llegar al valor, que acabamos de conocer. Este patrón aparecerá una y otra vez y es la principal situación por la que necesitaremos hacer brillar en el cielo nocturno al poderoso símbolo de la mónada.
 
-He dicho que las mónadas son como cebollas porque se nos saltan las lágrimas cuando pelamos con `map` cada capa de functor anidado para llegar al valor del interior. Podemos secar nuestros ojos, respirar hondo, y utilizar un método llamado `join`.
+He dicho que las mónadas son como cebollas porque se nos saltan las lágrimas cuando pelamos con `map` cada capa de funtor anidado para llegar al valor del interior. Podemos secar nuestros ojos, respirar hondo, y utilizar un método llamado `join`.
 
 ```js
 const mmo = Maybe.of(Maybe.of('nunchucks'));
@@ -115,11 +115,11 @@ ttt.join();
 // Task(Task('sewers'))
 ```
 
-Si tenemos dos capas del mismo tipo, podemos unirlas aplastándolas juntas con `join`. Esta capacidad de unir, este matrimonio de functores, es lo que hace mónada a una mónada. Avancemos hacia la definición completa con algo un poco más preciso:
+Si tenemos dos capas del mismo tipo, podemos unirlas aplastándolas juntas con `join`. Esta capacidad de unir, este matrimonio de funtores, es lo que hace mónada a una mónada. Avancemos hacia la definición completa con algo un poco más preciso:
 
-> Las mónadas son functores pointed que pueden aplanar
+> Las mónadas son funtores pointed que pueden aplanar
 
-Cualquier functor que defina un método `join`, que tenga un método `of`, y que obedezca unas pocas leyes, es una mónada. Definir `join` no es muy difícil así que hagámoslo para `Maybe`:
+Cualquier funtor que defina un método `join`, que tenga un método `of`, y que obedezca unas pocas leyes, es una mónada. Definir `join` no es muy difícil así que hagámoslo para `Maybe`:
 
 ```js
 Maybe.prototype.join = function join() {
@@ -283,9 +283,9 @@ querySelector('input.username').chain(({ value: uname }) =>
 
 Por último, tenemos dos ejemplos que usan `Maybe`. Dado que `chain` está usando map por debajo, si cualquier valor es nulo, detenemos en seco la computación.
 
-No te preocupes si estos ejemplos son difíciles de entender al principio. Juega con ellos. Moléstales con un palo. Rómpelos en trozos y móntalos de nuevo. Recuerda aplicar `map` cuando lo devuelto sea un valor "normal" y `chain` cuando lo devuelto sea otro functor. En el próximo capítulo, nos acercaremos a los `Aplicativos` y veremos buenos trucos para hacer que este tipo de expresiones sean más bonitas y altamente legibles.
+No te preocupes si estos ejemplos son difíciles de entender al principio. Juega con ellos. Moléstales con un palo. Rómpelos en trozos y móntalos de nuevo. Recuerda aplicar `map` cuando lo devuelto sea un valor "normal" y `chain` cuando lo devuelto sea otro funtor. En el próximo capítulo, nos acercaremos a los `Aplicativos` y veremos buenos trucos para hacer que este tipo de expresiones sean más bonitas y altamente legibles.
 
-Como recordatorio, esto no funciona con dos tipos anidados diferentes. La composición de functores y, posteriormente, los transformadores de mónadas, pueden ayudarnos en esa situación.
+Como recordatorio, esto no funciona con dos tipos anidados diferentes. La composición de funtores y, posteriormente, los transformadores de mónadas, pueden ayudarnos en esa situación.
 
 ## Borrachera de Poder
 
@@ -381,9 +381,9 @@ Las mónadas nos permiten perforar a través de computaciones anidadas. Podemos 
 
 Si, las mónadas son muy potentes, pero aún y así seguimos viendo que necesitamos algunas funciones de contenedor adicionales. Por ejemplo, ¿y si necesitamos ejecutar a la vez una lista de llamadas a una api y luego reunir los resultados? Podemos realizar esta tarea con mónadas, pero tendríamos que esperar a que cada una terminase antes de llamar a la siguiente. ¿Qué hay de combinar diversas validaciones? Nos gustaría seguir validando para ir recopilando la lista de errores, pero las mónadas detendrán el espectáculo nada más entrar a escena el primer `Left`.
 
-En el próximo capítulo, veremos como encajan los functores aplicativos en el mundo de los contenedores y por qué en muchos casos los preferimos a las mónadas.
+En el próximo capítulo, veremos como encajan los funtores aplicativos en el mundo de los contenedores y por qué en muchos casos los preferimos a las mónadas.
 
-[Capítulo 10: Functores Aplicativos](ch10-es.md)
+[Capítulo 10: Funtores Aplicativos](ch10-es.md)
 
 
 ## Ejercicios

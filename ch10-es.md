@@ -1,14 +1,14 @@
-# Capítulo 10: Functores Aplicativos
+# Capítulo 10: Funtores Aplicativos
 
 ## Aplicando Aplicativos
 
-El nombre **functor aplicativo** es placenteramente descriptivo dados sus orígenes funcionales. Los programadores funcionales son conocidos por aparecer con nombres como `mappend` o `liftA4`, que parecen perfectamente naturales cuando se ven en el laboratorio de matemáticas, pero que en cualquier otro contexto son claros como un Darth Vader indeciso en el autoservicio.
+El nombre **funtor aplicativo** es placenteramente descriptivo dados sus orígenes funcionales. Los programadores funcionales son conocidos por aparecer con nombres como `mappend` o `liftA4`, que parecen perfectamente naturales cuando se ven en el laboratorio de matemáticas, pero que en cualquier otro contexto son claros como un Darth Vader indeciso en el autoservicio.
 
-En cualquier caso, el nombre debería revelar lo que esta interfaz nos da: *la capacidad de aplicar functores entre ellos*.
+En cualquier caso, el nombre debería revelar lo que esta interfaz nos da: *la capacidad de aplicar funtores entre ellos*.
 
-Pero, ¿por qué una persona normal y racional como tú querría una cosa así? Incluso, ¿qué *significa* aplicar un functor a otro?
+Pero, ¿por qué una persona normal y racional como tú querría una cosa así? Incluso, ¿qué *significa* aplicar un funtor a otro?
 
-Para responder a estas preguntas, comenzaremos con una situación en la que ya te habrás visto en tus viajes funcionales. Digamos que, hipotéticamente, tenemos dos functores (del mismo tipo) con sus respectivos valores, y que queremos llamar a una función con esos dos valores como argumentos. Algo simple, como sumar los valores de dos `Container`.
+Para responder a estas preguntas, comenzaremos con una situación en la que ya te habrás visto en tus viajes funcionales. Digamos que, hipotéticamente, tenemos dos funtores (del mismo tipo) con sus respectivos valores, y que queremos llamar a una función con esos dos valores como argumentos. Algo simple, como sumar los valores de dos `Container`.
 
 ```js
 // No podemos hacer esto porque los números están embotellados.
@@ -20,7 +20,7 @@ const containerOfAdd2 = map(add, Container.of(2));
 // Container(add(2))
 ```
 
-Ahora tenemos un `Container` con una función dentro que está parcialmente aplicada. Más específicamente, tenemos un `Container(add(2))` y queremos aplicar su `add(2)` al `3` de `Container(3)` para completar la llamada. En otras palabras, queremos aplicar un functor a otro functor.
+Ahora tenemos un `Container` con una función dentro que está parcialmente aplicada. Más específicamente, tenemos un `Container(add(2))` y queremos aplicar su `add(2)` al `3` de `Container(3)` para completar la llamada. En otras palabras, queremos aplicar un funtor a otro funtor.
 
 Pues resulta que ya tenemos las herramientas para llevar a cabo está tarea. Podemos aplicar `chain` y luego `map` a la función parcialmente aplicada `add(2)`, tal que así:
 
@@ -30,14 +30,14 @@ Container.of(2).chain(two => Container.of(3).map(add(two)));
 
 El problema aquí es que estamos atrapados en el mundo secuencial de las mónadas en el que nada puede ser evaluado hasta que la mónada anterior haya terminado su trabajo. Tenemos dos valores fuertes e independientes y me parece innecesario retrasar la creación de `Containter(3)` tan solo para satisfacer las demandas secuenciales de las mónadas.
 
-De hecho, si nos viésemos en este aprieto, sería maravilloso si pudiéramos, sucintamente, aplicar el contenido de un functor al valor de otro, sin esas funciones y variables innecesarias.
+De hecho, si nos viésemos en este aprieto, sería maravilloso si pudiéramos, sucintamente, aplicar el contenido de un funtor al valor de otro, sin esas funciones y variables innecesarias.
 
 
 ## Barcos en Botellas
 
 <img src="images/ship_in_a_bottle.jpg" alt="https://www.deviantart.com/hollycarden" />
 
-`ap` es una función que puede aplicar la función contenida en un functor al valor contenido en otro. Di esto cinco veces más rápido.
+`ap` es una función que puede aplicar la función contenida en un funtor al valor contenido en otro. Di esto cinco veces más rápido.
 
 ```js
 Container.of(add(2)).ap(Container.of(3));
@@ -59,10 +59,10 @@ Container.prototype.ap = function (otherContainer) {
 };
 ```
 
-Recuerda, `this.$value` será una función y aceptaremos otro functor por lo que solo necesitaremos mapearlo. Y con eso tenemos definida nuestra interfaz:
+Recuerda, `this.$value` será una función y aceptaremos otro funtor por lo que solo necesitaremos mapearlo. Y con eso tenemos definida nuestra interfaz:
 
 
-> Un *functor aplicativo* es un functor pointed con un método `ap`
+> Un *funtor aplicativo* es un funtor pointed con un método `ap`
 
 Observa la dependencia en **pointed**. La interfaz pointed es aquí crucial, tal y como veremos en los próximos ejemplos.
 
@@ -72,7 +72,7 @@ Percibo tu escepticismo (o quizás confusión y horror), pero mantén la mente a
 F.of(x).map(f) === F.of(f).ap(F.of(x));
 ```
 
-En correcto castellano, mapear `f` equivale a usar la función `ap` de un functor de `f`. O en un castellano más correcto, podemos colocar `x` en nuestro contendor y hacer `map(f)`, o, podemos levantar tanto `f` como `x` en nuestro contenedor y luego aplicarles `ap`. Esto nos permite escribir de izquierda a derecha:
+En correcto castellano, mapear `f` equivale a usar la función `ap` de un funtor de `f`. O en un castellano más correcto, podemos colocar `x` en nuestro contendor y hacer `map(f)`, o, podemos levantar tanto `f` como `x` en nuestro contenedor y luego aplicarles `ap`. Esto nos permite escribir de izquierda a derecha:
 
 ```js
 Maybe.of(add).ap(Maybe.of(2)).ap(Maybe.of(3));
@@ -84,7 +84,7 @@ Task.of(add).ap(Task.of(2)).ap(Task.of(3));
 
 Entrecerrando los ojos, se puede incluso reconocer vagamente la forma normal de llamar a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
 
-¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones donde los functores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
+¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones donde los funtores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
 
 ## Motivación para la Coordinación
 
@@ -133,7 +133,7 @@ const liftA3 = curry((g, f1, f2, f3) => f1.map(g).ap(f2).ap(f3));
 // liftA4, etc
 ```
 
-`liftA2` es un nombre extraño. Suena a uno de esos ascensores de carga poco fiables de una fábrica en decadencia o a una matrícula para una empresa de limusinas baratas. Sin embargo, una vez aclarado, se explica por sí mismo: levanta esas piezas al mundo del functor aplicativo.
+`liftA2` es un nombre extraño. Suena a uno de esos ascensores de carga poco fiables de una fábrica en decadencia o a una matrícula para una empresa de limusinas baratas. Sin embargo, una vez aclarado, se explica por sí mismo: levanta esas piezas al mundo del funtor aplicativo.
 
 Cuando vi por primera vez ese sin sentido de 2-3-4 me pareció feo e innecesario. Después de todo, podemos comprobar la aridad de las funciones en JavaScript y construirlas dinámicamente. Sin embargo, suele ser útil aplicar parcialmente a `liftA(N)` para que no pueda variar en la cantidad de argumentos.
 
@@ -196,7 +196,7 @@ Es útil saber que `<$>` es `map` (también conocido como `fmap`) y que `<*>` es
 
 No hemos hablado mucho de las funciones derivadas. Dado que todas estas interfaces se construyen a partir de otras y obedecen a un conjunto de leyes, podemos definir algunas interfaces más débiles en términos de las más fuertes.
 
-Por ejemplo, sabemos que un aplicativo es primero un functor, así que, si tenemos un ejemplar de aplicativo, seguramente podamos definir un functor para nuestro tipo.
+Por ejemplo, sabemos que un aplicativo es primero un funtor, así que, si tenemos un ejemplar de aplicativo, seguramente podamos definir un funtor para nuestro tipo.
 
 Esta clase de perfecta harmonia computacional es posible porque estamos trabajando dentro de un marco matemático. Mozart no podría haberlo hecho mejor aún teniendo Ableton de niño.
 
@@ -209,7 +209,7 @@ X.prototype.map = function map(f) {
 };
 ```
 
-Las mónadas están, por así decirlo, arriba del todo de la cadena alimenticia, así que si tenemos a `chain`, obtenemos functor y aplicativo de forma gratuita:
+Las mónadas están, por así decirlo, arriba del todo de la cadena alimenticia, así que si tenemos a `chain`, obtenemos funtor y aplicativo de forma gratuita:
 
 ```js
 // map derivada de chain
@@ -223,7 +223,7 @@ X.prototype.ap = function ap(other) {
 };
 ```
 
-Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como de functor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
+Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como de funtor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
 
 Hay que señalar que parte del atractivo de `ap` es su capacidad para ejecutar cosas de manera concurrente, por lo que definirla mediante `chain` hace que se pierda esa optimización. A pesar de esto, es bueno tener una interfaz funcionando inmediatamente mientras uno trabaja en la mejor implementación posible.
 
@@ -235,7 +235,7 @@ Y ahora, sobre los aspectos legales...
 
 ## Leyes
 
-Al igual que el resto de construcciones matemáticas que hemos explorado, los functores aplicativos tienen algunas propiedades que pueden sernos útiles en nuestro día a día programando. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca cambiará el tipo de los contenedores por nosotros (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
+Al igual que el resto de construcciones matemáticas que hemos explorado, los funtores aplicativos tienen algunas propiedades que pueden sernos útiles en nuestro día a día programando. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca cambiará el tipo de los contenedores por nosotros (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
 
 Para demostrarlo:
 
@@ -257,14 +257,14 @@ Llega el momento de ver nuestra ley favorita de la teoría de categorías: *iden
 A.of(id).ap(v) === v;
 ```
 
-Bien, así que aplicar `id` desde el interior de un functor no debería alterar el valor en `v`. Por ejemplo:
+Bien, así que aplicar `id` desde el interior de un funtor no debería alterar el valor en `v`. Por ejemplo:
 
 ```js
 const v = Identity.of('Pillow Pets');
 Identity.of(id).ap(v) === v;
 ```
 
-`Identity.of(id)` me hace reir por lo inútil que es. De todos modos, lo que resulta aquí interesante, como ya establecimos antes, es que `of/ap` es lo mismo que `map`, por lo que esta ley se deduce directamente de la identidad del functor: `map(id) == id`.
+`Identity.of(id)` me hace reir por lo inútil que es. De todos modos, lo que resulta aquí interesante, como ya establecimos antes, es que `of/ap` es lo mismo que `map`, por lo que esta ley se deduce directamente de la identidad del funtor: `map(id) == id`.
 
 La belleza de usar estas leyes es que, igual que un entrenador de gimnasia de guardería, obligan a todas nuestras interfaces a jugar bien entre ellas.
 
@@ -275,7 +275,7 @@ La belleza de usar estas leyes es que, igual que un entrenador de gimnasia de gu
 A.of(f).ap(A.of(x)) === A.of(f(x));
 ```
 
-Un *homomorfismo* tan solo es un map que preserva la estructura. De hecho, un functor solo es un *homomorfismo* entre categorías, ya que preserva la estructura original de la categoría que está siendo mapeada.
+Un *homomorfismo* tan solo es un map que preserva la estructura. De hecho, un funtor solo es un *homomorfismo* entre categorías, ya que preserva la estructura original de la categoría que está siendo mapeada.
 
 
 Realmente, tan solo estamos metiendo nuestras funciones y valores normales en un contenedor y ejecutando el cálculo en su interior, así que no debería sorprendernos que alcancemos el mismo resultado si aplicamos todo dentro del contenedor (lado izquierdo de la ecuación) o lo aplicamos fuera y luego lo colocamos dentro (lado derecho).
@@ -323,9 +323,9 @@ IO.of(compose).ap(u).ap(v).ap(w) === u.ap(v.ap(w));
 
 ## En Resumen
 
-Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos de functor. Nos dan la posibilidad de aplicar funciones a los argumentos todo dentro del mundo de los functores. Aunque ya podíamos hacer esto con las mónadas, preferiremos a los functores aplicativos cuando no necesitemos ninguna funcionalidad monádica específica.
+Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos de funtor. Nos dan la posibilidad de aplicar funciones a los argumentos todo dentro del mundo de los funtores. Aunque ya podíamos hacer esto con las mónadas, preferiremos a los funtores aplicativos cuando no necesitemos ninguna funcionalidad monádica específica.
 
-Casi hemos terminado con las apis de los contenedores. Hemos aprendido a como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos a como trabajar mejor con múltiples functores y a como desmontarlos siguiendo unos principios.
+Casi hemos terminado con las apis de los contenedores. Hemos aprendido a como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos a como trabajar mejor con múltiples funtores y a como desmontarlos siguiendo unos principios.
 
 [Capítulo 11: Transforma Otra Vez, Naturalmente](ch11-es.md)
 
