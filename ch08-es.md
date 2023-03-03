@@ -39,7 +39,7 @@ Si estás usando node, verás `{$value: x}` aunque tengamos un `Container(x)`. C
 
 Aclaremos algunas cosas antes de continuar:
 
-* `Container` es un objeto con una sola propiedad. Aunque no están limitados, muchos contenedores solo contienen una cosa. Arbitrariamente hemos llamado `$value` [*valor*] a su propiedad.
+* `Container` es un objeto con una sola propiedad. Aunque no están limitados, muchos contenedores solo contienen una cosa. Arbitrariamente, hemos llamado `$value` [*valor*] a su propiedad.
 
 * El valor no puede ser de un tipo específico o de lo contrario difícilmente nuestro `Container` haría honor a su nombre. 
 
@@ -77,7 +77,7 @@ Espera un minuto, si seguimos llamando a `map`, ¡parece ser una especie de comp
 
 > Un Funtor es un tipo que implementa `map` y obedece algunas leyes
 
-Si, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde está la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
+Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde está la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
 
 ¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones por nosotros? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute por nosotros. Este es, de hecho, un concepto muy poderoso.
 
@@ -85,7 +85,7 @@ Si, *Funtor* es simplemente una interfaz con un contrato. También podríamos ha
 
 <img src="images/cat.png" alt="gato guay, necesita una referencia" />
 
-`Container` es bastante aburrido. De hecho, se le suele llamar `Identity` [*Identidad*] y tiene más o menos el mismo impacto que nuestra función `id` (de nuevo hay una conexión matemática que veremos en el momento indicado). Sin embargo hay otros funtores, o sea otros tipos que hacen de contenedor y que tienen su propia función `map`, que pueden proporcionar útiles comportamientos cuando mapean. Definamos uno ahora:
+`Container` es bastante aburrido. De hecho, se le suele llamar `Identity` [*Identidad*] y tiene más o menos el mismo impacto que nuestra función `id` (de nuevo hay una conexión matemática que veremos en el momento indicado). Sin embargo, hay otros funtores, o sea otros tipos que hacen de contenedor y que tienen su propia función `map`, que pueden proporcionar útiles comportamientos cuando mapean. Definamos uno ahora:
 
 > En el [Apéndice B](./appendix_b-es.md#Maybe) se ofrece una implementación completa
 
@@ -158,7 +158,7 @@ streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] });
 // Just('Shady Ln.')
 ```
 
-`safeHead` es como nuestra `head` normal, pero con seguridad de tipos añadida. Una cosa curiosa ocurre cuando `Maybe` es introducido en nuestro código; somos forzados a manejar esos escurridizos valores `null`. La función `safeHead` es honesta y directa sobre su posible fallo; realmente no hay nada de lo que avergonzarse, así que nos devuelve un `Maybe` para informarnos sobre este asunto. Sin embargo, estamos más que solo informados, porque nos vemos obligados a aplicar map para llegar al valor que queremos, ya que está escondido dentro del objeto `Maybe`. Esencialmente, se trata de una comprobación por parte de la función `safeHead` para ver si si tenemos un `null`. Ahora podemos dormir mejor por la noche sabiendo que un valor `null` no levantará su fea y decapitada cabeza cuando menos lo esperemos. Apis como esta harán que una endeble aplicación de papel y chinchetas pase a ser de madera y clavos. Garantizarán un software más seguro. 
+`safeHead` es como nuestra `head` normal, pero con seguridad de tipos añadida. Una cosa curiosa ocurre cuando `Maybe` es introducido en nuestro código; somos forzados a manejar esos escurridizos valores `null`. La función `safeHead` es honesta y directa sobre su posible fallo; realmente no hay nada de lo que avergonzarse, así que nos devuelve un `Maybe` para informarnos sobre este asunto. Sin embargo, estamos más que solo informados, porque nos vemos obligados a aplicar map para llegar al valor que queremos, ya que está escondido dentro del objeto `Maybe`. Esencialmente, se trata de una comprobación por parte de la función `safeHead` para ver si tenemos un `null`. Ahora podemos dormir mejor por la noche sabiendo que un valor `null` no levantará su fea y decapitada cabeza cuando menos lo esperemos. Apis como esta harán que una endeble aplicación de papel y chinchetas pase a ser de madera y clavos. Garantizarán un software más seguro. 
 
 Para indicar un fallo a veces una función puede devolver `Nothing` explícitamente. Por ejemplo:
 
@@ -188,13 +188,13 @@ getTwenty({ balance: 10.00 });
 // Nothing
 ```
 
-`withdraw` nos hará saber cuando estamos cortos de dinero devolviéndonos un `Nothing`. Esta función también nos comunica su veleidad y no nos deja otra opción que aplicar `map` a todo lo que le sigue. La diferencia es que aquí el `null` era intencionado. En lugar de un `Just('..')`, obtenemos el `Nothing` de regreso para señalar el error y nuestra aplicación detiene la ejecución de manera efectiva. Es importante destacar esto: si la función `withdraw` falla, entonces `map` cortará el resto de nuestra computación, ya que nunca ejecutará las funciones mapeadas, concretamente `finishTransaction`. Este es precisamente el comportamiento pretendido, ya que preferimos no actualizar nuestra contabilidad o mostrar un nuevo saldo si no hemos retirado fondos con éxito. 
+`withdraw` nos hará saber cuando estamos cortos de dinero devolviéndonos un `Nothing`. Esta función también nos comunica su veleidad y no nos deja otra opción que aplicar `map` a todo lo que le sigue. La diferencia es que aquí el `null` era intencionado. En lugar de un `Just('..')`, obtenemos el `Nothing` de regreso para señalar el error y nuestra aplicación detiene la ejecución de manera efectiva. Es importante destacar esto: si la función `withdraw` falla, entonces `map` cortará el resto de nuestra computación, ya que nunca ejecutará las funciones mapeadas, concretamente `finishTransaction`. Este es precisamente el comportamiento pretendido, dado que preferimos no actualizar nuestra contabilidad o mostrar un nuevo saldo si no hemos retirado fondos con éxito. 
 
 ## Liberando el Valor
 
 Una cosa que a menudo la gente pasa por alto es que siempre habrá un final de línea; alguna función que provoca un efecto como enviar un JSON, imprimir algo en la pantalla o alterar algún archivo en el sistema, o lo que sea. No podemos entregar la salida con `return`, debemos ejecutar alguna u otra función para sacarla al mundo exterior. Podemos expresarlo como un koan del Budismo Zen: "Si un programa no tiene ningún efecto observable, ¿se ejecuta siquiera?". ¿Se ejecuta correctamente para su propia satisfacción? Sospecho que simplemente quema algunos ciclos y vuelve a dormir...
 
-El trabajo de nuestra aplicación es recuperar, transformar y cargar con esos datos hasta el momento de la despedida y la función que lo hace puede ser mapeada, de esta manera el valor no necesita salir del cálido vientre de su contenedor. De hecho, un error típico es tratar de sacar el valor de nuestro `Maybe` de una manera u otra como si el posible valor de su interior se fuese a materializar de repente y todo fuese a ser perdonado. Debemos entender que pueden haber bifurcaciones en el código donde nuestro valor pueda no sobrevivir y alcanzar su destino. Nuestro código, al igual que el gato de Schrödinger, está en dos estados a la vez y debe mantenerse así hasta la función final. Esto da a nuestro código un flujo lineal a pesar de las ramificaciones lógicas. 
+El trabajo de nuestra aplicación es recuperar, transformar y cargar con esos datos hasta el momento de la despedida y la función que lo hace puede ser mapeada, de esta manera el valor no necesita salir del cálido vientre de su contenedor. De hecho, un error típico es tratar de sacar el valor de nuestro `Maybe` de una manera u otra como si el posible valor de su interior se fuese a materializar de repente y todo fuese a ser perdonado. Debemos entender que puede haber bifurcaciones en el código donde nuestro valor pueda no sobrevivir y alcanzar su destino. Nuestro código, al igual que el gato de Schrödinger, está en dos estados a la vez y debe mantenerse así hasta la función final. Esto da a nuestro código un flujo lineal a pesar de las ramificaciones lógicas. 
 
 Existe, sin embargo, una vía de escape. Si preferimos devolver un valor personalizado y proseguir, podemos utilizar un pequeño ayudante llamado `maybe`.
 
@@ -220,7 +220,7 @@ getTwenty({ balance: 10.00 });
 
 Ahora devolveremos un valor estático (del mismo tipo que devuelve `finishTransaction`) o seguiremos para finalizar alegremente la transacción sin `Maybe`. Con `maybe`, estamos ante el equivalente de una sentencia `if/else` mientras que con `map`, el análogo imperativo sería: `if (x !== null) { return f(x) }`.
 
-Inicialmente la introducción de `Maybe` puede causar cierta incomodidad. Los usuarios de Swift y Scala sabrán a qué me refiero, ya que está incorporado en las librerías del núcleo bajo la apariencia de `Option(al)`. Cuando se nos empuja continuamente a comprobar la presencia de `null` (y hay veces que sabemos con absoluta certeza que el valor existe), la mayoría no podemos evitar que nos parezca un poco laborioso. Sin embargo, con el tiempo, se volverá algo natural y probablemente apreciarás la seguridad. Al fin y al cabo, la mayoría de las veces evitará chapuzas y nos mantendrá a salvo.
+Inicialmente, la introducción de `Maybe` puede causar cierta incomodidad. Los usuarios de Swift y Scala sabrán a qué me refiero, ya que está incorporado en las librerías del núcleo bajo la apariencia de `Option(al)`. Cuando se nos empuja continuamente a comprobar la presencia de `null` (y hay veces que sabemos con absoluta certeza que el valor existe), la mayoría no podemos evitar que nos parezca un poco laborioso. Sin embargo, con el tiempo, se volverá algo natural y probablemente apreciarás la seguridad. Al fin y al cabo, la mayoría de las veces evitará chapuzas y nos mantendrá a salvo.
 
 Escribir software inseguro es como asegurarse de decorar cada huevo con pinturas pastel antes de lanzarlo al tráfico; como construir una residencia de ancianos con materiales rechazados por tres cerditos. Nos vendrá bien poner algo de seguridad en nuestras funciones y `Maybe` nos ayuda justamente a hacer eso.
 
@@ -332,7 +332,7 @@ Me gustaría aprovechar esta oportunidad para resaltar algo que podrías haber p
 
 `Either` es genial para errores casuales como validaciones y también para casos más graves como archivos faltantes o sockets rotos. Prueba a reemplazar por `Either` alguno de los ejemplos de `Maybe` para obtener un mejor entendimiento.
 
-Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentádolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de un *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma canónica de tipos (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
+Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentándolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de un *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma canónica de tipos (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
 
 Igual que con `Maybe`, tenemos a la pequeña `either`, que se comporta de manera similar, pero toma dos funciones en lugar de una y un valor estático. Cada función debe devolver el mismo tipo.
 
@@ -372,7 +372,7 @@ Por fin, un uso para esa misteriosa función `id`. Simplemente repite como un lo
 
 ## El Viejo McDonald Tenía Efectos...
 
-<img src="images/dominoes.jpg" alt="dominó... neecesita una referencia" />
+<img src="images/dominoes.jpg" alt="dominó... necesita una referencia" />
 
 En nuestro capítulo sobre la pureza vimos un peculiar ejemplo de una función pura. Esta función contenía un efecto secundario, pero convertimos en pura envolviendo su acción en otra función. He aquí otro ejemplo de esto:
 
@@ -381,7 +381,7 @@ En nuestro capítulo sobre la pureza vimos un peculiar ejemplo de una función p
 const getFromStorage = key => () => localStorage[key];
 ```
 
-Si no hubiéramos rodeado sus entrañas en otra función, `getFromStorage` variaría su salida dependiendo de las circunstancias externas. Con el resistente envoltorio en su sitio, siempre obtendremos la misma salida para cada entrada: una función que, al ser llamada, recuperará un elemento concreto de `localStorage`. Y así, sin más (puede que con algún Ave Maria) limpiamos nuestra conciencia y todo está perdonado.
+Si no hubiéramos rodeado sus entrañas en otra función, `getFromStorage` variaría su salida dependiendo de las circunstancias externas. Con el resistente envoltorio en su sitio, siempre obtendremos la misma salida para cada entrada: una función que, al ser llamada, recuperará un elemento concreto de `localStorage`. Y así, sin más (puede que con algún Ave María) limpiamos nuestra conciencia y todo está perdonado.
 
 Excepto que esto no es particularmente útil. Igual que con una figura de coleccionista en su empaquetado original, no podemos jugar con ella. Si tan solo hubiese una manera de alcanzar el interior del contenedor y tomar su contenido... He aquí `IO`.
 
@@ -549,7 +549,7 @@ Al llamar a `fork`, `Task` se apresura a encontrar algunos posts y renderizar la
 
 Tómate un momento para considerar lo lineal que es nuestro flujo de control aquí. Solo leemos de abajo hacia arriba, de derecha a izquierda, sin importar que realmente el programa vaya a hacer algunos saltos durante su ejecución. Esto hace que leer y razonar sobre nuestra aplicación sea más sencillo que tener que rebotar entre callbacks y bloques de manejo de errores.
 
-¡Santo cielo, mira eso, `Task` también se ha tragado a `Either`! Lo tiene que hacer para manejar futuros fallos, ya que nuestro flujo de control normal no aplica en el mundo asíncrono. Todo esto está muy bien, ya que proporciona un manejo de errores suficiente y puro listo para ser utilizado.
+¡Santo cielo, mira eso, `Task` también se ha tragado a `Either`! Lo tiene que hacer para manejar futuros fallos, ya que nuestro flujo de control normal no aplica en el mundo asíncrono. Todo esto está muy bien, puesto que proporciona un manejo de errores suficiente y puro listo para ser utilizado.
 
 Incluso con `Task`, nuestros funtores `IO` y `Either` no se quedan sin trabajo. Acompáñame en un ejemplo rápido que se inclina hacia el lado más complejo e hipotético, pero que es útil para fines ilustrativos: 
 
@@ -652,7 +652,7 @@ O visualmente:
 
 <img src="images/functormapmaybe.png" alt="diagrama de funtor 2" />
 
-Instantáneamente podemos ver y refactorizar código cuando este está basado en las propiedades que todos los funtores tienen. 
+Instantáneamente, podemos ver y refactorizar código cuando este está basado en las propiedades que todos los funtores tienen. 
 
 Los funtores pueden apilarse:
 
