@@ -1,10 +1,11 @@
 # Capítulo 11: Transforma Otra Vez, Naturalmente
 
-Estamos a punto de discutir sobre las *transformaciones naturales* en el contexto de la utilidad práctica en el código del día a día. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables cuando aplicamos matemáticas para razonar sobre nuestro código y para refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
+[*El título en inglés es 'Transform Again, Naturally' que recuerda a la canción Alone Again (Naturally) de Gilbert O'Sullivan*]
+Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables para aplicar matemáticas al razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
 
 ## Maldice Este Nido
 
-Me gustaría abordar el tema del anidamiento. No el instintivo impulso que sienten quienes están a punto de ser padres cuando limpian y reordenan obsesiva y compulsivamente, sino del... bueno, ahora que lo pienso, eso no está tan lejos de la realidad, tal y como veremos en los próximos capítulos... En cualquier caso, lo que quiero decir con *anidamiento* es cuando se tienen dos o más tipos distintos todos acurrucados en torno a un valor, acunándolo, por así decirlo, como a un recién nacido.
+Me gustaría abordar el tema del anidamiento. No el instintivo impulso que sienten quienes están a punto de ser padres cuando limpian y reordenan obsesiva e impulsivamente, sino del... bueno, ahora que lo pienso, eso no está tan lejos de la realidad, tal y como veremos en los próximos capítulos... En cualquier caso, lo que quiero decir con *anidamiento* es cuando se tienen dos o más tipos distintos todos acurrucados en torno a un valor, acunándolo, por así decirlo, como a un recién nacido.
 
 ```js
 Right(Maybe('b'));
@@ -14,7 +15,7 @@ IO(Task(IO(1000)));
 [Identity('bee thousand')];
 ```
 
-Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de este típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de unos auriculares en un exorcismo. Si no mantenemos meticulosamente a nuestros tipos bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
+Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de este típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de unos auriculares en un exorcismo. Si no mantenemos a nuestros tipos meticulosamente bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
 
 ## Una Comedia de Situación
 
@@ -48,13 +49,13 @@ o en código:
 compose(map(f), nt) === compose(nt, map(f));
 ```
 
-Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Por cierto, esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratis), aunque las transformaciones naturales (y los functores) no están limitadas a funciones sobre tipos.
+Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Casualmente esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratis), aunque las transformaciones naturales (y los functores) no están limitadas a funciones sobre tipos.
 
 ## Conversión de Tipos Basada en Principios
 
 Como programadores estamos familiarizados con la conversión de tipos. Transformamos tipos como `String` a `Boolean` e `Integer` a `Float` (aunque JavaScript solo tiene `Number`). Simplemente aquí la diferencia es que estamos trabajando con contenedores algebraicos y tenemos algo de teoría a nuestra disposición.
 
-Veamos algunas de estas conversiones en ejemplos:
+Veamos ejemplos de algunas de estas conversiones:
 
 ```js
 // idToMaybe :: Identity a -> Maybe a
@@ -114,7 +115,7 @@ const y = Task.of('rabbit');
 promiseToTask(taskToPromise(y)) === y;
 ```
 
-Q.E.D. `Promise` y `Task` son *isomorfos*. También podemos escribir una `listToArray` para complementar nuestra `arrayToList` y demostrar que también lo son. Como contraejemplo, `arrayToMaybe` no es un *isomorfismo* dado que pierde información:
+Q.E.D. `Promise` y `Task` son *isomorfos*. También podemos escribir una función `listToArray` para complementar nuestra `arrayToList` y demostrar que también lo son. Como contraejemplo, `arrayToMaybe` no es un *isomorfismo* dado que pierde información:
 
 ```js
 // maybeToArray :: Maybe a -> [a]
@@ -138,7 +139,7 @@ Sin embargo, sí que son *transformaciones naturales*, ya que la función `map` 
 
 ## Una Definición Más Amplia
 
-Estas funciones estructurales no se limitan en absoluto a la conversion de tipos.
+Estas funciones estructurales no se limitan en absoluto a la conversión de tipos.
 
 He aquí otras distintas:
 
@@ -156,7 +157,7 @@ Las leyes de la transformación natural también son válidas para estas funcion
 
 ## Una Solución Para El Anidamiento
 
-Volviendo a nuestra cómica firma de tipos. Podemos espolvorear en ella algo de *transformaciones naturales* a lo largo del código que la llama para aplicar coerción de tipos a cada tipo que varíe y así sean todos uniformes y que, por lo tanto, se puedan unir con `join`.
+Volviendo a nuestra cómica firma de tipos. Podemos espolvorear en ella algunas *transformaciones naturales* a lo largo del código que la llama para aplicar coerción de tipos a cada tipo que varíe y que así sean todos uniformes y que, por lo tanto, se puedan unir con `join`.
 
 ```js
 // getValue :: Selector -> Task Error (Maybe String)
@@ -173,11 +174,11 @@ const saveComment = compose(
 );
 ```
 
-¿Qué tenemos aquí? Tan solo hemos añadido `chain(maybeToTask)` y `chain(eitherToTask)`. Ambas tienen el mismo efecto; de manera natural, transforman el functor que guarda nuestro `Task`, en otro `Task` y luego une los dos con `join`. Como los pinchos para palomas en el alféizar de una ventana, evitamos el anidamiento justo desde el origen. Como dicen en la Ciudad de la Luz, "Mieux vaut prévenir que guérir"; más vale prevenir que curar.
+¿Qué tenemos aquí? Tan solo hemos añadido `chain(maybeToTask)` y `chain(eitherToTask)`. Ambas tienen el mismo efecto; de manera natural, transforman el functor que guarda nuestro `Task`, en otro `Task` y luego une los dos con `join`. De esta manera evitamos el anidamiento justo desde el origen igual que los pinchos para palomas en el alféizar de una ventana. Como dicen en la Ciudad de la Luz, "Mieux vaut prévenir que guérir"; más vale prevenir que curar.
 
 ## En Resumen
 
-Las *Transformaciones Naturales* son funciones sobre nuestros functores. Son un concepto extremadamente importante en la teoría de categorías y empezarán a aparecer por todas partes una vez que adoptemos más abstracciones, pero, por ahora, las hemos limitado a unas pocas aplicaciones concretas. Como hemos visto, podemos conseguir diferentes efectos al convertir tipos, con la garantía de que nuestra composición se mantendrá. También pueden ayudarnos con los tipos anidados, aunque tienen el efecto general de homogeneizar nuestros functores al mínimo común denominador que, en la práctica, es el functor con los efectos más volátiles (`Task` en la mayoría de los casos).
+Las *Transformaciones Naturales* son funciones sobre nuestros functores. Son un concepto extremadamente importante en la teoría de categorías y empezarán a aparecer por todas partes una vez que adoptemos más abstracciones, pero, por ahora, las hemos limitado a unas pocas aplicaciones concretas. Como hemos visto, podemos conseguir diferentes efectos al convertir tipos, con la garantía de que mantendremos nuestra composición. También pueden ayudarnos con el anidamiento de tipos, aunque tienen el efecto general de homogeneizar nuestros functores al mínimo común denominador que, en la práctica, es el functor con los efectos más volátiles (`Task` en la mayoría de los casos).
 
 Esta continuada y tediosa clasificación de tipos es el precio que pagamos por haberlos materializado; convocados desde el éter. Por supuesto, los efectos implícitos son mucho más insidiosos, así que aquí estamos, librando esta justa batalla. Necesitaremos algunas herramientas más en nuestro equipamiento antes de poder enrollar las más largas amalgamas de tipos. A continuación, veremos cómo reordenar nuestros tipos con *Traversable*.
 
