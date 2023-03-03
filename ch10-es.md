@@ -15,7 +15,7 @@ Para responder a estas preguntas, comenzaremos con una situación en la que ya t
 add(Container.of(2), Container.of(3));
 // NaN
 
-// Usemos nuestro map de confianza
+// Usemos nuestra función map en la que tanto confiamos
 const containerOfAdd2 = map(add, Container.of(2));
 // Container(add(2))
 ```
@@ -30,7 +30,7 @@ Container.of(2).chain(two => Container.of(3).map(add(two)));
 
 El problema aquí es que estamos atrapados en el mundo secuencial de las mónadas en el que nada puede ser evaluado hasta que la mónada anterior haya terminado su trabajo. Tenemos dos valores fuertes e independientes y me parece innecesario retrasar la creación de `Containter(3)` tan solo para satisfacer las demandas secuenciales de las mónadas.
 
-De hecho, si nos encontramos en este aprieto, sería maravilloso si pudiéramos, sucintamente, aplicar el contenido de un functor al valor de otro, sin esas funciones y variables innecesarias.
+De hecho, si nos viésemos en este aprieto, sería maravilloso si pudiéramos, sucintamente, aplicar el contenido de un functor al valor de otro, sin esas funciones y variables innecesarias.
 
 
 ## Barcos en Botellas
@@ -49,7 +49,7 @@ Container.of(2).map(add).ap(Container.of(3));
 // Container(5)
 ```
 
-Ahí estamos, bonito y limpio. Buenas noticias para `Container(3)` dado que ha sido liberado de la cárcel de la función monádica anidada. Vale la pena mencionar de nuevo que `add`, en este caso, resulta parcialmente aplicada durante el primer `map` así que esto solo funciona cuando `add` está currificada.
+Así sí, bonito y limpio. Buenas noticias para `Container(3)` dado que ha sido liberado de la cárcel de la función monádica anidada. Vale la pena mencionar de nuevo que `add`, en este caso, resulta parcialmente aplicada durante el primer `map` así que esto solo funciona cuando `add` está currificada.
 
 Podemos definir `ap` como:
 
@@ -66,7 +66,7 @@ Recuerda, `this.$value` será una función y aceptaremos otro functor por lo que
 
 Observa la dependencia en **pointed**. La interfaz pointed es aquí crucial, tal y como veremos en los próximos ejemplos.
 
-Ahora, siento tu escepticismo (o quizás confusión y horror), pero mantén una mente abierta; este personaje `ap` demostrará ser de utilidad. Antes de meternos en ello, exploremos una bonita propiedad.
+Percibo tu escepticismo (o quizás confusión y horror), pero mantén la mente abierta; este personaje `ap` demostrará ser de utilidad. Antes de meternos en ello, exploremos una bonita propiedad.
 
 ```js
 F.of(x).map(f) === F.of(f).ap(F.of(x));
@@ -82,7 +82,7 @@ Task.of(add).ap(Task.of(2)).ap(Task.of(3));
 // Task(5)
 ```
 
-Entrecerrando los ojos, se puede incluso reconocer vagamente la forma normal de una llamada a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
+Entrecerrando los ojos, se puede incluso reconocer vagamente la forma normal de llamar a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
 
 ¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones donde los functores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
 
@@ -99,9 +99,9 @@ Task.of(renderPage).ap(Http.get('/destinations')).ap(Http.get('/events'));
 // Task("<div>una página con destinos y eventos</div>")
 ```
 
-Ambas llamadas `Http` se harán a la vez y se llamará a `renderPage` cuando ambas se hayan resuelto. Contrasta esto con la versión monádica en la que una tarea `Task` debe finalizar antes de que se inicie la siguiente. Dado que no necesitamos los destinos para recuperar los eventos, nos libramos de la evaluación secuencial.
+Ambas llamadas `Http` se harán a la vez y `renderPage` será llamada cuando ambas se hayan resuelto. Contrasta esto con la versión monádica en la que una tarea `Task` debe finalizar antes de que se inicie la siguiente. Dado que no necesitamos los destinos para recuperar los eventos, nos libramos de la evaluación secuencial.
 
-De nuevo, como estamos utilizando aplicación parcial para alcanzar este resultado, debemos asegurarnos de que `renderPage` está currificada o no esperará a que terminen ambas tareas. Por cierto, si alguna vez has tenido que hacer algo así manualmente, apreciarás la asombrosa simplicidad de esta interfaz. Este es la clase de bonito código que nos lleva un paso más cerca de la singularidad.
+De nuevo, como estamos utilizando aplicación parcial para alcanzar este resultado, debemos asegurarnos de que `renderPage` está currificada o no esperará a que terminen ambas tareas. Por cierto, si alguna vez has tenido que hacer algo así manualmente, apreciarás la asombrosa simplicidad de esta interfaz. Este es la clase de bonito código que nos acerca un paso más hacia la singularidad.
 
 Veamos otro ejemplo.
 
@@ -231,11 +231,11 @@ Hay que señalar que parte del atractivo de `ap` es su capacidad para ejecutar c
 
 Las mónadas tienen la capacidad única de secuenciar el cálculo, asignar variables, y de detener la ejecución siguiente, todo ello gracias a la estructura de anidamiento descendente. Cuando vemos que se usan aplicativos, no tenemos que estar atentos a nada de eso.
 
-Ahora, sobre los aspectos legales...
+Y ahora, sobre los aspectos legales...
 
 ## Leyes
 
-Al igual que el resto de construcciones matemáticas que hemos explorado, los functores aplicativos tienen algunas útiles propiedades en las que confiar en nuestro día a día. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca cambiará el tipo de los contenedores por nosotros (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
+Al igual que el resto de construcciones matemáticas que hemos explorado, los functores aplicativos tienen algunas propiedades que pueden sernos útiles en nuestro día a día programando. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca cambiará el tipo de los contenedores por nosotros (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
 
 Para demostrarlo:
 
@@ -248,7 +248,7 @@ liftA2(liftA2(concat), tOfM('Rainy Days and Mondays'), tOfM(' always get me down
 
 Lo ves, no hay que preocuparse de que los diferentes tipos se mezclen.
 
-Llega el momento de ver nuestra ley categórica favorita: *identidad*:
+Llega el momento de ver nuestra ley favorita de la teoría de categorías: *identidad*:
 
 ### Identidad
 
@@ -325,7 +325,7 @@ IO.of(compose).ap(u).ap(v).ap(w) === u.ap(v.ap(w));
 
 Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos de functor. Nos dan la posibilidad de aplicar funciones a los argumentos todo dentro del mundo de los functores. Aunque ya podíamos hacer esto con las mónadas, preferiremos a los functores aplicativos cuando no necesitemos ninguna funcionalidad monádica específica.
 
-Casi hemos terminado con las apis de los contenedores. Hemos aprendido como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos como trabajar mejor con múltiples functores y a desmontarlos basándonos en principios.
+Casi hemos terminado con las apis de los contenedores. Hemos aprendido a como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos a como trabajar mejor con múltiples functores y a como desmontarlos siguiendo unos principios.
 
 [Capítulo 11: Transforma Otra Vez, Naturalmente](ch11-es.md)
 
