@@ -22,7 +22,7 @@ Dicho esto, los lenguajes funcionales tipados serán, sin duda alguna, el mejor 
 
 ## Sobre la traducción
 
-Se han añadido notas de traducción donde se ha visto necesario. Para no interferir con el ritmo de lectura se ha optado por incluir la nota seguidamente de aquello que se esté anotando y entre corchetes y en cursiva. Por ejemplo, "solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*]". En caso de anotar un título la anotación se incluirá al comienzo del párrafo.
+Se han añadido notas de traducción donde se ha visto necesario. Para no interferir con el ritmo de lectura se ha optado por incluir la nota seguidamente de aquello que se esté anotando y entre corchetes y en cursiva. Por ejemplo, "solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*]". En caso de anotar un título la anotación se incluirá al comienzo del párrafo que le siga.
 
 ## Léelo Online
 
