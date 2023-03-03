@@ -1,7 +1,7 @@
 # Capítulo 04: Currificación
 
 ## No Puedo Vivir Si Vivir Es Sin Ti 
-[*El título viene de la letra de la canción "Without You" de Badfinger*]
+[*El título en inglés es 'Can't Live If Livin' Is without You' que recuerda a la canción "Without You" de Badfinger*]
 
 Mi padre una vez me explicó como hay ciertas cosas sin las que se puede vivir hasta que las compras. Un microondas es una de esas cosas. Los smartphones, otra. Los más mayores de nosotros recordarán una vida de plenitud sin internet. Para mí, la `currificación` [*currying en inglés*] está en esta lista.
 
