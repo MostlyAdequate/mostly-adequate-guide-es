@@ -83,7 +83,7 @@ Si, *Funtor* es simplemente una interfaz con un contrato. También podríamos ha
 
 ## El Maybe de Schrödinger
 
-<img src="images/cat.png" alt="cool cat, need reference" />
+<img src="images/cat.png" alt="gato guay, necesita una referencia" />
 
 `Container` es bastante aburrido. De hecho, se le suele llamar `Identity` [*Identidad*] y tiene más o menos el mismo impacto que nuestra función `id` (de nuevo hay una conexión matemática que veremos en el momento indicado). Sin embargo hay otros funtores, o sea otros tipos que hacen de contenedor y que tienen su propia función `map`, que pueden proporcionar útiles comportamientos cuando mapean. Definamos uno ahora:
 
@@ -228,7 +228,7 @@ Sería negligente por mi parte si no mencionase que la implementación "real" di
 
 ## Manejo de Errores Puro
 
-<img src="images/fists.jpg" alt="pick a hand... need a reference" />
+<img src="images/fists.jpg" alt="escoge una mano... necesita una referencia" />
 
 Puede resultar chocante, pero `throw/catch` no es muy puro. Cuando un error es lanzado, en lugar de devolver un valor de salida, ¡hacemos sonar las alarmas! La función ataca, lanzando miles de 0 y 1 como escudos y dardos en una batalla eléctrica contra nuestra entrada intrusa. Con nuestro nuevo amigo `Either`, podemos hacer algo mejor que declarar la guerra a la entrada, podemos responder con un educado mensaje. Echemos un vistazo:
 
@@ -372,7 +372,7 @@ Por fin, un uso para esa misteriosa función `id`. Simplemente repite como un lo
 
 ## El Viejo McDonald Tenía Efectos...
 
-<img src="images/dominoes.jpg" alt="dominoes.. need a reference" />
+<img src="images/dominoes.jpg" alt="dominó... neecesita una referencia" />
 
 En nuestro capítulo sobre la pureza vimos un peculiar ejemplo de una función pura. Esta función contenía un efecto secundario, pero convertimos en pura envolviendo su acción en otra función. He aquí otro ejemplo de esto:
 
@@ -627,7 +627,7 @@ En teoría de categorías los funtores toman los objetos y morfismos de una cate
 
 Tal vez nuestra definición de categoría sea todavía algo confusa. Puedes pensar en una categoría como una red de objetos conectados entre sí mediante morfismos. Así que un funtor mapearía una categoría a otra sin romper esta red. Si un objeto `a` está en nuestra categoría de origen `C`, cuando lo mapeamos a la categoría `D` con el funtor `F`, nos referimos a ese objeto como `F a`. Tal vez sea mejor ver un diagrama:
 
-<img src="images/catmap.png" alt="Categories mapped" />
+<img src="images/catmap.png" alt="Categorías mapeadas" />
 
 Por ejemplo, `Maybe` mapea nuestra categoría de tipos y funciones a una categoría donde cada objeto puede no existir y cada morfismo tiene una comprobación de `null`. Logramos esto en el código rodeando cada función con `map` y cada tipo con nuestro funtor. Sabemos que cada uno de nuestros tipos normales y cada una de nuestras funciones seguirán pudiéndose componer en este nuevo mundo. Técnicamente, cada funtor en nuestro código mapea a una subcategoría de tipos y funciones que hace que todos los funtores sean de un tipo en particular llamado endofuntor, pero para nuestros propósitos consideraremos que son de otra categoría.
 

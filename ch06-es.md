@@ -119,7 +119,7 @@ app('cats');
 
 Esta llama a nuestra función `url`, luego pasa la cadena a nuestra función `getJSON`, que ha sido aplicada parcialmente con `trace`. Cuando arranque la aplicación mostrará por consola la respuesta a la llamada a la API.
 
-<img src="images/console_ss.png" alt="console response" />
+<img src="images/console_ss.png" alt="respuesta en la consola" />
 
 Nos gustaría construir imágenes a partir de este json. Parece que las `mediaUrls` están enterradas en la propiedad `m` de `media` de cada uno de los `items`.
 
@@ -161,7 +161,7 @@ const app = compose(Impure.getJSON(render), url);
 
 Y ¡hemos terminado!
 
-<img src="images/cats_ss.png" alt="cats grid" />
+<img src="images/cats_ss.png" alt="rejilla de gatos" />
 
 Aquí está el script completo:
 [include](./exercises/ch06/main.js)

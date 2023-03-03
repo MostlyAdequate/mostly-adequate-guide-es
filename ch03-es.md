@@ -89,11 +89,11 @@ De mathisfun.com:
 
 En otras palabras, es solo una relación entre dos valores: la entrada y la salida. Aunque cada entrada tiene exactamente una salida, esa salida no tiene que ser necesariamente única por cada entrada. El siguiente diagrama muestra un función perfectamente válida de `x` a `y`;
 
-<img src="images/function-sets.gif" alt="function sets" />(http://www.mathsisfun.com/sets/function.html)
+<img src="images/function-sets.gif" alt="conjuntos de funciones" />(http://www.mathsisfun.com/sets/function.html)
 
 Para contrastar, el siguiente diagrama muestra una relación que *no* es una función ya que el valor de entrada `5` apunta a varias salidas: 
 
-<img src="images/relation-not-function.gif" alt="relation not function" />(http://www.mathsisfun.com/sets/function.html)
+<img src="images/relation-not-function.gif" alt="relación que no es una función" />(http://www.mathsisfun.com/sets/function.html)
 
 Las funciones pueden ser descritas como un conjunto de pares con la posición (entrada, salida): `[(1,2), (3,6), (5,10)]` (Parece que esta función dobla su entrada).
 
@@ -102,7 +102,7 @@ O tal vez una tabla:
 
 O incluso como un gráfico con `x` como la entrada e `y` como la salida:
 
-<img src="images/fn_graph.png" width="300" height="300" alt="function graph" />
+<img src="images/fn_graph.png" width="300" height="300" alt="grafo de funciones" />
 
 No hay necesidad de detalles de implementación si la entrada dicta la salida. Ya que las funciones son simplemente mapeos de entrada a salida, uno puede simplemente apuntar los valores en objetos y ejecutarlos con `[]` en lugar de `()`.
 

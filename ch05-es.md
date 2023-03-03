@@ -199,7 +199,7 @@ La composición será nuestra herramienta para construir programas y, afortunada
 
 La teoría de categorías es una rama abstracta de las matemáticas que puede formalizar conceptos a partir de distintas ramas como la teoría de conjuntos, la teoría de tipos, la teoría de grupos, lógica, y más. Principalmente maneja objetos, morfismos, y transformaciones, lo cual se asemeja bastante a programar. He aquí una gráfica de los mismos conceptos vistos según las distintas teorías.
 
-<img src="images/cat_theory.png" alt="category theory" />
+<img src="images/cat_theory.png" alt="teoría de categorías" />
 
 Lo siento, no pretendía asustarte. No espero que estés íntimamente familiarizado con todos estos conceptos. Mi intención es mostrarte cuanta duplicación existe y así puedas ver cómo la teoría de categorías tiene por objeto unificar estas cosas.
 
@@ -223,8 +223,8 @@ Esto, como ya habrás adivinado, es nuestro flamante juguete nuevo: `compose`. H
 
 Aquí tenemos una imagen que demuestra la composición:
 
-<img src="images/cat_comp1.png" alt="category composition 1" />
-<img src="images/cat_comp2.png" alt="category composition 2" />
+<img src="images/cat_comp1.png" alt="composición de categorías 1" />
+<img src="images/cat_comp2.png" alt="composición de categorías 2" />
 
 He aquí un ejemplo concreto en código:
 
