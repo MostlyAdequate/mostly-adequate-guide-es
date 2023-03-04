@@ -11,20 +11,20 @@ Este es un libro sobre el paradigma funcional en general. Utilizaremos el lengua
     Esto hace posible practicar y aplicar cada día en programas del mundo real los conocimientos adquiridos en vez de en proyectos de una sola noche o de un fin de semana con un lenguaje de programación funcional esotérico.
 
 
- * **No tenemos que aprenderlo todo desde cero para empezar a escribir programas**
+ * **No tenemos que aprenderlo todo desde cero para empezar a escribir programas.**
 
     En un lenguaje funcional puro, no puedes registrar una variable o leer un nodo DOM sin usar mónadas. Aquí podemos hacer un poco de trampas mientras aprendemos a purificar nuestra base de código. También es más fácil empezar con este lenguaje debido a su paradigma mixto y a que te puedes apoyar en lo que ya conoces mientras haya huecos en tu conocimiento.
 
 
  * **El lenguaje está completamente capacitado para escribir código funcional de primera categoría.**
 
-    Tenemos todas las características necesarias para imitar a un lenguaje como Scala o Haskell con la ayuda de una o dos pequeñas librerías. La programación orientada a objetos domina actualmente la industria, pero es claramente torpe en JavaScript. Es similar a acampar en una autopista o bailar claqué con botas de agua. Tenemos que hacer `bind` en todos los lados para que `this` no cambie sin nosotros saberlo, tenemos varias soluciones para el extraño comportamiento cuando olvidas usar `new`, los miembros privados solo están disponibles mediante closures. Para muchos de nosotros, la programación funcional parece más natural de todos modos.
+    Tenemos todas las características necesarias para imitar a un lenguaje como Scala o Haskell con la ayuda de una o dos pequeñas librerías. La programación orientada a objetos domina actualmente la industria, pero es claramente torpe en JavaScript. Es similar a acampar en una autopista o bailar claqué con botas de agua. Tenemos que usar `bind` por todas partes para que `this` no cambie sin nosotros saberlo, tenemos varias soluciones para el extraño comportamiento cuando olvidas usar `new`, los miembros privados solo están disponibles mediante closures. Para muchos de nosotros, la programación funcional parece más natural de todos modos.
 
-Dicho esto, los lenguajes funcionales tipados serán, sin duda alguna, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuestro medio para aprender un paradigma, dónde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te sentirás como en casa con Swiftz, Scalaz, Haskell, PureScript, y otros entornos inclinados hacia las matemáticas.
+Dicho esto, los lenguajes funcionales tipados serán, sin ninguna duda, el mejor lugar para programar con el estilo que se presenta en este libro. JavaScript será nuestro medio para aprender un paradigma, dónde lo apliques depende de tí. Afortunadamente, las interfaces son matemáticas y, como tal, ubicuas. Te sentirás como en casa con Swiftz, Scalaz, Haskell, PureScript, y otros entornos inclinados hacia las matemáticas.
 
 ## Sobre la traducción
 
-Se han añadido notas de traducción donde se ha visto necesario. Para no interferir con el ritmo de lectura se ha optado por incluir la nota seguidamente de aquello que se esté anotando y entre corchetes y en cursiva. Por ejemplo, "solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*]". En caso de anotar un título la anotación se incluirá al comienzo del párrafo que le siga.
+Se han añadido notas de traducción donde se ha visto necesario. Para no interferir con el ritmo de la lectura se ha optado por incluir la nota entre corchetes y en cursiva seguidamente de aquello que se esté anotando. Por ejemplo, "solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*]". En caso de anotar un título la anotación se incluirá al comienzo del párrafo que le siga.
 
 ## Léelo Online
 
@@ -37,7 +37,7 @@ Para una mejor experiencia de lectura, [léelo online a través de Gitbook](http
 
 ## Juega Con el Código
 
-Para que el entrenamiento sea más efectivo y no aburrirte demasiado cuando te estoy contando otra historia, asegúrate de jugar con los conceptos introducidos en este libro. Algunos pueden ser difíciles de entender a la primera y se comprenden mejor cuándo te ensucias las manos.
+Para que el entrenamiento sea más efectivo y que no te aburras demasiado cuando te esté contando otra historia, asegúrate de jugar con los conceptos introducidos en este libro. Algunos pueden ser difíciles de entender a la primera y se comprenden mejor cuándo te ensucias las manos.
 Todas las funciones y estructuras de datos algebraicas presentadas en el libro están reunidas en los apéndices. El correspondiente código también está disponible como un módulo de npm:
 
 ```bash
@@ -91,7 +91,7 @@ Ver [FAQ-es.md](FAQ-es.md)
 ## Planes para el futuro
 
 * **Parte 1** (capítulos 1-7) es una guía básica. La actualizaré a medida que encuentre errores, ya que esto es un borrador inicial. ¡Siéntete libre de ayudar!
-* **Parte 2** (capítulos 8-13) aborda clases de tipos como funtores y mónadas de forma transversal. Espero poder meterme con transformers y con una aplicación pura.
+* **Parte 2** (capítulos 8-13) aborda de forma transversal clases de tipos, como funtores y mónadas. Espero poder meterme con transformers y con una aplicación pura.
 * **Parte 3** (capítulos 14+) cruzará la delgada línea entre la programación práctica y la absurdidad académica. Veremos comónadas, f-algebras, mónadas libres, yoneda, y otras construcciones categóricas.
 
 
