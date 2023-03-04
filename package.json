@@ -12,6 +12,7 @@
   "scripts": {
     "setup": "$(npm bin)/gitbook install",
     "start": "$(npm bin)/gitbook serve",
+    "generate-summary": "perl .generate-summary.pl README.md ch*-es.md appendix_*-es.md > SUMMARY-es.md",
     "generate-cover": "sh ./.generate-cover.sh",
     "generate-epub": "gitbook epub",
     "generate-pdf": "gitbook pdf"
