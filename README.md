@@ -1,5 +1,7 @@
 [![cover](images/cover.png)](SUMMARY.md)
 
+# Introducción
+
 ## Sobre este libro
 
 Este es un libro sobre el paradigma funcional en general. Utilizaremos el lenguaje de programación funcional más popular del mundo: JavaScript. Algunos pueden pensar que es una mala elección, ya que va en contra de la cultura que, por el momento, es predominantemente imperativa. Sin embargo, creo que esta es la mejor forma de aprender programación funcional por diversas razones:
@@ -68,7 +70,7 @@ npm run generate-epub
 > ¡Nota! Para generar la versión ebook necesitarás instalar `ebook-convert`. [Instrucciones de
 > instalación](https://gitbookio.gitbooks.io/documentation/content/build/ebookconvert.html).
 
-# Contenido
+## Contenido
 
 Ver [SUMMARY-es.md](SUMMARY-es.md)
 
@@ -86,7 +88,7 @@ Ver [FAQ-es.md](FAQ-es.md)
 
 
 
-# Planes para el futuro
+## Planes para el futuro
 
 * **Parte 1** (capítulos 1-7) es una guía básica. La actualizaré a medida que encuentre errores, ya que esto es un borrador inicial. ¡Siéntete libre de ayudar!
 * **Parte 2** (capítulos 8-13) aborda clases de tipos como funtores y mónadas de forma transversal. Espero poder meterme con transformers y con una aplicación pura.
