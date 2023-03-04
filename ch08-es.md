@@ -1,6 +1,6 @@
 # Capítulo 08: Tupperware
 
-## El Poderoso Contenedor 
+## El Poderoso Contenedor
 
 <img src="images/jar.jpg" alt="http://blog.dwinegar.com/2011/06/another-jar.html" />
 
@@ -477,7 +477,7 @@ Ya está, mucho mejor. Ahora nuestro código de llamada se convierte en `findPar
 `IO` será un fiel compañero, ayudándonos a domar esas asilvestradas acciones impuras. A continuación, veremos un tipo similar en espíritu, pero que tiene un caso de uso drásticamente distinto.
 
 
-## Tareas Asíncronas 
+## Tareas Asíncronas
 
 Las funciones callbacks son la estrecha escalera de caracol hacia el infierno. Son el control de flujo diseñado por M.C. Escher. Con cada callback anidada que estrujamos entre la jungla de llaves y paréntesis, más se parece a jugar al limbo en una mazmorra (¡¿Cuán bajo podemos caer?!) Me dan escalofríos claustrofóbicos solo de pensar en ellas. No hay de que preocuparse, tenemos una forma mucho mejor de tratar con código asíncrono y empieza por "F".
 
@@ -694,7 +694,7 @@ ctmd2.getCompose;
 Ahí lo tienes, un solo `map`. La composición de funtores es asociativa y anteriormente definimos `Container` que en realidad se llama funtor `Identidad`. Si tenemos identidad y composición asociativa tenemos una categoría. Esta categoría en particular tiene categorías como objetos y funtores como morfismos, lo que es suficiente para hacer que a uno le transpire el cerebro. No profundizaremos demasiado en esto, pero es bueno apreciar las implicaciones arquitectónicas o incluso solo la simple belleza abstracta en el patrón.
 
 
-## En Resumen 
+## En Resumen
 
 Hemos visto unos cuantos funtores distintos, pero hay una infinidad de ellos. Algunas omisiones notables son las estructuras de datos iterables como árboles, listas, mapas, pares, lo que sea. Los event streams [*flujos de eventos*] y los observables son ambos funtores. Otros pueden usarse para encapsular o incluso solo para el modelado de tipos. Los funtores nos rodean y los utilizaremos ampliamente a lo largo del libro. 
 

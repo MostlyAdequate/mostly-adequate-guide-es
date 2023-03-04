@@ -9,7 +9,7 @@ Para encontrar funciones más preparadas para un entorno en producción, échale
 
 Ten en cuenta que las funciones hacen referencia a las funciones `curry` y `compose` definidas en el [Apéndice A](./appendix_a-es.md)
 
-## add 
+## add
 
 ```js
 // add :: Number -> Number -> Number
@@ -58,7 +58,7 @@ const filter = curry((fn, xs) => xs.filter(fn));
 const flip = curry((fn, a, b) => fn(b, a));
 ```
 
-## forEach 
+## forEach
 
 ```js
 // forEach :: (a -> ()) -> [a] -> ()
@@ -107,7 +107,7 @@ const map = curry((fn, f) => f.map(fn));
 const match = curry((re, str) => re.test(str));
 ```
 
-## prop 
+## prop
 
 ```js
 // prop :: String -> Object -> a

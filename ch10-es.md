@@ -286,7 +286,7 @@ Un ejemplo rápido:
 Either.of(toUpperCase).ap(Either.of('oreos')) === Either.of(toUpperCase('oreos'));
 ```
 
-### Intercambio 
+### Intercambio
 
 La ley del *intercambio* establece que no importa si elegimos levantar nuestra función en el lado izquierdo o en el derecho de `ap`.
 

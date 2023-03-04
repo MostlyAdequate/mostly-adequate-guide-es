@@ -1,6 +1,6 @@
 # Capítulo 02: Funciones de Primera Clase
 
-## Una Revisión Rápida
+## Un Repaso Rápido
 Cuando decimos que las funciones son de "primera clase", queremos decir que son como cualquier otra clase... o sea, una clase normal. Podemos tratar a las funciones como a cualquier otro tipo de dato y no hay nada particularmente especial en ellas; pueden ser almacenadas en arreglos, pasadas como parámetros de otras funciones, asignadas a variables, y lo que quieras.
 
 Esto es de primero de JavaScript, pero vale la pena mencionarlo, pues una búsqueda rápida de código en GitHub mostrará la evasión colectiva, o tal vez la ignorancia generalizada de este concepto. ¿Deberíamos poner un ejemplo ficticio? Deberíamos.

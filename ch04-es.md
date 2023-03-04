@@ -1,6 +1,6 @@
 # Capítulo 04: Currificación
 
-## No Puedo Vivir Si Vivir Es Sin Ti 
+## No Puedo Vivir Si Vivir Es Sin Ti
 [*El título en inglés es 'Can't Live If Livin' Is without You' que recuerda a la canción "Without You" de Badfinger*]
 
 Mi padre una vez me explicó como hay ciertas cosas sin las que se puede vivir hasta que las compras. Un microondas es una de esas cosas. Los smartphones, otra. Los más mayores de nosotros recordarán una vida de plenitud sin internet. Para mí, la `currificación` [*currying en inglés*] está en esta lista.
@@ -62,7 +62,7 @@ Alternativamente, dale un vistazo a la versión en inglés publicada en `npm`:
 npm install @mostly-adequate/support
 ```
 
-## Más Que Un Juego de Palabras / Salsa Especial 
+## Más Que Un Juego de Palabras / Salsa Especial
 
 [*Haciendo referencia a la salsa Curry*]
 

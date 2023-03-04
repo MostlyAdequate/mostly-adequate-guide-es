@@ -53,7 +53,7 @@ Por otro lado, su forma pura, es completamente autosuficiente. También podemos 
 const immutableState = Object.freeze({ minimum: 21 });
 ```
 
-## Los Efectos Secundarios Pueden Incluir... 
+## Los Efectos Secundarios Pueden Incluir...
 
 Miremos más hacia estos "efectos secundarios" para mejorar nuestra intuición. Entonces, ¿qué es este indudablemente nefasto *efecto secundario* mencionado en la definición de *función pura*? Nos referiremos a *efecto* como a cualquier cosa que ocurra en nuestra computación que no sea calcular un resultado.
 

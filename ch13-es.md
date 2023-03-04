@@ -1,6 +1,6 @@
 # Capítulo 13: Los Monoides Lo Unen Todo
 
-## Salvaje Combinación 
+## Salvaje Combinación
 
 En este capítulo, examinaremos a los *monoides* mediante *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que comprende múltiples disciplinas y, figurativa y literalmente, las une todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, el suelo en el que se ejecuta, entrelazamiento cuántico codificado.
 
