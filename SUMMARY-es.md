@@ -1,5 +1,6 @@
 # Sumario
 
+* [Introducción](README.md)
 * [Capítulo 01: ¿Qué Estamos Haciendo?](ch01-es.md)
   * [Presentaciones](ch01-es.md#presentaciones)
   * [Un Breve Encuentro](ch01-es.md#un-breve-encuentro)
