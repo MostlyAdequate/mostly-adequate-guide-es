@@ -18,7 +18,7 @@ increment(2); // 3
 addTen(2); // 12
 ```
 
-Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante la closure. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de ayuda especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
+Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante la closure. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de soporte especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
 
 Vamos a preparar unas pocas funciones currificadas para nuestro disfrute. Desde ahora, nos 
 apoyaremos en nuestra función `curry` definida en el [Apéndice A - Funciones Esenciales de Soporte](./appendix_a-es.md).
@@ -64,8 +64,6 @@ npm install @mostly-adequate/support
 
 ## Más Que Un Juego de Palabras / Salsa Especial
 
-[*Haciendo referencia a la salsa Curry*]
-
 La currificación es útil para muchas cosas. Podemos hacer nuevas funciones solo pasando algunos argumentos a nuestras funciones base, tal y como hemos visto en `hasLetterR`, `removeStringsWithoutRs` y `censored`.
 
 También tenemos la habilidad para transformar cualquier función que trabaje con un solo elemento en una función que trabaje con una lista, simplemente envolviéndola con `map`: 
@@ -91,7 +89,7 @@ No importa si la salida es otra función; califica como pura. Permitimos más de
 
 Las currificación es práctica y disfruto mucho trabajando diariamente con funciones currificadas. Es una herramienta para el cinturón que hace a la programación funcional menos verbosa y tediosa.
 
-Podemos crear al vuelo nuevas y útiles funciones, simplemente pasándole unos pocos argumentos y como añadidura, retenemos la definición de función matemática a pesar de sus múltiples argumentos.
+Podemos crear al vuelo nuevas y útiles funciones, simplemente pasándole unos pocos argumentos y además, retenemos la definición de función matemática a pesar de sus múltiples argumentos.
 
 Adquiramos otra herramienta esencial llamada `compose`.
 
