@@ -99,7 +99,7 @@ No hay repuestas correctas o incorrectas; solo estamos juntando nuestras piezas 
 
 ## Pointfree
 
-El estilo pointfree [*que se puede encontrar traducido como programación tácita*] se refiere a nunca tener que hablar sobre tus datos. Perdóname [*debe estar haciendo referencia a alguna canción o película*]. Se refiere a funciones que nunca mencionan los datos sobre los que operan. Las funciones de primera clase, la currificación, y la composición hacen un buen equipo para crear este estilo.
+El estilo pointfree [*que se puede encontrar traducido como programación tácita*] se refiere a nunca tener que hablar sobre tus datos. Perdona. Se refiere a funciones que nunca mencionan los datos sobre los que operan. Las funciones de primera clase, la currificación, y la composición hacen un buen equipo para crear este estilo.
 
 > Sugerencia: En el [Apéndice C - Utilidades Pointfree](./appendix_c-es.md) hay definidas versiones pointfree de `replace` y `toLowerCase`. ¡No dudes en echar un vistazo!
  
@@ -251,7 +251,7 @@ compose(id, f) === compose(f, id) === f;
 // true
 ```
 
-¡Eh, es como la propiedad de identidad en los números! Si esto no lo ves claro inmediatamente, dedícale algún tiempo. Entiende la futilidad. Pronto veremos a `id` usada en todas partes, pero por ahora veámosla como a una función que actúa como sustituto de un valor dado. Esto es bastante útil al escribir código pointfree.
+¡Eh, es como la propiedad de identidad en los números! Si esto no lo ves claro inmediatamente, dedícale algún tiempo. Entiende la futilidad. Pronto veremos a `id` usada en todas partes, pero por ahora veámosla como a una función que actúa como sustituta de un valor dado. Esto es bastante útil a la hora de escribir código pointfree.
 
 Así que ahí lo tienes, una categoría de tipos y funciones. Si esta es tu primera introducción, imagino que seguirás algo confuso sobre qué es una categoría y su utilidad. Aprenderemos más sobre todo esto a lo largo del libro. Por el momento, en este capítulo, en esta línea, puedes verlo al menos como que nos provee de algo de sabiduría sobre la composición; concretamente sobre las propiedades de identidad y asociatividad.
 
@@ -308,7 +308,7 @@ const average = xs => reduce(add, 0, xs) / xs.length;
 ```
 
 {% exercise %}  
-Usa la función de ayuda `average` para refactorizar `averageDollarValue` a una composición.  
+Usa la función de soporte `average` para refactorizar `averageDollarValue` a una composición.  
   
 {% initial src="./exercises/ch05/exercise_b.js#L7;" %}  
 ```js  
