@@ -82,7 +82,7 @@ const BlogController = {
 
 ## ¿Por Qué Favorecer a las Funciones de Primera Clase?
 
-Vale, vayamos a las razones por las que favorecer a las funciones de primera clase. Como vimos en los ejemplos `getServerStuff` y `BlogController`, es fácil agregar capas de indirección que no añaden ningún valor y que lo único que hacen es incrementar la cantidad de código por el que rebuscar y mantener.
+Vale, vayamos a las razones por las que favorecer a las funciones de primera clase. Como vimos en los ejemplos `getServerStuff` y `BlogController`, es fácil agregar capas de indirección que no añaden ningún valor y que lo único que hacen es incrementar la cantidad de código en el que rebuscar y que mantener.
 
 Además, si cambia una función que estamos envolviendo innecesariamente, también deberemos cambiar la función que la envuelve.
 
@@ -117,7 +117,7 @@ const validArticles = articles =>
 const compact = xs => xs.filter(x => x !== null && x !== undefined);
 ```
 
-Cuando usamos nombres concretos, aparentemente nos atamos a datos específicos (en este caso `articles`). Esto sucede bastante a menudo y es una fuente de mucha de la reinvención.
+Usando nombres concretos, aparentemente nos atamos a datos específicos (en este caso `articles`). Esto sucede bastante a menudo y es una fuente de mucha de la reinvención.
 
 Debo mencionar que, al igual que con código orientado a objetos, debes ser consciente de que `this` puede morderte en la yugular. Si una función subyacente usa `this` y la llamamos como si fuese de primera clase, estamos sujetos a esta cólera de la abstracción con fugas.
 
