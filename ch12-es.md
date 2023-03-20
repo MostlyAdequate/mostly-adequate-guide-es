@@ -1,6 +1,6 @@
 # Capítulo 12: Atravesando la Piedra
 
-Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos de una sola vez utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
+Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos simultáneamente utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
 
 Y ahora, para nuestro siguiente truco, veremos los "traversables". Veremos tipos volar unos sobre otros como si fuesen trapecistas, manteniendo nuestro valor intacto. Reordenaremos los efectos como a las cabinas de una atracción de feria. Cuando nuestros contenedores se entrelacen como las extremidades de un contorsionista podremos utilizar esta interfaz para enderezar las cosas. Con distintas disposiciones presenciaremos distintos efectos. Tráeme mis bombachos y mi flauta de émbolo, comencemos.
 
@@ -56,7 +56,7 @@ sequence(Task.of, left('wing')); // Task(Left('wing'))
 const sequence = curry((of, x) => x.sequence(of));
 ```
 
-Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aún sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. Ese primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
+Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aún sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. El primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
 
 Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, por ejemplo `Either`, la implementaría.
 
@@ -98,7 +98,7 @@ const partition = f => map(fromPredicate(f));
 const validate = f => traverse(Either.of, fromPredicate(f));
 ```
 
-Aquí tenemos dos funciones distintas basadas en si aplicamos `map` o `traverse`. La primera, `partition`, nos dará un array de `Left`s y `Right`s de acuerdo con la función predicado. Esto es útil para mantener los preciosos datos a mano para futuros usos en vez de descartarlos junto con el agua del baño. En cambio, `validate` nos devolverá en `Left` el primer elemento que no supere el predicado, o todos los elementos en un `Right` si todo está bien. Al escoger un orden diferente de tipos, obtenemos un comportamiento diferente:
+Aquí tenemos dos funciones distintas según se basan en aplicar `map` o `traverse`. La primera, `partition`, nos dará un array de `Left`s y `Right`s de acuerdo con la función predicado. Esto es útil para mantener los preciosos datos a mano para futuros usos en vez de descartarlos junto con el agua del baño. En cambio, `validate` nos devolverá en `Left` el primer elemento que no supere el predicado, o todos los elementos en un `Right` si todo está bien. Al escoger un orden diferente de tipos, obtenemos un comportamiento diferente:
 
 Veamos la función `traverse` de `List` para ver como está hecho el método `validate`.
 
@@ -158,7 +158,7 @@ traverse(Task.of, tldr, ['file1', 'file2']);
 // Task(['hail the monarchy', 'smash the patriarchy']);
 ```
 
-Utilizando `traverse` en vez de `map`, hemos conseguido formar un rebaño con esas revoltosas `Task`, convirtiéndolas en un bonito y coordinado array de resultados. Esto es como `Promise.all()`, si estás familiarizado, excepto que no es una única función personalizada, no, esto funciona para cualquier tipo *traversable*. Estas apis matemáticas tienden a capturar de una forma interoperable y reusable la mayor parte de las cosas que nos gustaría hacer, en vez de que cada librería reinvente estas funciones para un solo tipo.
+Utilizando `traverse` en vez de `map`, hemos conseguido formar un rebaño con esas revoltosas `Task`, convirtiéndolas en un bonito y coordinado array de resultados. Esto es como `Promise.all()`, si estás familiarizado, excepto que no es una única función personalizada, no, esto funciona para cualquier tipo *traversable*. Estas apis matemáticas tienden a capturar de forma interoperable y reusable la mayor parte de las cosas que nos gustaría hacer, en vez de que cada librería reinvente estas funciones para un solo tipo.
 
 Limpiemos el último ejemplo de closure:
 
@@ -174,7 +174,7 @@ En vez de `map(map($))` tenemos `chain(traverse(IO.of, $))`, que invierte nuestr
 
 ## Sin Ley Ni Orden
 
-Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código para reducir las posibilidades, para guiarnos hacia las respuestas cuando lo diseñamos y cuando lo leemos.
+Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como con un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código para reducir las posibilidades, para guiarnos hacia las respuestas cuando lo diseñamos y cuando lo leemos.
 
 Una interfaz sin leyes es simple indirección. Como cualquier otra estructura matemática, debemos exponer las propiedades para nuestra propia cordura. Esto tiene un efecto similar a la encapsulación, dado que protege a los datos, permitiéndonos intercambiar la interfaz por otro ciudadano ejemplar.
 
@@ -233,7 +233,7 @@ natLaw2(Either.of, maybeToEither)(Identity.of(Maybe.of('barlow one')));
 // Right(Identity('barlow one'))
 ```
 
-Esto es parecido a nuestra ley de la identidad. Si primero hacemos girar a los tipos y luego ejecutamos una transformación natural en el exterior, debería ser lo mismo que mapear una transformación natural y después voltear los tipos.
+Esto es parecido a nuestra ley de la identidad. Si primero meneamos a los tipos y luego ejecutamos una transformación natural en el exterior, debería ser lo mismo que mapear una transformación natural y después voltear los tipos.
 
 Una consecuencia natural de esta ley es:
 
@@ -310,7 +310,7 @@ const startGame = compose(map(map(always('game started!'))), map(validate));
 ---  
 
 
-Finalmente, teniendo en cuenta algunas funciones de ayuda para el sistema de archivos:
+Finalmente, teniendo en cuenta algunas funciones de soporte para el sistema de archivos:
 
 ```js
 // readfile :: String -> String -> Task Error String
