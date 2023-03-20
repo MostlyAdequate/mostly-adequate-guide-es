@@ -1,7 +1,7 @@
 # Capítulo 07: Hindley-Milner y Yo
 
 ## ¿Cuál Es Tu Tipo?
-Si tu llegada al mundo funcional es reciente, no tardarás en verte hasta las rodillas en las firmas de tipos. Los tipos son el meta lenguaje que permite a personas de todos los ámbitos comunicarse de forma sucinta y eficaz. La mayoría de las veces están escritas en un sistema llamado "Hindley-Milner" que examinaremos juntos en este capítulo.
+Si tu llegada al mundo funcional es reciente, no tardarás en verte de firmas de tipos hasta las rodillas. Los tipos son el meta lenguaje que permite a personas de todos los ámbitos comunicarse de forma sucinta y eficaz. La mayoría de las veces están escritas en un sistema llamado "Hindley-Milner" que examinaremos juntos en este capítulo.
 
 Cuando trabajamos con funciones puras, las firmas de tipos tienen un poder expresivo que el inglés no puede lograr [*ni el español*]. Estas firmas te susurran al oído los íntimos secretos de una función. En una única y compacta línea exponen comportamiento e intención. Podemos derivar "teoremas gratuitos" de ellas. Los tipos pueden ser inferidos, así que no hay necesidad de anotaciones de tipo explícitas. Pueden afinarse al detalle o dejarse como algo general y abstracto. No solo son útiles para comprobaciones en tiempo de compilación, sino que resultan ser la mejor documentación posible disponible. Las firmas de tipos juegan, por tanto, un papel importante en la programación funcional; mucho más de lo que cabría esperar en un principio.  
 
@@ -80,7 +80,7 @@ const id = x => x;
 const map = curry((f, xs) => xs.map(f));
 ```
 
-La función `id` toma cualquier tipo `a` y devuelve algo del mismo tipo `a`. Podemos usar variables en los tipos, igual que en el código. Los nombres de las variables como `a` y `b` son una convención, pero son arbitrarios y pueden ser remplazadas por el nombre que prefieras. Si son la misma variable, tienen que ser del mismo tipo. Esta es una regla importante así que vamos a repetirnos: `a -> b` puede ser cualquier tipo `a` a cualquier tipo `b`, pero ` a -> a` significa que tienen que ser del mismo tipo. Por ejemplo, `id` puede ser `String -> String` o `Number -> Number`, pero no `String -> Bool`.
+La función `id` toma cualquier tipo `a` y devuelve algo del mismo tipo `a`. Podemos usar variables en los tipos, igual que en el código. Los nombres de las variables como `a` y `b` son una convención, pero son arbitrarios y pueden ser reemplazados por el nombre que prefieras. Si son la misma variable, tienen que ser del mismo tipo. Esta es una regla importante así que vamos a repetirnos: `a -> b` puede ser cualquier tipo `a` a cualquier tipo `b`, pero ` a -> a` significa que tienen que ser del mismo tipo. Por ejemplo, `id` puede ser `String -> String` o `Number -> Number`, pero no `String -> Bool`.
 
 `map` usa variables de tipos de forma parecida, pero esta vez introducimos `b` que puede ser del mismo tipo que `a` o no. Podemos leerla como: `map` toma una función de cualquier tipo `a` al mismo o distinto tipo `b`, luego toma un array de `a`s y devuelve un array de `b`s.
 
@@ -103,7 +103,7 @@ const reduce = curry((f, x, xs) => xs.reduce(f, x));
 
 `reduce` quizás sea la más expresiva de todas. Sin embargo, es difícil, así que no te sientas mal si te cuesta entenderla. Para los curiosos, intentaré hacer una explicación en castellano, aunque estudiar la firma por tu cuenta es mucho más instructivo.
 
-Ejem, aquí va mi intento... revisando la firma, vemos que el primer argumento es una función que espera un tipo `b` y un tipo `a` y produce un `b`. ¿De dónde tomará todos esos `a`s y `b`s? Bueno, los siguientes argumentos en la firma son un `b`, y un array de `a`, por lo que solo podemos asumir que `b` y cada `a` serán inyectados a la función. También podemos ver que el resultado de la función es `b`, por lo que la conclusión será que el último hechizo en la función que hemos pasado será nuestro valor de salida. Conociendo lo que hace `reduce`, podemos afirmar que la investigación anterior es correcta. 
+Ejem, aquí va mi intento... revisando la firma, vemos que el primer argumento es una función que espera un tipo `b` y un tipo `a` y produce un `b`. ¿De dónde tomará todos esos `a`s y `b`s? Bueno, los siguientes argumentos en la firma son un `b`, y un array de `a`, por lo que solo podemos asumir que `b` y cada `a` serán inyectados a la función. También podemos ver que el resultado de la función es `b`, por lo que la conclusión será que el último hechizo de la función que hemos pasado será nuestro valor de salida. Conociendo lo que hace `reduce`, podemos afirmar que la investigación anterior es correcta. 
 
 ## Reduciendo las Posibilidades
 
@@ -113,9 +113,9 @@ Una vez que se introduce una variable de tipo, surge una curiosa propiedad llama
 // head :: [a] -> a
 ```
 
-Observando `head`, vemos que toma `[a]` y retorna `a`. Aparte del tipo concreto `array`, no dispone de más información, y, por lo tanto, su funcionalidad se limita a trabajar solamente con el array. ¿Qué podría hacer con la variable `a` si no sabe nada de ella? En otras palabras, `a` dice que no puede ser un tipo *específico*, lo que significa que puede ser *cualquier* tipo, lo que nos deja con una función que debe funcionar de manera uniforme para *todos* los tipos concebibles. Esto es todo en lo que consiste la *parametricidad*. Adivinando la implementación, las únicas suposiciones razonables son que toma el primer, el último o un elemento aleatorio del array. El nombre `head` (cabeza) debería servirnos de pista.
+Observando `head`, vemos que toma `[a]` y retorna `a`. Aparte del tipo concreto `array`, no dispone de más información, y, por lo tanto, su funcionalidad se limita a trabajar solamente con el array. ¿Qué podría hacer con la variable `a` si no sabe nada de ella? En otras palabras, `a` dice que no puede ser un tipo *específico*, lo que significa que puede ser *cualquier* tipo, lo que nos deja con una función que debe funcionar de manera uniforme para *todos* los tipos concebibles. Esto es todo en lo que consiste la *parametricidad*. Adivinando la implementación, las únicas suposiciones razonables son que toma el primer, el último o un elemento aleatorio del array. El nombre `head` [*cabeza*] debería servirnos de pista.
 
-He aquí otro más:
+He aquí otra más:
 
 ```js
 // reverse :: [a] -> [a]
@@ -138,7 +138,7 @@ compose(f, head) === compose(head, map(f));
 compose(map(f), filter(compose(p, f))) === compose(filter(p), map(f));
 ```
 
-No necesitas ningún código para entender estos teoremas, se deducen directamente de los tipos. El primero dice que si aplicamos `head` a nuestro array y luego ejecutamos una función `f` sobre él, esto es equivalente y de paso mucho más rápido que primero hacer `map(f)` sobre cada elemento y luego aplicar `head` sobre resultado.
+No necesitas ningún código para entender estos teoremas, se deducen directamente de los tipos. El primero dice que obtener el primer elemento del array con `head` y luego ejecutar una función `f` sobre él, es equivalente y de paso mucho más rápido que primero aplicar `f` sobre cada elemento mediante `map`  y luego aplicar `head` sobre el resultado.
 
 Podrías pensar, bueno, eso es de sentido común. Pero la última vez que lo comprobé, los ordenadores no tenían sentido común. De hecho, han de tener una manera formal de automatizar este tipo de optimizaciones de código. Las matemáticas tienen una manera de formalizar lo intuitivo, lo cual es muy útil en medio del rígido terreno de la lógica computacional. 
 
