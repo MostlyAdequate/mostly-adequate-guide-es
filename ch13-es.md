@@ -2,9 +2,9 @@
 
 ## Salvaje Combinación
 
-En este capítulo, examinaremos a los *monoides* mediante *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que comprende múltiples disciplinas y, figurativa y literalmente, las une todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, el suelo en el que se ejecuta, entrelazamiento cuántico codificado.
+En este capítulo, examinaremos a los *monoides* mediante *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que comprende múltiples disciplinas y, figurativa y literalmente, las une a todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, el suelo en el que se ejecuta, entrelazamiento cuántico codificado.
 
-Los *monoides* tratan sobre combinar. Pero, ¿qué es combinación? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo rozaremos la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
+Los *monoides* tratan sobre combinar. Pero, ¿qué es combinar? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo rozaremos la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
 
 ## Abstrayendo La Suma
 
@@ -155,7 +155,7 @@ Analytics(Sum(2), ['/home', '/about'], Right(Max(2000))).concat(Analytics(Sum(1)
 // Analytics(Sum(3), ['/home', '/about', '/contact'], Right(Max(2000)))
 ```
 
-Como ves, todo sabe como combinarse. Resulta que podemos hacer lo mismo sin ningún esfuerzo adicional tan solo utilizando el tipo `Map`:
+Como ves, todo sabe como combinarse. Resulta que podemos hacer lo mismo sin ningún esfuerzo adicional con tan solo utilizar el tipo `Map`:
 
 ```js
 Map({clicks: Sum(2), path: ['/home', '/about'], idleTime: Right(Max(2000))}).concat(Map({clicks: Sum(1), path: ['/contact'], idleTime: Right(Max(1000))}))
@@ -173,13 +173,13 @@ const enterStream = filter(x => x.key === 'Enter', Stream.fromEvent('keydown', $
 submitStream.concat(enterStream).map(submitForm) // Stream()
 ```
 
-Podemos combinar flujos de eventos [*event streams*] capturando los eventos de ambos flujos en un nuevo flujo. Alternativamente, podríamos haberlos combinado insistiendo en que contienen un semigrupo. De hecho, hay muchos posibles ejemplares para cada tipo. Considera `Task`. Podríamos combinar las tareas eligiendo la que termina más pronto o la que termina más tarde. Siempre podemos elegir el primer `Right` en vez de cortocircuitar con `Left`, haciendo que se ignoren los errores. Hay una interfaz llamada *Alternative* [*Alternativa*] que implementa alguno de estos... bueno... ejemplares alternativos, que típicamente se concentran más en elegir que en combinar en cascada. Vale la pena estudiarla si te ves en la necesidad de una funcionalidad como esta.
+Podemos combinar flujos de eventos [*event streams*] capturando los eventos de ambos flujos en un nuevo flujo. Alternativamente, podríamos haberlos combinado insistiendo en que contienen un semigrupo. De hecho, hay muchos ejemplares posibles para cada tipo. Considera `Task`. Podríamos combinar las tareas eligiendo la que termina más pronto o la que termina más tarde. Siempre podemos elegir el primer `Right` en vez de cortocircuitar con `Left`, haciendo que se ignoren los errores. Hay una interfaz llamada *Alternative* [*Alternativa*] que implementa alguno de estos... bueno... ejemplares alternativos, que típicamente se concentran más en elegir que en combinar en cascada. Vale la pena estudiarla si te ves en la necesidad de una funcionalidad como esta.
 
 ## Monoides A Cambio De Nada
 
 Estamos abstrayendo la suma pero, como a los babilonios, nos falta el concepto de cero (hubo cero menciones sobre él).
 
-El cero actúa como la *identidad* queriendo decir que cualquier elemento añadido a `0` devolverá ese mismo elemento. En términos de abstracción, sirve de ayuda pensar en el `0` como un elemento neutral o *vacío*. Es importante el hecho de que actúa de la misma manera tanto en el lado izquierdo como en el derecho de nuestra operación binaria:
+El cero actúa como la *identidad* queriendo decir que cualquier elemento añadido a `0` devolverá ese mismo elemento. En términos de abstracción, sirve de ayuda pensar en el `0` como en un elemento neutral o *vacío*. Es importante el hecho de que actúa de la misma manera tanto en el lado izquierdo como en el derecho de nuestra operación binaria:
 
 ```js
 // identidad
@@ -200,7 +200,7 @@ All.empty = () => All(true)
 Any.empty = () => Any(false)
 ```
 
-¿Cuándo podría un valor identidad vacío demostrar ser útil? Eso es como preguntar por qué el cero es útil. Es como no preguntar nada en absoluto...
+¿Cuándo podría demostrar ser útil un valor identidad vacío? Eso es como preguntar por qué el cero es útil. Es como no preguntar nada en absoluto...
 
 Cuando no tenemos nada más, ¿con quién podemos contar? Cero. ¿Cuántos bugs queremos? Cero. Esta es nuestra tolerancia hacía el código no confiable. Un nuevo comienzo. La etiqueta de precio definitiva. Puede aniquilar todo lo que haya en su camino o salvarnos de un apuro. Un salvavidas dorado y un pozo de desesperación.
 
@@ -222,7 +222,7 @@ También son el valor inicial perfecto para un acumulador...
 
 ## Doblando La Casa
 
-Resulta que `concat` y `empty` encajan perfectamente con los dos primeras huecos de `reduce`. De hecho podemos reducir un array de *semigrupos* ignorando el valor *vacío*, pero, como puedes ver, esto conduce a una precaria situación:
+Resulta que `concat` y `empty` encajan perfectamente con los dos primeras huecos de `reduce`. De hecho podemos aplicar `reduce` a un array de *semigrupos* ignorando el valor *vacío*, pero, como puedes ver, esto conduce a una precaria situación:
 
 ```js
 // concat :: Semigroup s => s -> s -> s
@@ -305,11 +305,11 @@ thingDownFlipAndReverse.run(['let me work it', 'is it worth it?'])
 // ['thing down', 'let me work it', 'is it worth it?']
 ```
 
-Dado que todos son del mismo tipo, podemos concatenar a través de `compose`, que los tipos siempre se alinean.
+Dado que todos son del mismo tipo, podemos concatenar a través de `compose` que los tipos siempre se alinean.
 
 ### Mónada Como Monoide
 
-Puede que hayas notado que `join` es una operación que toma dos mónadas (anidadas) y las aplasta en una sola de manera asociativa. Es también una transformación natural o una "función funtor". Como establecimos anteriormente, podemos crear una categoría con funtores como objetos y transformaciones naturales como morfismos. Si la especializamos en *Endofuntores*, o sea, funtores del mismo tipo, entonces `join` nos provee de un monoide en la categoría de Endofuntores también conocida como Mónada. Mostrar en código la formulación exacta requiere de algunos trucos que te animo a googlear, pero esta es la idea general.
+Puede que hayas notado que `join` es una operación que toma dos mónadas (anidadas) y las aplasta en una sola de manera asociativa. Es también una transformación natural o una "función funtor". Como establecimos anteriormente, podemos crear una categoría con funtores como objetos y transformaciones naturales como morfismos. Si la especializamos en *Endofuntores*, o sea, funtores del mismo tipo, entonces `join` nos provee de un monoide en la categoría de Endofuntores también conocido como Mónada. Mostrar en código la formulación exacta requiere de algunos trucos que te animo a googlear, pero esta es la idea general.
 
 ### Aplicativo Como Monoide
 
