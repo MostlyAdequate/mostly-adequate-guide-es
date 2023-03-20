@@ -82,13 +82,13 @@ Task.of(add).ap(Task.of(2)).ap(Task.of(3));
 // Task(5)
 ```
 
-Entrecerrando los ojos, se puede incluso reconocer vagamente la forma normal de llamar a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
+Entrecerrando los ojos, se puede incluso reconocer vagamente la manera normal de llamar a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
 
 ¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones donde los funtores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
 
 ## Motivación para la Coordinación
 
-Digamos que estamos construyendo un sitio web de viajes y queremos recuperar tanto una lista de destinos turísticos como de eventos locales. Cada una es una llamada separada e independiente.
+Digamos que estamos construyendo un sitio web de viajes y que queremos recuperar tanto una lista de destinos turísticos como de eventos locales. Cada una es una llamada separada e independiente.
 
 ```js
 // Http.get :: String -> Task Error HTML
@@ -119,7 +119,7 @@ IO.of(signIn).ap(getVal('#email')).ap(getVal('#password')).ap(IO.of(false));
 // IO({ id: 3, email: 'gg@allin.com' })
 ```
 
-`signIn` es una función currificada de 3 argumentos por lo que tenemos que aplicar `ap` en consecuencia. Con cada `ap`, `signIn` recibe un argumento más hasta que está completa y luego se ejecuta. Podemos seguir este patrón con tantos argumentos sea necesario. Otra cosa a tener en cuenta es que dos argumentos terminan de manera natural en `IO` mientras que el último necesita una pequeña ayuda de `of` para levantarlo a `IO` ya que `ap` espera que la función y todos sus argumentos sean del mismo tipo.
+`signIn` es una función currificada de 3 argumentos por lo que tenemos que aplicar `ap` en consecuencia. Con cada `ap`, `signIn` recibe un argumento más hasta que está completa y luego se ejecuta. Podemos seguir este patrón con tantos argumentos como sea necesario. Otra cosa a tener en cuenta es que dos argumentos terminan de manera natural en `IO` mientras que el último necesita una pequeña ayuda de `of` para levantarlo a `IO` ya que `ap` espera que la función y todos sus argumentos sean del mismo tipo.
 
 ## Colega, ¿Alguna Vez Levantas?
 
@@ -369,7 +369,7 @@ const safeAdd = undefined;
   
 ---  
   
-Para el próximo ejercicio, tendremos en cuenta las siguientes funciones de ayuda:
+Para el próximo ejercicio, tendremos en cuenta las siguientes funciones de soporte:
   
 ```js  
 const localStorage = {  
