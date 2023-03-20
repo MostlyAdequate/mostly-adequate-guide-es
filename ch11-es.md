@@ -1,7 +1,8 @@
 # Capítulo 11: Transforma Otra Vez, Naturalmente
 
 [*El título en inglés es 'Transform Again, Naturally' que recuerda a la canción Alone Again (Naturally) de Gilbert O'Sullivan*]
-Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables para aplicar matemáticas al razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
+
+Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables a la hora de aplicar matemáticas al razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
 
 ## Maldice Este Nido
 
@@ -99,7 +100,7 @@ Además, se vuelve más fácil de optimizar / fusionar operaciones al mover `map
 
 ## JavaScript Isomórfico
 
-Cuando podemos ir completamente hacia atrás y hacia adelante sin perder ninguna información, se considera un *isomorfismo*. Esta solo es una palabra elegante para decir que "mantiene los mismos datos". Decimos que dos tipos son *isomorfos* si podemos proporcionar las *transformaciones naturales* "hacia" y "desde" como prueba:
+Cuando podemos ir completamente hacia atrás y hacia adelante sin perder ninguna información, se considera un *isomorfismo*. Esta solo es una palabra elegante para decir que "mantiene los mismos datos". Decimos que dos tipos son *isomorfos* si podemos proporcionar las *transformaciones naturales* "hacia" y "desde" como demuestra:
 
 ```js
 // promiseToTask :: Promise a b -> Task a b
