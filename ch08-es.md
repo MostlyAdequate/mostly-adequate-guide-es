@@ -6,7 +6,7 @@
 
 Hemos visto como escribir programas que canalicen los datos a través de una serie de funciones puras. Son especificaciones declarativas de comportamiento. Pero ¡¿qué pasa con el control de flujo, el manejo de errores, las acciones asíncronas, el estado y me atrevo a decir, con los efectos?! En este capítulo, descubriremos los cimientos sobre los que se construyen todas estas abstracciones tan útiles.
 
-Primero crearemos un contenedor. Este contenedor debe contener cualquier tipo de valor; una bolsa de cierre zip que solo acepta pudin de tapioca raramente es útil. Será un objeto, pero no le daremos métodos ni propiedades en el sentido de la orientación de objetos. No, lo trataremos como un cofre del tesoro; una caja especial que envuelve a nuestros valiosos datos.
+Primero crearemos un contenedor. Este contenedor debe contener cualquier tipo de valor; una bolsa de cierre zip que solo acepta pudin de tapioca raramente es útil. Será un objeto, pero no le daremos métodos ni propiedades en el sentido de la orientación de objetos. No, lo trataremos como si de un cofre del tesoro se tratara; una caja especial que envuelve a nuestros valiosos datos.
 
 ```js
 class Container {
@@ -77,7 +77,7 @@ Espera un minuto, si seguimos llamando a `map`, ¡parece ser una especie de comp
 
 > Un Funtor es un tipo que implementa `map` y obedece algunas leyes
 
-Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde está la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
+Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde estaría la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
 
 ¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones por nosotros? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute por nosotros. Este es, de hecho, un concepto muy poderoso.
 
@@ -138,7 +138,7 @@ Esta sintaxis con el punto está bien y es funcional, pero por las razones menci
 const map = curry((f, anyFunctor) => anyFunctor.map(f));
 ```
 
-Esto es perfecto, ya que podemos continuar con la composición como de costumbre y `map` funcionará según lo esperado. Este también es el caso con el `map` de ramda. Usaremos la sintaxis con el punto cuando sea instructiva y la versión *pointfree* cuando sea conveniente. ¿Te has dado cuenta? He introducido disimuladamente una notación adicional en nuestra firma de tipo. `Functor f =>` nos dice que `f` debe ser un Funtor. No es tan difícil, pero sentí que debía mencionarlo.  
+Esto es perfecto, ya que podemos continuar con la composición como de costumbre y `map` funcionará según lo esperado. Este también es el caso con el `map` de ramda. Usaremos la sintaxis con el punto cuando sea instructiva y la versión *pointfree* cuando sea conveniente. ¿Te has dado cuenta? He introducido disimuladamente una notación adicional en nuestra firma de tipos. `Functor f =>` nos dice que `f` debe ser un Funtor. No es tan difícil, pero sentí que debía mencionarlo.  
 
 ## Casos de Uso
 
@@ -188,13 +188,13 @@ getTwenty({ balance: 10.00 });
 // Nothing
 ```
 
-`withdraw` nos hará saber cuando estamos cortos de dinero devolviéndonos un `Nothing`. Esta función también nos comunica su veleidad y no nos deja otra opción que aplicar `map` a todo lo que le sigue. La diferencia es que aquí el `null` era intencionado. En lugar de un `Just('..')`, obtenemos el `Nothing` de regreso para señalar el error y nuestra aplicación detiene la ejecución de manera efectiva. Es importante destacar esto: si la función `withdraw` falla, entonces `map` cortará el resto de nuestra computación, ya que nunca ejecutará las funciones mapeadas, concretamente `finishTransaction`. Este es precisamente el comportamiento pretendido, dado que preferimos no actualizar nuestra contabilidad o mostrar un nuevo saldo si no hemos retirado fondos con éxito. 
+`withdraw` nos hará saber cuando estamos cortos de dinero devolviéndonos un `Nothing`. Esta función también nos comunica su veleidad y no nos deja otra opción que aplicar `map` a todo lo que le sigue. La diferencia es que aquí el `null` es intencionado. En lugar de un `Just('..')` obtenemos el `Nothing` de regreso para señalar el error y luego nuestra aplicación detiene la ejecución de manera efectiva. Es importante destacar esto: si la función `withdraw` falla, entonces `map` cortará el resto de nuestra computación, ya que nunca ejecutará las funciones mapeadas, concretamente `finishTransaction`. Este es precisamente el comportamiento pretendido, dado que preferimos no actualizar nuestra contabilidad o mostrar un nuevo saldo si no hemos retirado fondos con éxito. 
 
 ## Liberando el Valor
 
 Una cosa que a menudo la gente pasa por alto es que siempre habrá un final de línea; alguna función que provoca un efecto como enviar un JSON, imprimir algo en la pantalla o alterar algún archivo en el sistema, o lo que sea. No podemos entregar la salida con `return`, debemos ejecutar alguna u otra función para sacarla al mundo exterior. Podemos expresarlo como un koan del Budismo Zen: "Si un programa no tiene ningún efecto observable, ¿se ejecuta siquiera?". ¿Se ejecuta correctamente para su propia satisfacción? Sospecho que simplemente quema algunos ciclos y vuelve a dormir...
 
-El trabajo de nuestra aplicación es recuperar, transformar y cargar con esos datos hasta el momento de la despedida y la función que lo hace puede ser mapeada, de esta manera el valor no necesita salir del cálido vientre de su contenedor. De hecho, un error típico es tratar de sacar el valor de nuestro `Maybe` de una manera u otra como si el posible valor de su interior se fuese a materializar de repente y todo fuese a ser perdonado. Debemos entender que puede haber bifurcaciones en el código donde nuestro valor pueda no sobrevivir y alcanzar su destino. Nuestro código, al igual que el gato de Schrödinger, está en dos estados a la vez y debe mantenerse así hasta la función final. Esto da a nuestro código un flujo lineal a pesar de las ramificaciones lógicas. 
+El trabajo de nuestra aplicación es recuperar, transformar y cargar con esos datos hasta el momento de la despedida y la función que lo hace ha de poder ser mapeada, para que así el valor no necesite salir del cálido vientre de su contenedor. De hecho, un error típico es tratar de sacar el valor de nuestro `Maybe` de una manera u otra como si el posible valor de su interior se fuese a materializar de repente y todo fuese a ser perdonado. Debemos entender que puede haber bifurcaciones en el código donde nuestro valor pueda no sobrevivir y alcanzar su destino. Nuestro código, al igual que el gato de Schrödinger, está en dos estados a la vez y debe mantenerse así hasta la función final. Esto da a nuestro código un flujo lineal a pesar de las ramificaciones lógicas. 
 
 Existe, sin embargo, una vía de escape. Si preferimos devolver un valor personalizado y proseguir, podemos utilizar un pequeño ayudante llamado `maybe`.
 
@@ -222,7 +222,7 @@ Ahora devolveremos un valor estático (del mismo tipo que devuelve `finishTransa
 
 Inicialmente, la introducción de `Maybe` puede causar cierta incomodidad. Los usuarios de Swift y Scala sabrán a qué me refiero, ya que está incorporado en las librerías del núcleo bajo la apariencia de `Option(al)`. Cuando se nos empuja continuamente a comprobar la presencia de `null` (y hay veces que sabemos con absoluta certeza que el valor existe), la mayoría no podemos evitar que nos parezca un poco laborioso. Sin embargo, con el tiempo, se volverá algo natural y probablemente apreciarás la seguridad. Al fin y al cabo, la mayoría de las veces evitará chapuzas y nos mantendrá a salvo.
 
-Escribir software inseguro es como asegurarse de decorar cada huevo con pinturas pastel antes de lanzarlo al tráfico; como construir una residencia de ancianos con materiales rechazados por tres cerditos. Nos vendrá bien poner algo de seguridad en nuestras funciones y `Maybe` nos ayuda justamente a hacer eso.
+Escribir software inseguro es como asegurarse de decorar cada huevo con pinturas pastel antes de lanzarlo al tráfico; como construir una residencia de ancianos con materiales rechazados por los tres cerditos. Nos vendrá bien poner algo de seguridad en nuestras funciones y `Maybe` nos ayuda justamente a hacer eso.
 
 Sería negligente por mi parte si no mencionase que la implementación "real" dividirá a `Maybe` en dos tipos: uno para algo y otro para nada. Esto nos permite obedecer a la parametricidad de `map` para que valores como `null` y `undefined` puedan seguir siendo mapeados y que la calificación universal del valor como funtor siga siendo respetada. A menudo verás tipos como `Some(x) / None` o `Just(x) / Nothing` en lugar de un `Maybe` que comprueba que su valor no sea `null`.
 
@@ -230,7 +230,7 @@ Sería negligente por mi parte si no mencionase que la implementación "real" di
 
 <img src="images/fists.jpg" alt="escoge una mano... necesita una referencia" />
 
-Puede resultar chocante, pero `throw/catch` no es muy puro. Cuando un error es lanzado, en lugar de devolver un valor de salida, ¡hacemos sonar las alarmas! La función ataca, lanzando miles de 0 y 1 como escudos y dardos en una batalla eléctrica contra nuestra entrada intrusa. Con nuestro nuevo amigo `Either`, podemos hacer algo mejor que declarar la guerra a la entrada, podemos responder con un educado mensaje. Echemos un vistazo:
+Puede resultar chocante, pero `throw/catch` no es muy puro. Cuando un error es lanzado, en lugar de devolver un valor de salida, ¡hacemos sonar las alarmas! La función ataca, lanzando miles de 0 y 1 como escudos y dardos en una batalla eléctrica contra nuestra intrusa entrada. Con nuestro nuevo amigo `Either`, podemos hacer algo mejor que declarar la guerra a la entrada, podemos responder con un educado mensaje. Echemos un vistazo:
 
 > En el [Apéndice B](./appendix_b-es.md#Either) se proporciona una implementación completa
 
@@ -307,7 +307,7 @@ getAge(moment(), { birthDate: 'July 4, 2001' });
 // Left('Birth date could not be parsed')
 ```
 
-Ahora, al igual que con `Nothing`, cuando devolvemos un `Left` estamos cortocircuitando nuestra aplicación. La diferencia es que ahora tenemos una pista de por qué nuestro programa ha descarrilado. Algo a tener en cuenta es que devolvemos `Either(String, Number)`, que contiene un `String` como su valor izquierdo (`Left`) y un `Number` como su valor derecho (`Right`). Esta firma de tipo es un poco informal, ya que no hemos dedicado el suficiente tiempo para definir una superclase `Either` real, sin embargo, aprendemos mucho del tipo. Nos informa de que estamos obteniendo o bien un mensaje de error o bien la edad.
+Ahora bien, al igual que con `Nothing`, cuando devolvemos un `Left` estamos cortocircuitando nuestra aplicación. La diferencia es que ahora tenemos una pista de por qué nuestro programa ha descarrilado. Algo a tener en cuenta es que devolvemos `Either(String, Number)`, que contiene un `String` como su valor izquierdo (`Left`) y un `Number` como su valor derecho (`Right`). Esta firma de tipos es un poco informal, ya que no hemos dedicado tiempo suficiente para definir una superclase `Either` real, sin embargo, aprendemos mucho del tipo. Nos informa de que estamos obteniendo o bien un mensaje de error o bien la edad.
 
 ```js
 // fortune :: Number -> String
@@ -374,7 +374,7 @@ Por fin, un uso para esa misteriosa función `id`. Simplemente repite como un lo
 
 <img src="images/dominoes.jpg" alt="dominó... necesita una referencia" />
 
-En nuestro capítulo sobre la pureza vimos un peculiar ejemplo de una función pura. Esta función contenía un efecto secundario, pero convertimos en pura envolviendo su acción en otra función. He aquí otro ejemplo de esto:
+En nuestro capítulo sobre la pureza vimos un peculiar ejemplo de una función pura. Esta función contenía un efecto secundario, pero la convertimos en pura envolviendo su acción en otra función. He aquí otro ejemplo de esto:
 
 ```js
 // getFromStorage :: String -> (_ -> String)
@@ -434,7 +434,7 @@ Aquí, `ioWindow` es un `IO` al que podemos aplicar `map` directamente, mientras
 
 Tómate un momento para trabajar tu intuición sobre los funtores. Si miramos más allá de los detalles de implementación, deberíamos sentirnos como en casa mapeando cualquier contenedor, sin importar sus peculiaridades o idiosincrasias. Tenemos que agradecer este poder pseudopsíquico a las leyes de funtores, las cuales exploraremos hacia el final del capítulo. En cualquier caso, por fin podemos jugar con valores impuros sin sacrificar nuestra preciosa pureza.
 
-Ahora bien, hemos enjaulado a la bestia, pero seguimos teniendo que liberarla en algún momento. Aplicar map sobre nuestro `IO` ha creado una poderosa computación impura y ejecutarla seguramente perturbará la paz. Entonces, ¿dónde y cuándo podemos apretar el gatillo? ¿Es posible ejecutar nuestro `IO` y seguir vistiendo de blanco en nuestra boda? La respuesta es sí, si le damos la responsabilidad al código que lo llama. Nuestro código puro, a pesar de las nefastas conspiraciones e intrigas, mantiene su inocencia y es quien lo ejecuta quien carga con la responsabilidad de realmente ejecutar los efectos. Veamos un ejemplo para concretar esto:
+Ahora bien, hemos enjaulado a la bestia, pero seguimos teniendo que liberarla en algún momento. Aplicar map sobre nuestro `IO` ha creado una poderosa computación impura y ejecutarla seguramente perturbará la paz. Entonces, ¿dónde y cuándo podemos apretar el gatillo? ¿Es posible ejecutar nuestro `IO` y seguir vistiendo de blanco en nuestra boda? La respuesta es que sí, si le damos la responsabilidad al código que lo llama. Nuestro código puro, a pesar de las nefastas conspiraciones e intrigas, mantiene su inocencia y es quien lo ejecute quien cargará con la responsabilidad de realmente ejecutar los efectos. Veamos un ejemplo para concretar esto:
 
 ```js
 // url :: IO String
@@ -458,7 +458,7 @@ findParam('searchTerm').$value();
 
 Al envolver a `url` en un `IO` y pasar la pelota a quien la llama, nuestra librería mantiene sus manos limpias. También te habrás dado cuenta de que hemos apilado nuestros contenedores; es perfectamente razonable tener un `IO(Maybe([x]))`, que tiene tres funtores de profundidad (`Array` es claramente un contenedor mapeable) y es excepcionalmente expresivo.
 
-Hay algo que ha estado molestándome y que deberíamos rectificar inmediatamente: el `$value` de `IO` no es realmente su valor contenido y tampoco es una propiedad privada. Es el pasador de la granada y está destinado, de la más pública de las maneras, a ser tirado por quien lo llame. Cambiemos el nombre de esta propiedad a `unsafePerformIO` para recordar su volatilidad a nuestros usuarios.
+Hay algo que ha estado molestándome y que deberíamos rectificar inmediatamente: el `$value` de `IO` realmente no es un valor lo que contiene y tampoco es una propiedad privada. Es el pasador de la granada y está destinado, de la más pública de las maneras, a ser tirado por quien lo llame. Cambiemos el nombre de esta propiedad a `unsafePerformIO` para recordar su volatilidad a nuestros usuarios.
 
 ```js
 class IO {
@@ -472,14 +472,14 @@ class IO {
 }
 ```
 
-Ya está, mucho mejor. Ahora nuestro código de llamada se convierte en `findParam('searchTerm').unsafePerformIO()`, que es claro como el agua para nuestros usuarios (y lectores) de la aplicación. 
+Ya está, mucho mejor. Ahora nuestro código de llamada se convierte en `findParam('searchTerm').unsafePerformIO()`, que es claro como el agua para quien use (y lea) nuestra aplicación. 
 
 `IO` será un fiel compañero, ayudándonos a domar esas asilvestradas acciones impuras. A continuación, veremos un tipo similar en espíritu, pero que tiene un caso de uso drásticamente distinto.
 
 
 ## Tareas Asíncronas
 
-Las funciones callbacks son la estrecha escalera de caracol hacia el infierno. Son el control de flujo diseñado por M.C. Escher. Con cada callback anidada que estrujamos entre la jungla de llaves y paréntesis, más se parece a jugar al limbo en una mazmorra (¡¿Cuán bajo podemos caer?!) Me dan escalofríos claustrofóbicos solo de pensar en ellas. No hay de que preocuparse, tenemos una forma mucho mejor de tratar con código asíncrono y empieza por "F".
+Las funciones callbacks son la estrecha escalera de caracol hacia el infierno. Son el control de flujo diseñado por M.C. Escher. Con cada callback anidada que estrujamos entre la jungla de llaves y paréntesis, más se parece a jugar al limbo en una mazmorra (¡¿Cuán bajo podemos llegar?!) Me dan escalofríos claustrofóbicos solo de pensar en ellas. No hay de que preocuparse, tenemos una forma mucho mejor de tratar con código asíncrono y empieza por "F".
 
 Los aspectos internos son demasiado complicados como para derramarlos por toda la página así que utilizaremos `Data.Task` (antes conocido como `Data.Future`) de la fantástica [Folktale](https://folktale.origamitower.com/) de Quildreen Motta. Contempla algunos ejemplos de uso:
 
@@ -522,7 +522,7 @@ Si conoces las promesas, puede que reconozcas a la función `map` como `then`, c
 
 Al igual que `IO`, `Task` esperará pacientemente a que le demos luz verde antes de ejecutarse. De hecho, dado que espera nuestra orden, `IO` está efectivamente subsumido en `Task` para todas las cosas asíncronas; `readFile` y `getJSON` no requieren un contenedor `IO` adicional para ser puros. Es más, `Task` funciona de manera similar cuando `map`eamos sobre él: estamos colocando instrucciones para el futuro igual que si colocáramos una tabla de tareas en una cápsula del tiempo; un acto de sofisticada procrastinación tecnológica.   
 
-Para ejecutar nuestra tarea, debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre sugiere, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actúa como lo haría una llamada asíncrona normal, así que la gran rueda del bucle de eventos de JavaScript sigue girando. Echemos un vistazo a `fork`:
+Para ejecutar nuestra tarea, debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre indica, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actuará como lo haría una llamada asíncrona normal, así que la gran rueda del bucle de eventos de JavaScript seguirá girando. Echemos un vistazo a `fork`:
 
 ```js
 // -- Aplicación pura -------------------------------------------------
@@ -547,11 +547,11 @@ $('#spinner').show();
 
 Al llamar a `fork`, `Task` se apresura a encontrar algunos posts y renderizar la página. Mientras tanto, mostramos un spinner, ya que `fork` no va a esperar a la respuesta. Finalmente, mostraremos el mensaje de error o renderizaremos la página en la pantalla dependiendo de si la llamada a `getJSON` es exitosa o no. 
 
-Tómate un momento para considerar lo lineal que es nuestro flujo de control aquí. Solo leemos de abajo hacia arriba, de derecha a izquierda, sin importar que realmente el programa vaya a hacer algunos saltos durante su ejecución. Esto hace que leer y razonar sobre nuestra aplicación sea más sencillo que tener que rebotar entre callbacks y bloques de manejo de errores.
+Tómate un momento para considerar lo lineal que es nuestro flujo de control aquí. Solo leemos de abajo a arriba y de derecha a izquierda, sin importar que realmente el programa vaya a hacer algunos saltos durante su ejecución. Esto hace que leer y razonar sobre nuestra aplicación sea más sencillo que tener que rebotar entre callbacks y bloques de manejo de errores.
 
-¡Santo cielo, mira eso, `Task` también se ha tragado a `Either`! Lo tiene que hacer para manejar futuros fallos, ya que nuestro flujo de control normal no aplica en el mundo asíncrono. Todo esto está muy bien, puesto que proporciona un manejo de errores suficiente y puro listo para ser utilizado.
+¡Santo cielo, mira eso, `Task` también se ha tragado a `Either`! Lo tiene que hacer para manejar fallos futuros, ya que nuestro flujo de control normal no aplica en el mundo asíncrono. Todo esto está muy bien, puesto que proporciona un manejo de errores suficiente y puro listo para ser utilizado.
 
-Incluso con `Task`, nuestros funtores `IO` y `Either` no se quedan sin trabajo. Acompáñame en un ejemplo rápido que se inclina hacia el lado más complejo e hipotético, pero que es útil para fines ilustrativos: 
+Incluso con `Task`, nuestros funtores `IO` y `Either` no se quedan sin trabajo. Acompáñame en un rápido ejemplo que se inclina hacia el lado más complejo e hipotético, pero que es útil para fines ilustrativos: 
 
 ```js
 // Postgres.connect :: Url -> IO DbConnection
@@ -625,7 +625,7 @@ compLaw2(Container.of('Goodbye')); // Container('Goodbye cruel world')
 
 En teoría de categorías los funtores toman los objetos y morfismos de una categoría y los trasladan a otra categoría distinta. Por definición, esta nueva categoría debe tener una identidad y la capacidad de componer morfismos, pero no tenemos que comprobarlo porque las leyes antes mencionadas aseguran que esto ocurre. 
 
-Tal vez nuestra definición de categoría sea todavía algo confusa. Puedes pensar en una categoría como una red de objetos conectados entre sí mediante morfismos. Así que un funtor mapearía una categoría a otra sin romper esta red. Si un objeto `a` está en nuestra categoría de origen `C`, cuando lo mapeamos a la categoría `D` con el funtor `F`, nos referimos a ese objeto como `F a`. Tal vez sea mejor ver un diagrama:
+Tal vez nuestra definición de categoría sea todavía algo confusa. Puedes pensar en una categoría como en una red de objetos conectados entre sí mediante morfismos. Así que un funtor mapearía una categoría a otra sin romper esta red. Si un objeto `a` está en nuestra categoría de origen `C`, cuando lo mapeamos a la categoría `D` con el funtor `F`, nos referimos a ese objeto como `F a`. Tal vez sea mejor ver un diagrama:
 
 <img src="images/catmap.png" alt="Categorías mapeadas" />
 
@@ -746,7 +746,7 @@ const initial = undefined;
 ---
 
 
-Dada la siguiente función de ayuda:
+Dada la siguiente función de soporte:
 
 ```js
 // showWelcome :: User -> String
