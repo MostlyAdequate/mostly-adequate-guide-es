@@ -328,7 +328,7 @@ class Map {
 
 ## Maybe
 
-> Ten en cuenta que `Maybe` también podría definirse con dos clases hijas `Just` y `Nothing`, de una manera similar a como lo hicimos con `Either`. Esto tan solo es una forma diferente.
+> Ten en cuenta que `Maybe` también podría definirse con dos clases hijas `Just` y `Nothing`, de una manera similar a como lo hicimos con `Either`. Esta tan solo es una forma diferente.
 
 ```js
 class Maybe {
