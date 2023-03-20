@@ -55,9 +55,9 @@ const immutableState = Object.freeze({ minimum: 21 });
 
 ## Los Efectos Secundarios Pueden Incluir...
 
-Miremos más hacia estos "efectos secundarios" para mejorar nuestra intuición. Entonces, ¿qué es este indudablemente nefasto *efecto secundario* mencionado en la definición de *función pura*? Nos referiremos a *efecto* como a cualquier cosa que ocurra en nuestra computación que no sea calcular un resultado.
+Veamos más cosas sobre estos "efectos secundarios" para mejorar nuestra intuición. Entonces, ¿qué es este indudablemente nefasto *efecto secundario* mencionado en la definición de *función pura*? Nos referiremos a *efecto* como a cualquier cosa que ocurra en nuestra computación que no sea calcular un resultado.
 
-No hay nada intrínsecamente malo acerca de los efectos y los usaremos por todas partes en futuros capítulos. Es la parte *secundaria* la que tiene connotaciones negativas. El agua por sí misma no es una incubadora de larvas, es el *estancamiento* lo que produce los enjambres, y te aseguro que los efectos *secundarios* son un criadero similar en tus propios programas.
+No hay nada intrínsecamente malo acerca de los efectos y los usaremos por todas partes en futuros capítulos. Es la parte *secundaria* la que tiene connotaciones negativas. El agua por sí sola no es una incubadora de larvas, es su *estancamiento* lo que produce los enjambres, y te aseguro que en tus propios programas los efectos *secundarios* son un criadero similar.
 
 >Un *efecto secundario* es un cambio en el estado del sistema, o una *interacción observable* con el mundo exterior, que sucede durante el cálculo de un resultado. 
 
@@ -194,15 +194,15 @@ const signUp = (Db, Email, attrs) => () => {
 };
 ```
 
-Este ejemplo demuestra que la función pura debe ser honesta acerca de sus dependencias y, como tal, debe decirnos exactamente qué es lo que hace. Solo por su firma, sabemos que usará una `Db`, `Email` y `attrs`, lo que debería se cuando menos revelador.
+Este ejemplo demuestra que la función pura debe ser honesta acerca de sus dependencias y, como tal, debe decirnos exactamente qué es lo que hace. Solo por su firma, sabemos que usará una `Db`, `Email` y `attrs`, lo que debería ser, cuanto menos, revelador.
 
-Aprenderemos a crear funciones puras como esta sin limitarnos a solo aplazar la evaluación, pero debería quedar claro que la forma pura es mucho más informativa que su escurridiza contraparte que trama quién sabe qué.
+Aprenderemos a crear funciones puras como esta sin limitarnos a tan solo aplazar la evaluación, pero debería quedar claro que la forma pura es mucho más informativa que su escurridiza contraparte que trama quién sabe qué.
 
-Algo más a tener en cuenta es que se nos obliga a "inyectar" dependencias, pasándolas como argumentos, lo que hace a nuestra aplicación más flexible, pues hemos parametrizado nuestra base de datos o cliente de email o lo que sea (no te preocupes, veremos una manera de hacer esto menos tedioso de lo que parece). Si decidimos usar una base de datos diferente solo necesitaremos llamar a nuestra función con ella. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta confiable función, simplemente tendremos que pasar a esta función la `Db` y el `Email` que tengamos en ese momento.
+Algo más a tener en cuenta es que se nos obliga a "inyectar" dependencias, pasándolas como argumentos, lo que hace a nuestra aplicación más flexible, pues hemos parametrizado nuestra base de datos o cliente de email o lo que sea (no te preocupes, veremos una manera de hacer esto menos tedioso de lo que parece). Si decidimos usar una base de datos diferente solo necesitaremos llamar con ella a nuestra función. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta confiable función, simplemente tendremos que pasar a esta función la `Db` y el `Email` que tengamos en ese momento.
 
 En un entorno JavaScript, portabilidad puede significar serializar y enviar funciones por un socket. Puede significar ejecutar toda nuestra aplicación con Web Workers. La portabilidad es un rasgo poderoso.
 
-Al contrario de los "típicos" métodos y procedimientos de la programación imperativa profundamente enraizados en sus entornos a través de estado, dependencias y efectos, las funciones puras se pueden ejecutar allá donde nuestro corazón desee.
+Al contrario de los "típicos" métodos y procedimientos de la programación imperativa profundamente enraizados a sus entornos a través de estado, dependencias y efectos, las funciones puras pueden ejecutarse allá donde nuestro corazón desee.
 
 ¿Cuándo fué la última vez que copiaste un método en una nueva app? Una de mis citas favoritas proviene del creador de Erlang, Joe Armstrong: "El problema con los lenguajes orientados a objetos es todo ese entorno implícito que llevan a todos lados con ellos. Querías una banana pero tienes un gorila sosteniendo una banana... y la jungla entera". 
 
