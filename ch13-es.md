@@ -222,7 +222,7 @@ También son el valor inicial perfecto para un acumulador...
 
 ## Doblando La Casa
 
-Resulta que `concat` y `empty` encajan perfectamente con los dos primeras huecos de `reduce`. De hecho podemos aplicar `reduce` a un array de *semigrupos* ignorando el valor *vacío*, pero, como puedes ver, esto conduce a una precaria situación:
+Resulta que `concat` y `empty` encajan perfectamente con los dos primeros huecos de `reduce`. De hecho podemos aplicar `reduce` a un array de *semigrupos* ignorando el valor *vacío*, pero, como puedes ver, esto conduce a una precaria situación:
 
 ```js
 // concat :: Semigroup s => s -> s -> s
