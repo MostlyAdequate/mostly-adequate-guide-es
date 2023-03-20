@@ -1,6 +1,6 @@
 # Capítulo 09: Cebollas Monádicas
 
-## Fábrica de Funtores Puntiagudos
+## Factoría de Funtores Punzantes
 
 Antes de seguir avanzando, tengo algo que confesar: No he sido completamente honesto sobre ese método `of` que hemos colocado en cada uno de nuestros tipos. Resulta que no está ahí para evitar la palabra clave `new`, si no para colocar los valores en lo que se llama *contexto mínimo por defecto*. Sí, `of` no sustituye a un constructor sino que forma parte de una importante interfaz a la que llamamos *Pointed*.
 
@@ -22,7 +22,7 @@ Either.of('The past, present and future walk into a bar...').map(concat('it was 
 // Right('The past, present and future walk into a bar...it was tense.')
 ```
 
-Si recuerdas, los constructores de `IO` y `Task` esperan una función como argumento, pero `Maybe` y `Either` no. La motivación para esta interfaz es tener una forma común y consistente de colocar un valor en nuestro funtor sin las complejidades y demandas específicas de cada constructor. El término "contexto mínimo por defecto" carece de precisión, pero recoge bien la idea: nos gustaría levantar cualquier valor a dentro de nuestro tipo y aplicarle `map` como de costumbre, obteniendo el comportamiento esperado de cualquier funtor.
+Si recuerdas, los constructores de `IO` y `Task` esperan una función como argumento, pero `Maybe` y `Either` no. La motivación para esta interfaz es tener una forma común y consistente de colocar un valor en nuestro funtor sin las complejidades y demandas específicas de cada constructor. El término "contexto mínimo por defecto" carece de precisión, pero recoge bien la idea: nos gustaría levantar cualquier valor dentro de nuestro tipo y aplicarle `map` como de costumbre, obteniendo el comportamiento esperado de cualquier funtor.
 
 Una corrección importante que debo hacer llegados a este punto (el juego de palabras es intencionado), es que `Left.of` no tiene ningún sentido. Cada funtor debe tener una forma de colocarle dentro un valor y en `Either` eso se hace con `new Right(x)`. Definimos `of` usando `Right` porque si nuestro tipo *puede* aplicar `map`, debe aplicar `map`. Viendo los ejemplos anteriores, deberíamos intuir como funcionará `of` normalmente y `Left` rompe ese molde.
 
@@ -149,13 +149,13 @@ firstAddressStreet({
 // Maybe({name: 'Mulburry', number: 8402})
 ```
 
-Hemos añadido `join` donde nos hemos encontrado los `Maybe` anidados para evitar que se nos vaya de las manos. Hagamos lo mismo con `IO` para asentar la idea.
+Hemos añadido `join` allá donde nos hemos encontrado `Maybe`s anidados para evitar que se nos vayan de las manos. Hagamos lo mismo con `IO` para asentar la idea.
 
 ```js
 IO.prototype.join = () => this.unsafePerformIO();
 ```
 
-De nuevo, nosotros solo hemos eliminado una capa. O sea, no nos hemos deshecho de la pureza, sino que simplemente hemos eliminado una capa de embalaje sobrante.
+De nuevo, nosotros solo hemos eliminado una capa. O sea, no nos hemos deshecho de la pureza, sino que simplemente hemos eliminado una capa sobrante de embalaje.
 
 ```js
 // log :: a -> IO a
@@ -188,7 +188,7 @@ applyPreferences('preferences').unsafePerformIO();
 
 `getItem` devuelve un `IO String` así que aplicamos `map` para parsearlo. Tanto `log` como `setStyle` devuelven `IO` por lo que hemos de aplicar `join` para mantener nuestro anidamiento bajo control.
 
-## Mi Cadena Me Golpea El Pecho
+## Mi Cadena Golpea Mi Pecho
 
 <img src="images/chain.jpg" alt="cadena" />
 
@@ -204,7 +204,7 @@ const chain = curry((f, m) => m.map(f).join());
 const chain = f => compose(join, map(f));
 ```
 
-Tan solo hemos agrupado este combo map/join en una sola función. Si has leído sobre mónadas anteriormente, puede que también hayas visto a `chain` llamado como `>>=` (pronunciado bind) o `flatMap` que son todo alias para el mismo concepto. Personalmente creo que `flatMap` es el nombre más preciso, pero continuaremos con `chain` ya que es el nombre ampliamente aceptado en JS. Refactoricemos los dos ejemplos anteriores con `chain`:
+Tan solo hemos agrupado este combo map/join en una sola función. Si has leído sobre mónadas anteriormente, puede que también hayas visto a `chain` llamada como `>>=` (pronunciado bind) o `flatMap` que son todo alias para el mismo concepto. Personalmente creo que `flatMap` es el nombre más preciso, pero continuaremos con `chain` ya que es el nombre ampliamente aceptado en JS. Refactoricemos los dos ejemplos anteriores con `chain`:
 
 ```js
 // map/join
@@ -242,7 +242,7 @@ const applyPreferences = compose(
 );
 ```
 
-He reemplazado cualquier `map/join` por nuestra nueva función `chain` para ordenar un poco las cosas. La limpieza está muy bien y tal, pero hay más cosas en `chain` de las que se ven a simple vista; es más un tornado que una aspiradora. Como `chain` anida efectos sin esfuerzo alguno, podemos capturar de una forma puramente funcional tanto la *secuencia* como la *asignación de variables*.
+He reemplazado cualquier `map/join` por nuestra nueva función `chain` para ordenar un poco las cosas. Lo de limpiar está muy bien y tal, pero hay más cosas en `chain` de las que se ven a simple vista; es más un tornado que una aspiradora. Como `chain` anida efectos sin esfuerzo alguno, podemos capturar de una forma puramente funcional tanto la *secuencia* como la *asignación de variables*.
 
 ```js
 // getJSON :: Url -> Params -> Task JSON
@@ -268,11 +268,11 @@ Maybe.of(null)
 // Maybe(null);
 ```
 
-Podríamos haber escrito estos ejemplos con `compose`, pero habríamos necesitado unas cuantas funciones de ayuda y, de todos modos, este estilo se presta a la asignación explícita de variables a través de closures. En vez de esto estamos usando la versión infija de `chain` que, por cierto, puede ser derivada automáticamente de `map` y `join` para cualquier tipo: `t.prototype.chain = function(f) { return this.map(f).join(); }`. También podemos definir `chain` manualmente si queremos una falsa sensación de rendimiento, aunque deberemos tener cuidado con mantener la funcionalidad correcta, es decir, debe ser igual que `map` seguido de `join`. Un hecho interesante es que si hemos creado `chain` podemos derivar `map` gratuitamente simplemente embotellando de nuevo el valor con `of` cuando hemos terminado. Con `chain`, también podemos definir `join` como `chain(id)`. Puede parecer que estamos jugando al "Texas Hold em" con un mago de la bisutería en el sentido de que nos estamos sacando cosas de la espalda, pero, como en la mayoría de las matemáticas, todas estas construcciones basadas en principios están interrelacionadas. Muchas de estas derivaciones se mencionan en el repo de [fantasyland](https://github.com/fantasyland/fantasy-land), que es la especificación oficial en JavaScript para tipos de datos algebraicos.
+Podríamos haber escrito estos ejemplos con `compose`, pero habríamos necesitado unas cuantas funciones de soporte y, de todos modos, este estilo se presta a la asignación explícita de variables a través de closures. En vez de esto estamos usando la versión infija de `chain` que, por cierto, puede ser derivada automáticamente de `map` y `join` para cualquier tipo: `t.prototype.chain = function(f) { return this.map(f).join(); }`. También podemos definir `chain` manualmente si queremos una falsa sensación de rendimiento, aunque deberemos tener cuidado con mantener la funcionalidad correcta, es decir, debe ser igual que `map` seguido de `join`. Un hecho interesante es que si hemos creado `chain` podemos derivar `map` sin mucho esfuerzo simplemente embotellando de nuevo el valor con `of` cuando hemos terminado. Con `chain`, también podemos definir `join` como `chain(id)`. Puede parecer que estamos jugando al "Texas Hold em" con un mago de la bisutería en el sentido de que nos estamos sacando cosas de la espalda, pero, como en la mayoría de las matemáticas, todas estas construcciones basadas en principios están interrelacionadas. Muchas de estas derivaciones se mencionan en el repo de [fantasyland](https://github.com/fantasyland/fantasy-land), que es la especificación oficial en JavaScript para tipos de datos algebraicos.
 
-De todos modos, vamos a los ejemplos anteriores. En el primer ejemplo vemos dos tareas [*Task*] encadenadas en una secuencia de acciones asíncronas; primero recupera a la persona usuaria y luego con su id encuentra a sus amistades. Usamos `chain` para evitar vernos en la situación de `Task(Task([Friend]))`.
+De todos modos, vamos a los ejemplos anteriores. En el primer ejemplo vemos dos tareas encadenadas en una secuencia de acciones asíncronas; primero recupera a la persona usuaria y luego con su id encuentra a sus amistades. Usamos `chain` para evitar vernos en la situación de `Task(Task([Friend]))`.
 
-A continuación, utilizamos `querySelector` para encontrar diferentes entradas y crear un mensaje de bienvenida. Fíjate en que en la función más interna tenemos acceso tanto a `uname` como a `email`; eso es asignación funcional de variables en su máxima expresión. Dado que `IO` nos presta amablemente su valor, tenemos la responsabilidad de dejarlo como lo encontramos, pues no querríamos corromper su veracidad (ni nuestro programa). `IO.of` es la herramienta perfecta para el trabajo y es la razón por la que Pointed es un prerrequisito importante para la interfaz Mónada. Sin embargo, podríamos optar por aplicar `map` ya que eso también devolvería el tipo correcto.
+A continuación, utilizamos `querySelector` para encontrar diferentes entradas y crear un mensaje de bienvenida. Date cuenta de que en la función más interna tenemos acceso tanto a `uname` como a `email`; eso es asignación funcional de variables en su máxima expresión. Dado que `IO` nos presta amablemente su valor, tenemos la responsabilidad de dejarlo como lo encontramos, pues no querríamos corromper su veracidad (ni nuestro programa). `IO.of` es la herramienta perfecta para el trabajo y es la razón por la que Pointed es un prerrequisito importante para la interfaz Mónada. Sin embargo, podríamos optar por aplicar `map` ya que eso también devolvería el tipo correcto.
 
 ```js
 querySelector('input.username').chain(({ value: uname }) =>
@@ -289,7 +289,7 @@ Como recordatorio, esto no funciona con dos tipos anidados diferentes. La compos
 
 ## Borrachera de Poder
 
-Programar utilizando contenedores puede llegar a ser confuso. En ocasiones nos vemos luchando por entender dentro de cuantos contenedores está un valor o si tenemos que utilizar `map` o `chain` (pronto veremos más métodos de contenedores). Podemos mejorar mucho la depuración con trucos como implementar `inspect` y aprenderemos a crear una pila [*stack*] que pueda manejar cualquier efecto que le lancemos, pero aún y así hay veces que nos preguntamos si merece la pena tantas molestias.
+Programar utilizando contenedores puede llegar a ser confuso. En ocasiones nos vemos luchando por entender dentro de cuantos contenedores está un valor o si tenemos que utilizar `map` o `chain` (pronto veremos más métodos de contenedores). Podemos mejorar mucho la depuración con trucos como implementar `inspect` y aprenderemos a crear una pila [*stack*] que pueda manejar cualquier efecto que le lancemos, pero aún y así hay veces que nos preguntamos si merecen la pena tantas molestias.
 
 Me gustaría blandir la ardiente espada monádica por un momento para exhibir el poder de programar de esta manera.
 
@@ -304,7 +304,7 @@ const upload = compose(map(chain(httpPost('/uploads'))), readFile);
 
 Aquí estamos bifurcando varias veces nuestro código. Mirando las firmas de tipo puedo ver que nos protegemos contra 3 errores. `readFile` utiliza `Either` para validar la entrada (quizás asegurándose de que el archivo está presente), `readFile` puede fallar cuando accede al archivo como expresa el primer parámetro de tipo de `Task`, y la subida puede fallar por cualquier razón tal y como expresa el `Error` en `httpPost`. Sin mucho esfuerzo hemos realizado con `chain` dos acciones asíncronas anidadas y secuenciales.
 
-Todo esto se consigue con un solo flujo lineal de izquierda a derecha. Todo es puro y declarativo. Contiene razonamiento ecuacional y propiedades fiables. No nos vemos forzados a añadir confusos e innecesarios nombres de variables. Nuestra función `upload` está escrita con una interfaz genérica y no con una API específica de un solo uso. Es una maldita línea por dios.
+Todo esto se consigue con un solo flujo lineal de derecha a izquierda. Todo es puro y declarativo. Contiene razonamiento ecuacional y propiedades fiables. No nos vemos forzados a añadir confusos e innecesarios nombres de variables. Nuestra función `upload` está escrita con una interfaz genérica y no con una API específica de un solo uso. Es una maldita línea por dios.
 
 Para contrastar, veamos la forma imperativa estándar de llevar esto a cabo:
 
@@ -325,7 +325,7 @@ const upload = (filename, callback) => {
 };
 ```
 
-Bueno, ¿no es esto la aritmética del diablo? Se nos hace rebotar a través de un volátil laberinto volátil de locura. ¡Imagina que además fuese la típica app que va mutando variables sobre la marcha! Verdaderamente estaríamos en un pozo de alquitrán.
+Bueno, ¿no es esto la aritmética del diablo? Se nos hace rebotar a través de un volátil laberinto de locura. ¡Imagina que además fuese la típica app que va mutando variables sobre la marcha! Verdaderamente estaríamos en un pozo de alquitrán.
 
 ## Teoría
 
@@ -340,7 +340,7 @@ Estas leyes se refieren al anidamiento característico de las mónadas por lo qu
 
 <img src="images/monad_associativity.png" alt="ley de la asociatividad de las mónadas" />
 
-Empezando por la parte superior izquierda y moviéndonos hacia abajo, primero podemos unir con `join` las dos `M` más externas en `M(M(M a))` para luego llegar hasta nuestra deseada `M a` con otro `join`. Alternativamente, podemos abrir el capó y aplanar la dos `M` más internas con `map(join)`. Acabamos con la misma `M a` independientemente de si unimos primero las `M` más internas o primero las más externas y eso es todo sobre lo que trata la asociatividad. Hay que tener en cuenta que `map(join) != join`. Los pasos intermedios pueden variar en valor, pero el resultado final del último `join` será el mismo.
+Empezando por la parte superior izquierda y moviéndonos hacia abajo, primero podemos unir con `join` las dos `M` más externas en `M(M(M a))` para luego llegar hasta nuestra deseada `M a` con otro `join`. Alternativamente, podemos abrir el capó y aplanar las dos `M` más internas con `map(join)`. Acabamos con la misma `M a` independientemente de si unimos primero las `M` más internas o primero las más externas y eso es todo sobre lo que trata la asociatividad. Hay que tener en cuenta que `map(join) != join`. Los pasos intermedios pueden variar en valor, pero el resultado final del último `join` será el mismo.
 
 La segunda ley es similar:
 
@@ -455,7 +455,7 @@ const logFilename = undefined;
 
 ---
 
-Para este ejercicio, consideremos las funciones de ayuda con las siguientes firmas:
+Para este ejercicio, consideremos las funciones de soporte con las siguientes firmas:
 
 ```js
 // validateEmail :: Email -> Either String Email
