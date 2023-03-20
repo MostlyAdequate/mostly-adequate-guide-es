@@ -2,11 +2,11 @@
 
 ## Programación Declarativa
 
-Vamos a cambiar nuestra mentalidad. A partir de ahora, dejaremos de decirle al ordenador cómo hacer su trabajo y, en cambio, escribiremos una especificación de lo que nos gustaría como resultado. Estoy seguro de que lo encontrarás mucho menos estresante que intentar microgestionarlo todo continuamente.
+Vamos a cambiar nuestra mentalidad. A partir de ahora, dejaremos de decirle al ordenador cómo hacer su trabajo y, en cambio, escribiremos una especificación de lo que nos gustaría obtener como resultado. Estoy seguro de que lo encontrarás mucho menos estresante que intentar microgestionarlo todo continuamente.
 
 Declarativo, al contrario que imperativo, significa que escribiremos expresiones en lugar de instrucciones paso a paso.
 
-Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. Nosotros no decidimos cómo hacer el trabajo, la base de datos lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, nosotros no tenemos que cambiar nuestra consulta. Se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
+Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. Nosotros no decidimos como hacer el trabajo, la base de datos lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, nosotros no tenemos que cambiar nuestra consulta. Se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
 
 Para algunas personas, yo incluido, al principio cuesta comprender el concepto de la programación declarativa, así que vamos a mostrar algunos ejemplos para hacernos una idea.
 
@@ -136,14 +136,14 @@ const mediaUrl = compose(prop('m'), prop('media'));
 const mediaUrls = compose(map(mediaUrl), prop('items'));
 ```
 
-Una vez reunimos a los `items`, debemos aplicarles `map` para extraer cada url. Esto da como resultado un bonito array de `mediaUrls`. Conectemos esto a nuestra aplicación y presentemos las imágenes por pantalla.
+Una vez hemos reunido a los `items`, debemos aplicarles `map` para extraer cada url. Esto da como resultado un bonito array de `mediaUrls`. Conectemos esto a nuestra aplicación y presentemos las imágenes por pantalla.
 
 ```js
 var renderImages = _.compose(Impure.setHtml("body"), srcs);
 var app = _.compose(Impure.getJSON(renderImages), url);
 ```
 
-Todo lo que hemos hecho es una nueva composición que llamará a nuestras `mediaUrls` y establecer el html de `<main>` con ellas. Ahora que tenemos algo para mostrar aparte de un json en crudo, hemos reemplazado la llamada a `trace` por la llamada a `renderImages`. Esto, crudamente, mostrará nuestras `mediaUrls` dentro del `body`.
+Todo lo que hemos hecho es una nueva composición que llamará a nuestras `mediaUrls` y establecerá el html de `<main>` con ellas. Ahora que tenemos algo para mostrar aparte de un json en crudo, hemos reemplazado la llamada a `trace` por la llamada a `renderImages`. Esto mostrará nuestras `mediaUrls` dentro del `body` de forma cruda.
 
 Nuestro paso final es convertir esas `mediaUrls` en imágenes de verdad. En una aplicación más grande, usaríamos una librería de template/dom como Handlebars o React. Sin embargo, para esta aplicación solo necesitamos una etiqueta `img`, así que vamos a seguir con jQuery.
 
@@ -166,11 +166,11 @@ Y ¡hemos terminado!
 Aquí está el script completo:
 [include](./exercises/ch06/main.js)
 
-Mira eso. Una especificación hermosamente declarativa de lo que son las cosas, no de cómo llegan a serlo. Ahora vemos a cada línea como a una ecuación con sus propiedades. Podemos usar estas propiedades para razonar acerca de nuestra aplicación y refactorizar.
+Mira eso. Una especificación hermosamente declarativa de lo que son las cosas, no de cómo llegan a serlo. Ahora vemos a cada línea como a una ecuación con sus propiedades. Podemos usar estas propiedades para razonar acerca de nuestra aplicación y refactorizarla.
 
 ## Una Refactorización Basada En Principios
 
-Hay una optimización disponible - nosotros hacemos `map` sobre cada elemento para convertirlo en una url, luego hacemos nuevamente `map` sobre esas `mediaUrls` para convertirlas en etiquetas `img`. He aquí hay una ley con respecto a map y la composición:
+Hay una optimización disponible; nosotros hacemos `map` sobre cada elemento para convertirlo en una url, luego hacemos nuevamente `map` sobre esas `mediaUrls` para convertirlas en etiquetas `img`. He aquí una ley con respecto a map y la composición:
 
 ```js
 // ley de composición de map
