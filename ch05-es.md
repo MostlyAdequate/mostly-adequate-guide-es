@@ -95,7 +95,7 @@ const loudLastUpper = compose(angry, last);
 // más variaciones...
 ```
 
-No hay repuestas correctas o incorrectas; solo estamos juntando nuestras piezas de lego de la manera que nos plazca. Normalmente lo mejor es agrupar las cosas de manera que se puedan reutilizar, como `last` y `angry`. Si se conoce a "[Refactoring][refactoring-book]" de Fowler, quizás se pueda reconocer a este proceso como "[extract function][extract-function-refactor]"... excepto por no tener que preocuparse por el estado de ningún objeto.
+No hay repuestas correctas o incorrectas; solo estamos juntando nuestras piezas de lego de la manera que nos plazca. Normalmente, lo mejor es agrupar las cosas de manera que se puedan reutilizar, como `last` y `angry`. Si se conoce a "[Refactoring][refactoring-book]" de Fowler, quizás se pueda reconocer a este proceso como "[extract function][extract-function-refactor]"... excepto por no tener que preocuparse por el estado de ningún objeto.
 
 ## Pointfree
 

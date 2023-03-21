@@ -10,7 +10,7 @@ const hi = name => `Hi ${name}`;
 const greeting = name => hi(name);
 ```
 
-Aquí, en `greeting`, la función que envuelve `hi` es completamente redundante. ¿Por qué? Porque las funciones son *llamables* en JavaScript. Cuando `hi` tiene los `()` al final, se ejecutará y devolverá un valor. Cuando no los tiene, simplemente devolverá la función almacenada en la variable. Sólo para estar seguro, echa un vistazo tú mismo.
+Aquí, en `greeting`, la función que envuelve `hi` es completamente redundante. ¿Por qué? Porque las funciones son *llamables* en JavaScript. Cuando `hi` tiene los `()` al final, se ejecutará y devolverá un valor. Cuando no los tiene, simplemente devolverá la función almacenada en la variable. Solo para estar seguro, echa un vistazo tú mismo.
 
 ```js
 hi; // name => `Hi ${name}`
@@ -54,7 +54,7 @@ const getServerStuff = callback => ajaxCall(callback);
 const getServerStuff = ajaxCall; // <-- mira mama, sin ()'s
 ```
 
-Y así, amigos, es cómo se hace. Uno más para que entendamos porque estoy siendo tan insistente.
+Y así, amigos, es cómo se hace. Uno más para que entendamos por qué estoy siendo tan insistente.
 
 ```js
 const BlogController = {
@@ -78,7 +78,7 @@ const BlogController = {
 };
 ```
 
-...o desecharlo por completo puesto que no hace más que agrupar `Views` y `Db`.
+...o desecharlo por completo, puesto que no hace más que agrupar `Views` y `Db`.
 
 ## ¿Por Qué Favorecer a las Funciones de Primera Clase?
 

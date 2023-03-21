@@ -2,13 +2,13 @@
 
 ## Presentaciones
 
-¡Hola! Soy el Profesor Franklin Frisby, encantado de conocerte. Vamos a pasar algo de tiempo juntos pues se supone que voy a enseñarte un poco de programación funcional. Pero basta de hablar sobre mí, ¿qué hay de ti? Espero que estés al menos un poco familiarizado con el lenguaje JavaScript, que tengas un poco de experiencia en programación orientada a objetos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un doctorado en entomología, solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*].
+¡Hola! Soy el Profesor Franklin Frisby, encantado de conocerte. Vamos a pasar algo de tiempo juntos, pues se supone que voy a enseñarte un poco de programación funcional. Pero basta de hablar sobre mí, ¿qué hay de ti? Espero que estés al menos un poco familiarizado con el lenguaje JavaScript, que tengas un poco de experiencia en programación orientada a objetos, y que te apetezca convertirte en un programador a seguir. No necesitas tener un doctorado en entomología, solo necesitas saber cómo encontrar y matar algunos bugs [*bichos*].
 
 No asumo que tengas ningún conocimiento previo sobre programación funcional porque ya sabemos lo que sucede cuando uno presupone, pero espero que hayas encontrado problemas al trabajar con estados mutables, con efectos secundarios no restringidos, y con diseño sin principios. Ahora que ya nos hemos presentado, sigamos adelante.
 
 El propósito de este capítulo es darte una idea de lo que buscamos cuando escribimos programas funcionales. Para poder entender los próximos capítulos, hemos de tener una idea sobre qué hace que un programa sea *funcional*. De lo contrario, acabaremos garabateando sin rumbo, evitando objetos a toda costa; un esfuerzo sin sentido. Necesitamos una diana a la que lanzar nuestro código, una brújula celestial para cuando las aguas se agiten.
 
-Hay ciertos principios de programación, varios acrónimos, que nos guiarán a través de los túneles oscuros de cualquier aplicación:  DRY (don't repeat yourself [*no te repitas*]), YAGNI (ya ain't gonna need it [*no lo vas a necesitar*]), alta cohesión bajo acoplamiento, principio de mínima sorpresa, única responsabilidad, etc.
+Hay ciertos principios de programación, varios acrónimos, que nos guiarán a través de los túneles oscuros de cualquier aplicación: DRY (don't repeat yourself [*no te repitas*]), YAGNI (ya ain't gonna need it [*no lo vas a necesitar*]), alta cohesión bajo acoplamiento, principio de mínima sorpresa, única responsabilidad, etc.
 
 No voy a alargarme enumerando cada una de las guías que he escuchado a lo largo de los años... La cuestión es que siguen vigentes en un entorno funcional, aunque son tangenciales a nuestro objetivo final.
 Lo que me gustaría que entendieses por ahora, antes de seguir adelante, es cuál será nuestra intención cuando nos aferremos al teclado; nuestro Xanadú funcional.
@@ -67,7 +67,7 @@ const result =
 
 Bueno, esta vez la respuesta es correcta. Con mucho menos código. La anidación de funciones es algo confusa... (pondremos remedio a esto en el capítulo 5). Está mejor, pero profundicemos un poco más. Llamar a las cosas por su nombre tiene sus ventajas. Si hubiéramos examinado nuestras funciones más de cerca, habríamos descubierto que estamos utilizando simples sumas (`conjoin`) y multiplicaciones (`breed`).
 
-Realmente no hay nada especial en estas dos funciones a parte de de sus nombres. Vamos a renombrarlas a `multiply` [*multiplicar*] y `add` [*añadir*] para revelar sus verdaderas identidades.
+Realmente no hay nada especial en estas dos funciones aparte de sus nombres. Vamos a renombrarlas a `multiply` [*multiplicar*] y `add` [*añadir*] para revelar sus verdaderas identidades.
 
 ```js
 const add = (x, y) => x + y;
@@ -110,7 +110,7 @@ add(multiply(flockB, flockA), multiply(flockA, flockB));
 multiply(flockB, add(flockA, flockA));
 ```
 
-¡Brillante! No hemos tenido que escribir ni una pizca de código aparte de las llamadas a las funciones. Hemos incluído las implementaciones de `add` y `multiply` por completitud, pero en realidad no hacía falta escribirlas puesto que seguro que ya existen en alguna librería.
+¡Brillante! No hemos tenido que escribir ni una pizca de código aparte de las llamadas a las funciones. Hemos incluído las implementaciones de `add` y `multiply` por completitud, pero en realidad no hacía falta escribirlas, puesto que seguro que ya existen en alguna librería.
 
 Seguramente estarás pensando "qué pícaro, al poner este ejemplo". O "en la realidad los programas no son tan simples y no se puede razonar sobre ellos de esta manera". He seleccionado este ejemplo porque la mayoría de nosotros ya sabemos sumar y multiplicar, así que es fácil ver cómo las matemáticas pueden sernos útiles.
 
@@ -118,7 +118,7 @@ No te desesperes, a lo largo de este libro hablaremos un poco sobre teoría de c
 
 Puede resultar sorprendente oír que se pueden escribir aplicaciones completas y reales utilizando programación funcional tal y como hemos mostrado en el ejemplo anterior. Programas con sólidas propiedades. Programas cortos, pero fáciles de razonar. Programas que no reinventan la rueda una y otra vez. La falta de leyes es buena si eres un criminal, pero en este libro, vamos a reconocer y a obedecer a las leyes de las matemáticas.
 
-Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limpiamente. Querremos representar nuestro problema específico en términos de pequeñas piezas genéricas y combinables, para luego explotar sus propiedades en nuestro propio beneficio. Será necesaria un poco más de disciplina que en el enfoque del "todo vale" de la programación imperativa (más adelante definiremos más precisamente lo que es la programación imperativa, pero por ahora considérala cualquier cosa que no sea programación funcional). La recompensa  de trabajar dentro de un marco de trabajo basado en principios matemáticos realmente te asombrará.
+Querremos utilizar una teoría en la que todas las piezas tiendan a encajar limpiamente. Querremos representar nuestro problema específico en términos de pequeñas piezas genéricas y combinables, para luego explotar sus propiedades en nuestro propio beneficio. Será necesaria un poco más de disciplina que en el enfoque del "todo vale" de la programación imperativa (más adelante definiremos más precisamente lo que es la programación imperativa, pero por ahora considérala cualquier cosa que no sea programación funcional). La recompensa de trabajar dentro de un marco de trabajo basado en principios matemáticos realmente te asombrará.
 
 Hemos visto un destello de nuestra estrella del norte funcional, pero hay unos cuantos conceptos que necesitamos entender antes de poder empezar realmente nuestro viaje.
 

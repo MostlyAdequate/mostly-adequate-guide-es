@@ -50,7 +50,7 @@ o en código:
 compose(map(f), nt) === compose(nt, map(f));
 ```
 
-Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Casualmente esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratis), aunque las transformaciones naturales (y los funtores) no están limitadas a funciones sobre tipos.
+Tanto el diagrama como el código dicen lo mismo: Podemos ejecutar nuestra transformación natural y luego aplicar `map` o podemos aplicar `map` y luego ejecutar nuestra transformación natural y obtener el mismo resultado. Casualmente esto se desprende de un [teorema gratuito](ch07-es.md#teoremas-gratuitos), aunque las transformaciones naturales (y los funtores) no están limitadas a funciones sobre tipos.
 
 ## Conversión de Tipos Basada en Principios
 

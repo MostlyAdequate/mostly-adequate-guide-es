@@ -2,7 +2,7 @@
 
 ## Factoría de Funtores Punzantes
 
-Antes de seguir avanzando, tengo algo que confesar: No he sido completamente honesto sobre ese método `of` que hemos colocado en cada uno de nuestros tipos. Resulta que no está ahí para evitar la palabra clave `new`, si no para colocar los valores en lo que se llama *contexto mínimo por defecto*. Sí, `of` no sustituye a un constructor sino que forma parte de una importante interfaz a la que llamamos *Pointed*.
+Antes de seguir avanzando, tengo algo que confesar: No he sido completamente honesto sobre ese método `of` que hemos colocado en cada uno de nuestros tipos. Resulta que no está ahí para evitar la palabra clave `new`, si no para colocar los valores en lo que se llama *contexto mínimo por defecto*. Sí, `of` no sustituye a un constructor, sino que forma parte de una importante interfaz a la que llamamos *Pointed*.
 
 > Un *funtor pointed* es un funtor con un método `of`
 
@@ -204,7 +204,7 @@ const chain = curry((f, m) => m.map(f).join());
 const chain = f => compose(join, map(f));
 ```
 
-Tan solo hemos agrupado este combo map/join en una sola función. Si has leído sobre mónadas anteriormente, puede que también hayas visto a `chain` llamada como `>>=` (pronunciado bind) o `flatMap` que son todo alias para el mismo concepto. Personalmente creo que `flatMap` es el nombre más preciso, pero continuaremos con `chain` ya que es el nombre ampliamente aceptado en JS. Refactoricemos los dos ejemplos anteriores con `chain`:
+Tan solo hemos agrupado este combo map/join en una sola función. Si has leído sobre mónadas anteriormente, puede que también hayas visto a `chain` llamada como `>>=` (pronunciado bind) o `flatMap` que son todo alias para el mismo concepto. Personalmente, creo que `flatMap` es el nombre más preciso, pero continuaremos con `chain` ya que es el nombre ampliamente aceptado en JS. Refactoricemos los dos ejemplos anteriores con `chain`:
 
 ```js
 // map/join
@@ -379,7 +379,7 @@ Estas son las leyes de la categoría después de todo. Las mónadas forman una c
 
 Las mónadas nos permiten perforar a través de computaciones anidadas. Podemos asignar variables, ejecutar efectos secuenciales, realizar tareas asíncronas, todo ello sin colocar un solo ladrillo en la pirámide del terror. Vienen al rescate cuando un valor se encuentra encarcelado bajo múltiples capas del mismo tipo. Con la ayuda del fiel compañero "pointed", las mónadas son capaces de prestarnos un valor sin su caja sabiendo que podremos colocarlo de nuevo donde estaba cuando hayamos terminado.
 
-Si, las mónadas son muy potentes, pero aún y así seguimos viendo que necesitamos algunas funciones de contenedor adicionales. Por ejemplo, ¿y si necesitamos ejecutar a la vez una lista de llamadas a una api y luego reunir los resultados? Podemos realizar esta tarea con mónadas, pero tendríamos que esperar a que cada una terminase antes de llamar a la siguiente. ¿Qué hay de combinar diversas validaciones? Nos gustaría seguir validando para ir recopilando la lista de errores, pero las mónadas detendrán el espectáculo nada más entrar a escena el primer `Left`.
+Sí, las mónadas son muy potentes, pero aún y así seguimos viendo que necesitamos algunas funciones de contenedor adicionales. Por ejemplo, ¿y si necesitamos ejecutar a la vez una lista de llamadas a una api y luego reunir los resultados? Podemos realizar esta tarea con mónadas, pero tendríamos que esperar a que cada una terminase antes de llamar a la siguiente. ¿Qué hay de combinar diversas validaciones? Nos gustaría seguir validando para ir recopilando la lista de errores, pero las mónadas detendrán el espectáculo nada más entrar a escena el primer `Left`.
 
 En el próximo capítulo, veremos como encajan los funtores aplicativos en el mundo de los contenedores y por qué en muchos casos los preferimos a las mónadas.
 

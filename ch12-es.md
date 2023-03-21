@@ -56,7 +56,7 @@ sequence(Task.of, left('wing')); // Task(Left('wing'))
 const sequence = curry((of, x) => x.sequence(of));
 ```
 
-Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aún sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. El primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
+Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aun sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. El primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
 
 Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, por ejemplo `Either`, la implementaría.
 
@@ -69,7 +69,7 @@ class Right extends Either {
 }
 ```
 
-Ah, si, si nuestro valor `$value` es un funtor (de hecho debe ser un aplicativo), podemos simplemente aplicarle nuestro constructor mediante `map` para que salte por encima del tipo.    
+Ah, sí, si nuestro valor `$value` es un funtor (de hecho debe ser un aplicativo), podemos simplemente aplicarle nuestro constructor mediante `map` para que salte por encima del tipo.    
 
 Puede que te hayas dado cuenta de que hemos ignorado por completo el `of`. Se pasa como argumento para cuando el mapeo es inútil, como es en el caso de `Left`:
 

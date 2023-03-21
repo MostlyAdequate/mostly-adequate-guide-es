@@ -47,7 +47,7 @@ En la parte impura, `checkAge` depende de la variable mutable `minimum` para det
 
 Puede que no parezca mucho en este ejemplo, pero esta dependencia sobre el estado es una de las mayores contribuciones a la complejidad de los sistemas(http://www.curtclifton.net/storage/papers/MoseleyMarks06a.pdf). Esta `checkAge` puede devolver un resultado diferente dependiendo de factores externos a la entrada, lo que no solo la descalifica como pura, sino que también pone a prueba a nuestra mente cada vez que razonamos sobre el software.
 
-Por otro lado, su forma pura, es completamente autosuficiente. También podemos hacer que  `minimum` sea inmutable, lo que preserva la pureza ya que el estado nunca cambia. Para hacer esto, debemos crear un objeto para poder congelarlo.
+Por otro lado, su forma pura, es completamente autosuficiente. También podemos hacer que  `minimum` sea inmutable, lo que preserva la pureza, ya que el estado nunca cambia. Para hacer esto, debemos crear un objeto para poder congelarlo.
 
 ```js
 const immutableState = Object.freeze({ minimum: 21 });
@@ -87,11 +87,11 @@ De mathisfun.com:
 > Una función es una relación especial entre valores: 
 > Cada uno de sus valores de entrada devuelve exactamente un valor de salida.
 
-En otras palabras, es solo una relación entre dos valores: la entrada y la salida. Aunque cada entrada tiene exactamente una salida, esa salida no tiene que ser necesariamente única por cada entrada. El siguiente diagrama muestra un función perfectamente válida de `x` a `y`;
+En otras palabras, es solo una relación entre dos valores: la entrada y la salida. Aunque cada entrada tiene exactamente una salida, esa salida no tiene que ser necesariamente única por cada entrada. El siguiente diagrama muestra una función perfectamente válida de `x` a `y`;
 
 <img src="images/function-sets.gif" alt="conjuntos de funciones" />(http://www.mathsisfun.com/sets/function.html)
 
-Para contrastar, el siguiente diagrama muestra una relación que *no* es una función ya que el valor de entrada `5` apunta a varias salidas: 
+Para contrastar, el siguiente diagrama muestra una relación que *no* es una función, ya que el valor de entrada `5` apunta a varias salidas: 
 
 <img src="images/relation-not-function.gif" alt="relación que no es una función" />(http://www.mathsisfun.com/sets/function.html)
 
@@ -172,13 +172,13 @@ const pureHttpCall = memoize((url, params) => () => $.getJSON(url, params));
 
 Lo interesante aquí es que realmente no hacemos la llamada http; en su lugar devolvemos una función que lo hará cuando sea llamada. Esta función es pura porque siempre devolverá la misma salida dada la misma entrada: la función que hará esa llamada http en particular dados `url` y `params`. 
 
-Nuestra función `memoize` funciona bien, aunque no guarda en caché los resultados de la llamada http, si no que guarda la función generada.
+Nuestra función `memoize` funciona bien, aunque no guarda en caché los resultados de la llamada http, sino que guarda la función generada.
 
 Esto todavía no es muy útil, pero pronto aprenderemos algunos trucos que harán que lo sea. La lección es que podemos guardar en caché cualquier función sin importar cuan destructiva parezca.
 
 ### Portables / Autodocumentadas
 
-Las funciones puras son completamente autocontenidas. Todo lo que necesita la función se le pasa en bandeja de plata. Considera esto por un momento... ¿Cómo puede esto ser beneficioso? Para empezar, las dependencias de la función son explícitas y por lo tanto más fáciles de ver y entender; nada extraño sucede a escondidas.
+Las funciones puras son completamente autocontenidas. Todo lo que necesita la función se le pasa en bandeja de plata. Considera esto por un momento... ¿Cómo puede esto ser beneficioso? Para empezar, las dependencias de la función son explícitas y, por lo tanto, más fáciles de ver y entender; nada extraño sucede a escondidas.
 
 ```js
 // impura
@@ -204,11 +204,11 @@ En un entorno JavaScript, portabilidad puede significar serializar y enviar func
 
 Al contrario de los "típicos" métodos y procedimientos de la programación imperativa profundamente enraizados a sus entornos a través de estado, dependencias y efectos, las funciones puras pueden ejecutarse allá donde nuestro corazón desee.
 
-¿Cuándo fué la última vez que copiaste un método en una nueva app? Una de mis citas favoritas proviene del creador de Erlang, Joe Armstrong: "El problema con los lenguajes orientados a objetos es todo ese entorno implícito que llevan a todos lados con ellos. Querías una banana pero tienes un gorila sosteniendo una banana... y la jungla entera". 
+¿Cuándo fué la última vez que copiaste un método en una nueva app? Una de mis citas favoritas proviene del creador de Erlang, Joe Armstrong: "El problema con los lenguajes orientados a objetos es todo ese entorno implícito que llevan a todos lados con ellos. Querías una banana, pero tienes un gorila sosteniendo una banana... y la jungla entera". 
 
 ### Testeable
 
-Después de lo anterior, nos damos cuenta de que las funciones puras hacen que el testing sea mucho más fácil. No necesitamos mockear una pasarela de pagos "real" o configurar y verificar el estado del mundo después de cada test. Simplemente pasamos la entrada a la función y verificamos su salida.
+Después de lo anterior, nos damos cuenta de que las funciones puras hacen que el testing sea mucho más fácil. No necesitamos mockear una pasarela de pagos "real" o configurar y verificar el estado del mundo después de cada test. Simplemente, pasamos la entrada a la función y verificamos su salida.
 
 De hecho, encontramos que la comunidad funcional está descubriendo nuevas herramientas de pruebas que pueden bombardear nuestra función con entradas generadas y verificar que sus propiedades se mantienen en la salida. Está fuera del alcance de este libro, pero os animo encarecidamente a que busquéis y probéis *Quickcheck*; una herramienta de pruebas que está hecha a medida para un entorno puramente funcional.
 
@@ -231,7 +231,7 @@ const punch = (a, t) => (isSameTeam(a, t) ? t : decrementHP(t));
 punch(jobe, michael); // Map({name:'Michael', hp:19, team: 'green'})
 ```
 
-`decrementHP`, `isSameTeam` y `punch` son todas puras y por tanto referencialmente transparentes. Podemos usar la técnica llamada *razonamiento ecuacional*, donde podemos sustituir "iguales por iguales" para razonar sobre el código. Es un poco como evaluar manualmente el código sin tener en cuenta las peculiaridades de la evaluación programática. Usando transparencia referencial, juguemos un poco con este código.
+`decrementHP`, `isSameTeam` y `punch` son todas puras y, por tanto, referencialmente transparentes. Podemos usar la técnica llamada *razonamiento ecuacional*, donde podemos sustituir "iguales por iguales" para razonar sobre el código. Es un poco como evaluar manualmente el código sin tener en cuenta las peculiaridades de la evaluación programática. Usando transparencia referencial, juguemos un poco con este código.
 
 Primero reemplazamos la función `isSameTeam`.
 

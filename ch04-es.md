@@ -79,7 +79,7 @@ Pasar a una función menos argumentos de los que espera, típicamente se conoce 
 const allTheChildren = elements => map(elements, getChildren);
 ```
 
-Normalmente no definimos funciones que trabajan con arrays, porque simplemente podemos llamar en línea a `map(getChildren)`. Lo mismo con `sort`, `filter`, y otras funciones de alto orden (una *función de alto orden* es una función que acepta o devuelve una función).
+Normalmente, no definimos funciones que trabajan con arrays, porque simplemente podemos llamar en línea a `map(getChildren)`. Lo mismo con `sort`, `filter`, y otras funciones de alto orden (una *función de alto orden* es una función que acepta o devuelve una función).
 
 Cuando hablábamos de *funciones puras*, dijimos que llevan de 1 entrada a 1 salida. La currificación hace exactamente eso: cada uno de los argumentos devuelve una nueva función que espera los argumentos restantes. Eso, viejo amigo, es 1 entrada a 1 salida.
 
