@@ -146,7 +146,7 @@ const nothing = Maybe.of(null);
 ```
 
 
-## reject 
+## reject
 
 ```js
 // reject :: a -> Task a b

@@ -1,11 +1,11 @@
-# Capítulo 04: Currying
+# Capítulo 04: Currificación
 
-## No Puedo Vivir Si Vivir Es Sin Ti 
-*NdT: El título viene de la letra de la canción "Can't live if livin' is without you"*
+## No Puedo Vivir Si Vivir Es Sin Ti
+[*El título en inglés es 'Can't Live If Livin' Is without You' que recuerda a la canción "Without You" de Badfinger*]
 
-Mi padre una vez me explicó cómo es que uno puede vivir sin ciertas cosas hasta que uno las adquiere. Un microondas es una de esas cosas. Los smartphones, otra. Los más mayores de nosotros recordarán una vida de plenitud sin internet. Para mí, `currying` está en esta lista.
+Mi padre una vez me explicó como hay ciertas cosas sin las que se puede vivir hasta que las compras. Un microondas es una de esas cosas. Los smartphones, otra. Los más mayores de nosotros recordarán una vida de plenitud sin internet. Para mí, la `currificación` [*currying en inglés*] está en esta lista.
 
-El concepto es sencillo: Puedes llamar a una función con menos argumentos de los que espera. Esta devuelve una función que recibe los argumentos restantes.
+El concepto es sencillo: Puedes llamar a una función con menos argumentos de los que espera. Esta devuelve una función que espera los argumentos restantes.
 
 Puedes elegir llamarla con todos sus argumentos de una vez o simplemente pasarle cada argumento poco a poco.
 
@@ -18,7 +18,7 @@ increment(2); // 3
 addTen(2); // 12
 ```
 
-Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante la closure. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de ayuda especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
+Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante la closure. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de soporte especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
 
 Vamos a preparar unas pocas funciones currificadas para nuestro disfrute. Desde ahora, nos 
 apoyaremos en nuestra función `curry` definida en el [Apéndice A - Funciones Esenciales de Soporte](./appendix_a-es.md).
@@ -62,36 +62,34 @@ Alternativamente, dale un vistazo a la versión en inglés publicada en `npm`:
 npm install @mostly-adequate/support
 ```
 
-## Más Que Un Juego de Palabras / Salsa Especial 
+## Más Que Un Juego de Palabras / Salsa Especial
 
-*NdT: Haciendo referencia a la salsa `Curry`.*
+La currificación es útil para muchas cosas. Podemos hacer nuevas funciones solo pasando algunos argumentos a nuestras funciones base, tal y como hemos visto en `hasLetterR`, `removeStringsWithoutRs` y `censored`.
 
-El currying es útil para muchas cosas. Podemos hacer nuevas funciones solo pasando a nuestras funciones de base algunos argumentos, tal y como hemos visto en `hasLetterR`, `removeStringsWithoutRs` y `censored`.
-
-También tenemos la habilidad para transformar cualquier función que trabaje con un solo elemento en una función que trabaje con una lista simplemente envolviéndola con `map`: 
+También tenemos la habilidad para transformar cualquier función que trabaje con un solo elemento en una función que trabaje con una lista, simplemente envolviéndola con `map`: 
 
 ```js
 const getChildren = x => x.childNodes;
 const allTheChildren = map(getChildren);
 ```
 
-Pasar a una función menos argumentos de los que espera, típicamente se conoce como *aplicación parcial*. Aplicar parcialmente una función puede quitar mucho código repetitivo. Considera como sería la función anterior `allTheChildren` con el `map` sin currying de lodash (fíjate que los argumentos están en diferente orden):
+Pasar a una función menos argumentos de los que espera, típicamente se conoce como *aplicación parcial*. Aplicar parcialmente una función puede quitar mucho código repetitivo. Considera como sería la función anterior `allTheChildren` con el `map` sin currificación de lodash (fíjate que los argumentos están en diferente orden):
 
 ```js
 const allTheChildren = elements => map(elements, getChildren);
 ```
 
-Normalmente no definimos funciones que trabajan con arrays, porque simplemente podemos llamar en línea a `map(getChildren)`. Lo mismo con `sort`, `filter`, y otras funciones de alto orden (una *función de alto orden* es una función que acepta o devuelve una función).
+Normalmente, no definimos funciones que trabajan con arrays, porque simplemente podemos llamar en línea a `map(getChildren)`. Lo mismo con `sort`, `filter`, y otras funciones de alto orden (una *función de alto orden* es una función que acepta o devuelve una función).
 
-Cuando hablamos de *funciones puras*, decimos que pasan de 1 entrada a 1 salida. Currying hace exactamente eso: cada uno de los argumentos devuelve una nueva función que espera los argumentos restantes. Eso, viejo amigo, es 1 entrada a 1 salida.
+Cuando hablábamos de *funciones puras*, dijimos que llevan de 1 entrada a 1 salida. La currificación hace exactamente eso: cada uno de los argumentos devuelve una nueva función que espera los argumentos restantes. Eso, viejo amigo, es 1 entrada a 1 salida.
 
-No importa si la salida es otra función - califica como pura. Permitimos más de un argumento a la vez, pero esto es considerado como simplemente quitar unos `()` adicionales por conveniencia.
+No importa si la salida es otra función; califica como pura. Permitimos más de un argumento a la vez, pero viéndolo tan solo como para quitar por conveniencia los `()` adicionales.
 
 ## En resumen
 
-Currying es práctico y disfruto mucho trabajando diariamente con funciones currificadas. Es una herramienta para el cinturón que hace a la programación funcional menos verbosa y tediosa.
+Las currificación es práctica y disfruto mucho trabajando diariamente con funciones currificadas. Es una herramienta para el cinturón que hace a la programación funcional menos verbosa y tediosa.
 
-Podemos crear al vuelo nuevas y útiles funciones, simplemente pasándole unos pocos argumentos y como añadidura, retenemos la definición de función matemática a pesar de sus múltiples argumentos.
+Podemos crear al vuelo nuevas y útiles funciones, simplemente pasándole unos pocos argumentos y además, retenemos la definición de función matemática a pesar de sus múltiples argumentos.
 
 Adquiramos otra herramienta esencial llamada `compose`.
 

@@ -36,9 +36,9 @@ En una firma, como:
 
 `map :: Functor f => (a -> b) -> f a -> f b`
 
-`f` se refiere a un `functor` que puede ser, por ejemplo, Maybe o IO. Así pues, la firma 
-abstrae la elección de ese functor mediante el uso de una variable de tipo, lo que básicamente 
-significa que cualquier functor puede ser usado donde aparece `f` siempre que todas las `f` 
+`f` se refiere a un `funtor` que puede ser, por ejemplo, Maybe o IO. Así pues, la firma 
+abstrae la elección de ese funtor mediante el uso de una variable de tipo, lo que básicamente 
+significa que cualquier funtor puede ser usado donde aparece `f` siempre que todas las `f` 
 sean del mismo tipo (si el primer `f a` en la firma representa un `Maybe a`, entonces el 
 segundo **no puede referirse a** un `IO b` si no que debe referirse a un `Maybe b`). Por ejemplo:
 
@@ -55,7 +55,7 @@ let maybeNumber = map(f, maybeString) // Maybe(6)
 
 > ver [#77], [#192]
 
-Si aún no has llegado, puedes echar un vistazo al [Capítulo 6](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/ch06.md), el cual presenta una aplicación sencilla sobre flick
+Si aún no has llegado, puedes echar un vistazo al [Capítulo 6](https://github.com/MostlyAdequate/mostly-adequate-guide-es/blob/master/ch06-es.md), el cual presenta una aplicación sencilla sobre flick
 Pronto llegarán otros ejemplos. Por cierto, ¡eres libre de compartir con nosotros tu experiencia!
 
 ### ¿Por qué el libro utiliza ES5? ¿Hay disponible alguna versión con ES6?
@@ -83,7 +83,7 @@ información sobre la función reduce.
 El libro está escrito en su propio estilo, lo cual contribuye a hacerlo consistente como un todo. Si
 no estás familiarizado con el inglés, puedes verlo como un buen entrenamiento.
 Sin embargo, si alguna vez necesitas ayuda para entender algún significado, ahora
-hay [numerosas traducciones](https://github.com/MostlyAdequate/mostly-adequate-guide/blob/master/TRANSLATIONS.md)
+hay [numerosas traducciones](https://github.com/MostlyAdequate/mostly-adequate-guide-es/blob/master/TRANSLATIONS-es.md)
 disponibles que probablemente te sean de ayuda.
 
 ### ¿Qué es Either? ¿Qué es Future? ¿Qué es Task?
