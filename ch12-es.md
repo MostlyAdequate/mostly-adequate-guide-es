@@ -1,6 +1,6 @@
 # Capítulo 12: Atravesando la Piedra
 
-Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antoje. Has sido deslumbrado por los malabares hechos con multitud de peligrosos efectos simultáneamente utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro la desaparición de contenedores al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, les hemos visto [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
+Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antojara. Te han deslumbrado los malabares hechos con múltiples efectos peligrosos a la vez, utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro como los contenedores se desvanecían en el aire al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, los vimos [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
 
 Y ahora, para nuestro siguiente truco, veremos los "traversables". Veremos tipos volar unos sobre otros como si fuesen trapecistas, manteniendo nuestro valor intacto. Reordenaremos los efectos como a las cabinas de una atracción de feria. Cuando nuestros contenedores se entrelacen como las extremidades de un contorsionista podremos utilizar esta interfaz para enderezar las cosas. Con distintas disposiciones presenciaremos distintos efectos. Tráeme mis bombachos y mi flauta de émbolo, comencemos.
 
@@ -56,9 +56,9 @@ sequence(Task.of, left('wing')); // Task(Left('wing'))
 const sequence = curry((of, x) => x.sequence(of));
 ```
 
-Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aun sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. El primer argumento es tan solo una muleta y tan solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos como `Left`, reacios a `map`; más sobre esto en un minuto.
+Comencemos por el segundo argumento. Ha de ser un *Traversable* conteniendo un *Aplicativo* que, aun sonando bastante restrictivo, suele ser lo más común. Es el `t (f a)` quien es transformado en `f (t a)`. ¿No es expresivo? Queda claro como el agua que los dos tipos bailan dos-à-dos el uno alrededor del otro. El primer argumento es tan solo una ayuda y solo es necesario en un lenguaje sin tipos. Es un constructor de tipo (nuestro *of*) proporcionado para que podamos invertir tipos reacios a `map`, como `Left`; más sobre esto en un minuto.
 
-Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, por ejemplo `Either`, la implementaría.
+Utilizando `sequence` podemos mover tipos de un lado a otro con la precisión de un trilero. Pero ¿cómo funciona esto? Veamos como un tipo, digamos `Either`, la implementaría.
 
 ```js
 class Right extends Either {
@@ -82,7 +82,7 @@ class Left extends Either {
 }
 ```
 
-Nos gustaría que los tipos acabasen siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Funtor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita ser proporcionado explícitamente.
+Queremod que los tipos acaben siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Funtor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita ser proporcionado explícitamente.
 
 ## Surtido de Efectos
 
@@ -194,7 +194,7 @@ identity2(Either.of('stuff'));
 // Identity(Right('stuff'))
 ```
 
-Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro funtor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Hemos elegido a `Right` como conejillo de indias porque con él es fácil probar a aplicar la ley e inspeccionarlo. Podríamos haber usado cualquier otro funtor, sin embargo, el usar un funtor concreto como `Identity` en la propia ley, podría haber levantado algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) es definida por morfismos entre sus objetos con composición asociativa e identidad. Cuando se trata de la categoría de funtores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El funtor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos dejar aquí este tema y pasar a hacer lo mismo con nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
+Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro funtor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Hemos elegido a `Right` como conejillo de indias porque con él es fácil probar a aplicar la ley e inspeccionarlo. Podríamos haber usado cualquier otro funtor, sin embargo, el uso de un funtor concreto como `Identity` en la propia ley, podría haber levantado algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) se define como morfismos entre sus objetos con composición asociativa e identidad. Cuando se trata de la categoría de funtores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El funtor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos dejar aquí este tema y pasar a hacer lo mismo con nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
 
 ### Composición
 
@@ -211,7 +211,7 @@ comp2(Either.of, Array)(Identity(Right([true])));
 // Compose(Right([Identity(true)]))
 ```
 
-Esta ley preserva la composición tal y como se esperaba: si intercambiamos la composición de funtores, no deberíamos tener ninguna sorpresa dado que la composición es un funtor en sí mismo. Arbitrariamente hemos escogido `true`, `Right`, `Identity` y `Array` para probarlo. Librerías como [quickcheck](https://hackage.haskell.org/package/QuickCheck) o [jsverify](http://jsverify.github.io/) pueden ayudarnos a comprobar la ley mediante pruebas con datos aleatorios en las entradas.
+Tal y como podríamos esperar, esta ley preserva la composición: si intercambiamos la composición de funtores, no deberíamos tener ninguna sorpresa dado que la composición es un funtor en sí mismo. Arbitrariamente hemos escogido `true`, `Right`, `Identity` y `Array` para probarlo. Librerías como [quickcheck](https://hackage.haskell.org/package/QuickCheck) o [jsverify](http://jsverify.github.io/) pueden ayudarnos a comprobar la ley mediante pruebas con datos aleatorios en las entradas.
 
 Como consecuencia natural de la ley de arriba, obtenemos la capacidad de [fusionar *traversals*](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf), lo que es bueno desde el punto de vista del rendimiento.
 
@@ -221,7 +221,7 @@ Como consecuencia natural de la ley de arriba, obtenemos la capacidad de [fusion
 const natLaw1 = (of, nt) => compose(nt, sequence(of));
 const natLaw2 = (of, nt) => compose(sequence(of), map(nt));
 
-// comprobar con una transformación natural al azar y nuestros amigables funtores Identity/Right.
+// test con una transformación natural al azar y nuestros amigables funtores Identity/Right.
 
 // maybeToEither :: Maybe a -> Either () a
 const maybeToEither = x => (x.$value ? new Right(x.$value) : new Left());
@@ -290,7 +290,7 @@ const validate = player => (player.name ? Either.of(player) : left('must have na
 
 
 {% exercise %}  
-Usando traversable, y la función `validate`, actualiza `startGame` (y su firma)
+Usando traversable y la función `validate`, actualiza `startGame` (y su firma)
 para que solo comience el juego si todos los jugadores son válidos
 
   

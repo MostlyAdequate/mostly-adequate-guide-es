@@ -4,7 +4,7 @@
 
 Una cosa que necesitamos para comenzar correctamente es la idea de una función pura.
 
->Una función pura es una función que, dada la misma entrada, siempre devolverá la misma salida y no contiene ningún efecto secundario observable.
+>Una función pura es una función que, dada la misma entrada, siempre devolverá la misma salida y que no contiene ningún efecto secundario observable.
 
 Toma por ejemplo `slice` y `splice`. Son dos funciones que hacen exactamente lo mismo, eso sí, de una forma muy diferente, pero lo mismo al fin y al cabo. Decimos que `slice` es *pura* porque siempre devuelve la misma salida para cada entrada, garantizado. `splice`, sin embargo, se comerá su array y lo escupirá cambiado para siempre, lo cual es un efecto observable.
 
@@ -27,7 +27,7 @@ xs.splice(0,3); // [4,5]
 xs.splice(0,3); // []
 ```
 
-En programación funcional, no nos gustan las funciones poco manejables como `splice`, que muta datos. Esto no es aceptable, ya que nos esforzamos por tener funciones en las que podamos confiar, que devuelvan siempre la misma salida, no funciones que dejan un desastre a su paso como `splice`.
+En programación funcional, no nos gustan las funciones poco manejables como `splice`, que muta los datos. Esto no es aceptable, ya que nos esforzamos por tener funciones en las que podamos confiar, que devuelvan siempre la misma salida, no funciones que dejan un desastre a su paso como `splice`.
 
 Veamos otro ejemplo.
 
@@ -45,7 +45,7 @@ const checkAge = (age) => {
 
 En la parte impura, `checkAge` depende de la variable mutable `minimum` para determinar el resultado. En otras palabras, depende del estado del sistema, lo que es decepcionante porque incrementa la [carga cognitiva](https://es.wikipedia.org/wiki/Teoría_de_la_carga_cognitiva) al introducir un entorno externo.
 
-Puede que no parezca mucho en este ejemplo, pero esta dependencia sobre el estado es una de las mayores contribuciones a la complejidad de los sistemas(http://www.curtclifton.net/storage/papers/MoseleyMarks06a.pdf). Esta `checkAge` puede devolver un resultado diferente dependiendo de factores externos a la entrada, lo que no solo la descalifica como pura, sino que también pone a prueba a nuestra mente cada vez que razonamos sobre el software.
+Puede que no parezca mucho en este ejemplo, pero esta dependencia sobre el estado es una de las mayores contribuciones a la complejidad de los sistemas(http://www.curtclifton.net/storage/papers/MoseleyMarks06a.pdf). Esta `checkAge` puede devolver un resultado diferente dependiendo de factores externos a la entrada, lo que no solo la descalifica como pura, sino que además pone a prueba a nuestra mente cada vez que razonamos sobre el software.
 
 Por otro lado, su forma pura, es completamente autosuficiente. También podemos hacer que  `minimum` sea inmutable, lo que preserva la pureza, ya que el estado nunca cambia. Para hacer esto, debemos crear un objeto para poder congelarlo.
 
@@ -66,19 +66,19 @@ Los efectos secundarios pueden incluir, pero no limitarse a
   * cambiar el sistema de ficheros
   * insertar un registro en una base de datos
   * hacer una llamada http
-  * mutaciones
+  * mutar valores
   * imprimir en pantalla/registro
   * obtener entrada del usuario
   * consultar el DOM
   * acceder al estado del sistema
   
-Y el listado sigue y sigue. Cualquier interacción con el mundo de afuera de una función es un efecto secundario, hecho que puede llevarte a sospechar de la practicidad de programar sin ellos. La filosofía de la programación funcional postula que los efectos secundarios son la principal causa de las incorrecciones en el comportamiento.
+Y el listado sigue y sigue. Cualquier interacción de una función con el mundo exterior es un efecto secundario, hecho que puede llevarte a sospechar de la practicidad de programar sin ellos. La filosofía de la programación funcional postula que los efectos secundarios son la principal causa de las incorrecciones en el comportamiento.
 
 No es que tengamos prohibido usarlos, más bien queremos contenerlos y ejecutarlos de manera controlada. Aprenderemos como hacerlo cuando lleguemos a los funtores y mónadas en capítulos posteriores, pero por ahora, trataremos de mantener estas insidiosas funciones apartadas de las puras.
 
 Los efectos secundarios descalifican a una función para ser *pura* y tiene sentido: las funciones puras, por definición, deben devolver siempre la misma salida dada la misma entrada, lo que no es garantizable cuando se manejan asuntos externos a nuestra función local.
 
-Veamos con más detalle por qué insistimos en la misma salida por cada entrada. Levantaos el cuello de las camisas, vamos a ver algo de matemáticas de octavo grado [*correspondiente a alumnos de entre 13 y 14 años en el sistema educativo estadounidense*].
+Veamos con más detalle por qué insistimos en lo de la misma salida para cada entrada. Levantaos el cuello de las camisas, vamos a ver algo de matemáticas de octavo grado [*correspondiente a alumnos de entre 13 y 14 años en el sistema educativo estadounidense*].
 
 ## Matemáticas de Octavo Grado
 
@@ -87,7 +87,7 @@ De mathisfun.com:
 > Una función es una relación especial entre valores: 
 > Cada uno de sus valores de entrada devuelve exactamente un valor de salida.
 
-En otras palabras, es solo una relación entre dos valores: la entrada y la salida. Aunque cada entrada tiene exactamente una salida, esa salida no tiene que ser necesariamente única por cada entrada. El siguiente diagrama muestra una función perfectamente válida de `x` a `y`;
+En otras palabras, tan solo es una relación entre dos valores: la entrada y la salida. Aunque cada entrada tiene exactamente una salida, esa salida no tiene que ser necesariamente única por cada entrada. El siguiente diagrama muestra una función de `x` a `y` perfectamente válida;
 
 <img src="images/function-sets.gif" alt="conjuntos de funciones" />(http://www.mathsisfun.com/sets/function.html)
 
@@ -104,7 +104,7 @@ O incluso como un gráfico con `x` como la entrada e `y` como la salida:
 
 <img src="images/fn_graph.png" width="300" height="300" alt="grafo de funciones" />
 
-No hay necesidad de detalles de implementación si la entrada dicta la salida. Ya que las funciones son simplemente mapeos de entrada a salida, uno puede simplemente apuntar los valores en objetos y ejecutarlos con `[]` en lugar de `()`.
+No hay necesidad de detalles de implementación si la entrada dicta la salida. Ya que las funciones tan solo son mapeos de entrada a salida, podemos simplemente escribir objetos literales y ejecutarlos con `[]` en lugar de `()`.
 
 ```js
 const toLowerCase = {
@@ -130,7 +130,7 @@ isPrime[3]; // true
 
 Por supuesto, puedes querer calcular en lugar de apuntar valores a mano, pero esto ilustra una forma diferente de pensar sobre las funciones. (Debes estar pensando "¿qué pasa con las funciones con múltiples argumentos?". Ciertamente, esto presenta un pequeño inconveniente cuando se piensa en términos matemáticos. Por ahora, podemos empaquetarlos en un array o simplemente pensar que como entrada pasamos el objeto `arguments`. Cuando aprendamos sobre *currying*, veremos cómo podemos modelar directamente la definición matemática de función.)
 
-Aquí viene la dramática revelación: Las funciones puras *son* funciones matemáticas y ellas son todo sobre lo que trata la programación funcional. Programar con estos pequeños ángeles puede tener grandes beneficios. Veamos algunas de las razones por las que estamos dispuestos a recorrer tan grandes distancias para preservar la pureza.
+Aquí viene la dramática revelación: Las funciones puras *son* funciones matemáticas y son todo sobre lo que trata la programación funcional. Programar con estos pequeños ángeles puede tener grandes beneficios. Veamos algunas de las razones por las que estamos dispuestos a recorrer tan grandes distancias para preservar la pureza.
 
 ## Los Argumentos Para La Pureza
 
@@ -194,11 +194,11 @@ const signUp = (Db, Email, attrs) => () => {
 };
 ```
 
-Este ejemplo demuestra que la función pura debe ser honesta acerca de sus dependencias y, como tal, debe decirnos exactamente qué es lo que hace. Solo por su firma, sabemos que usará una `Db`, `Email` y `attrs`, lo que debería ser, cuanto menos, revelador.
+Este ejemplo demuestra que la función pura debe ser honesta acerca de sus dependencias y que como tal debe decirnos exactamente qué es lo que hace. Solo por su firma, sabemos que usará una `Db`, `Email` y `attrs`, lo que debería ser, cuanto menos, revelador.
 
 Aprenderemos a crear funciones puras como esta sin limitarnos a tan solo aplazar la evaluación, pero debería quedar claro que la forma pura es mucho más informativa que su escurridiza contraparte que trama quién sabe qué.
 
-Algo más a tener en cuenta es que se nos obliga a "inyectar" dependencias, pasándolas como argumentos, lo que hace a nuestra aplicación más flexible, pues hemos parametrizado nuestra base de datos o cliente de email o lo que sea (no te preocupes, veremos una manera de hacer esto menos tedioso de lo que parece). Si decidimos usar una base de datos diferente solo necesitaremos llamar con ella a nuestra función. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta confiable función, simplemente tendremos que pasar a esta función la `Db` y el `Email` que tengamos en ese momento.
+Algo más a tener en cuenta es que se nos obliga a "inyectar" dependencias, pasándolas como argumentos, lo que hace a nuestra aplicación más flexible, pues hemos parametrizado nuestra base de datos, cliente de email o lo que sea (no te preocupes, veremos una manera de hacer esto menos tedioso de lo que parece). Si decidimos usar una base de datos diferente solo necesitaremos llamar con ella a nuestra función. Si nos encontramos escribiendo una nueva aplicación en la que nos gustaría reutilizar esta confiable función, simplemente tendremos que pasar a esta función la `Db` y el `Email` que tengamos en ese momento.
 
 En un entorno JavaScript, portabilidad puede significar serializar y enviar funciones por un socket. Puede significar ejecutar toda nuestra aplicación con Web Workers. La portabilidad es un rasgo poderoso.
 
@@ -214,7 +214,7 @@ De hecho, encontramos que la comunidad funcional está descubriendo nuevas herra
 
 ### Comprensible
 
-Muchos creen que la mayor victoria cuando trabajas con funciones puras es la *transparencia referencial*. Un trozo de código es referencialmente transparente cuando puede ser sustituido por su valor resultante sin cambiar el comportamiento del programa.
+Muchas personas creen que la mayor victoria cuando trabajas con funciones puras es la *transparencia referencial*. Un trozo de código es referencialmente transparente cuando puede ser sustituido por su valor resultante sin cambiar el comportamiento del programa.
 
 Dado que las funciones puras no tienen efectos secundarios, tan solo pueden influir en el comportamiento de un programa a través de sus valores de salida. Además, puesto que sus valores de salida pueden calcularse de forma fiable con tan solo utilizar sus valores de entrada, las funciones puras siempre mantendrán la transparencia referencial. Veamos un ejemplo.
 
@@ -239,7 +239,7 @@ Primero reemplazamos la función `isSameTeam`.
 const punch = (a, t) => (a.get('team') === t.get('team') ? t : decrementHP(t));
 ```
 
-Ya que nuestros datos son inmutables, podemos simplemente reemplazar los equipos por sus valores reales
+Ya que nuestros datos son inmutables, podemos simplemente reemplazar cada equipo [*team*] por su valor real
 
 ```js
 const punch = (a, t) => ('red' === 'green' ? t : decrementHP(t));
@@ -267,8 +267,8 @@ Esto podría usarse tanto en un servidor con entorno js e hilos de ejecución co
 
 ## En Resumen
 
-Hemos visto qué son las funciones puras y por qué nosotros, como programadores funcionales, creemos que son extraordinarias. De aquí en adelante, nos esforzaremos en escribir todas nuestras funciones de una forma pura. Necesitaremos algunas herramientas adicionales para ayudarnos, pero mientras tanto, trataremos de separar las funciones impuras del resto del código puro. 
+Hemos visto qué son las funciones puras y por qué en programación funcional creemos que son extraordinarias. De aquí en adelante, nos esforzaremos en escribir todas nuestras funciones de una forma pura. Necesitaremos algunas herramientas adicionales para ayudarnos, pero mientras tanto, trataremos de separar las funciones impuras del resto del código puro. 
 
-Escribir programas con funciones puras es algo laborioso sin tener algunas herramientas extra en nuestro cinturón. Hemos de hacer malabares con los datos pasando argumentos por todas partes, tenemos prohibido utilizar estado y sin mencionar lo de los efectos secundarios. ¿Cómo afrontar la escritura de estos programas masoquistas? Obtengamos una nueva herramienta llamada curry.
+Escribir programas con funciones puras es algo laborioso al no tener algunas herramientas extra en nuestro cinturón. Hemos de hacer malabares con los datos pasando argumentos por todas partes, tenemos prohibido utilizar estado y sin mencionar lo de los efectos secundarios. ¿Cómo afrontar la escritura de estos programas de masoquista? Obtengamos una nueva herramienta llamada curry.
 
 [Capítulo 4: Currying](ch04-es.md)

@@ -4,9 +4,9 @@
 
 <img src="images/jar.jpg" alt="http://blog.dwinegar.com/2011/06/another-jar.html" />
 
-Hemos visto como escribir programas que canalicen los datos a través de una serie de funciones puras. Son especificaciones declarativas de comportamiento. Pero ¡¿qué pasa con el control de flujo, el manejo de errores, las acciones asíncronas, el estado y me atrevo a decir, con los efectos?! En este capítulo, descubriremos los cimientos sobre los que se construyen todas estas abstracciones tan útiles.
+Hemos visto como escribir programas que canalicen los datos a través de una serie de funciones puras. Son especificaciones declarativas de comportamiento. Pero ¡¿qué pasa con el control de flujo, el manejo de errores, las acciones asíncronas, el estado y me atrevo a decir, los efectos?! En este capítulo, descubriremos los cimientos sobre los que se construyen todas estas abstracciones tan útiles.
 
-Primero crearemos un contenedor. Este contenedor debe contener cualquier tipo de valor; una bolsa de cierre zip que solo acepta pudin de tapioca raramente es útil. Será un objeto, pero no le daremos métodos ni propiedades en el sentido de la orientación de objetos. No, lo trataremos como si de un cofre del tesoro se tratara; una caja especial que envuelve a nuestros valiosos datos.
+Primero crearemos un contenedor. Este contenedor debe poder contener cualquier tipo de valor; una bolsa de cierre zip que solo acepta pudin de tapioca raramente es útil. Será un objeto, pero no le daremos métodos ni propiedades en el sentido de la orientación de objetos. No, lo trataremos como si de un cofre del tesoro se tratara; una caja especial que envuelve a nuestros valiosos datos.
 
 ```js
 class Container {
@@ -75,7 +75,7 @@ Podemos trabajar con nuestro valor sin salir del contenedor. Esto es algo extrao
 
 Espera un minuto, si seguimos llamando a `map`, ¡parece ser una especie de composición! ¿Qué magia matemática es esta? Bien amigos, acabamos de descubrir los *Funtores*.
 
-> Un Funtor es un tipo que implementa `map` y obedece algunas leyes
+> Un Funtor es un tipo que implementa `map` y obedece a algunas leyes
 
 Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde estaría la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
 
@@ -113,7 +113,7 @@ class Maybe {
 }
 ```
 
-Ahora, `Maybe` se parece mucho a `Container` pero con un pequeño cambio: comprueba si tiene un valor antes de llamar a la función proporcionada. Esto tiene el efecto de evitar esos molestos nulls mientras aplicamos `map` (Ten en cuenta que esta implementación está simplificada para la enseñanza).
+Ahora, `Maybe` se parece mucho a `Container` pero con un pequeño cambio: comprueba si tiene un valor antes de llamar a la función proporcionada. Esto tiene el efecto de evitar esos molestos nulls cuando aplicamos `map` (Ten en cuenta que esta implementación está simplificada por motivos didácticos).
 
 ```js
 Maybe.of('Malkovich Malkovich').map(match(/a/ig));
@@ -138,7 +138,7 @@ Esta sintaxis con el punto está bien y es funcional, pero por las razones menci
 const map = curry((f, anyFunctor) => anyFunctor.map(f));
 ```
 
-Esto es perfecto, ya que podemos continuar con la composición como de costumbre y `map` funcionará según lo esperado. Este también es el caso con el `map` de ramda. Usaremos la sintaxis con el punto cuando sea instructiva y la versión *pointfree* cuando sea conveniente. ¿Te has dado cuenta? He introducido disimuladamente una notación adicional en nuestra firma de tipos. `Functor f =>` nos dice que `f` debe ser un Funtor. No es tan difícil, pero sentí que debía mencionarlo.  
+Esto es perfecto, ya que podemos continuar con la composición como de costumbre y `map` funcionará según lo esperado. Este también es el caso con el `map` de ramda. Usaremos la sintaxis con el punto cuando sea instructiva y la versión *pointfree* cuando sea conveniente. ¿Te has dado cuenta? He introducido disimuladamente una notación adicional en nuestra firma de tipos. `Functor f =>` nos dice que `f` debe ser un Funtor. Aunque no es algo que sea complicado, sentí que debía mencionarlo.  
 
 ## Casos de Uso
 
@@ -286,7 +286,7 @@ left('rolls eyes...').map(prop('host'));
 
 `Left` es como un adolescente e ignora nuestra solicitud de aplicarse `map` a sí mismo. `Right` funcionará igual que `Container` (también conocido como Identidad). El poder viene de la capacidad de incrustar un mensaje de error dentro de `Left`.
 
-Supón que tenemos una función que podría no tener éxito. Quizás una función que calcule la edad a partir de una fecha de nacimiento. Podemos usar `Nothing` para avisar del fracaso y bifurcar nuestro programa, sin embargo, eso no nos dice mucho. Quizás nos gustaría saber por qué ha fallado. Escribámoslo usando `Either`.
+Supón que tenemos una función que podría no tener éxito. Quizás una función que calcule la edad a partir de una fecha de nacimiento. Podríamos utilizar `Nothing` para avisar del fracaso y bifurcar nuestro programa, sin embargo, eso no nos dice mucho. Quizás nos gustaría saber por qué ha fallado. Escribámoslo usando `Either`.
 
 ```js
 const moment = require('moment');
@@ -332,7 +332,7 @@ Me gustaría aprovechar esta oportunidad para resaltar algo que podrías haber p
 
 `Either` es genial para errores casuales como validaciones y también para casos más graves como archivos faltantes o sockets rotos. Prueba a reemplazar por `Either` alguno de los ejemplos de `Maybe` para obtener un mejor entendimiento.
 
-Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentándolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de un *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma canónica de tipos (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
+Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentándolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma canónica de tipos (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
 
 Igual que con `Maybe`, tenemos a la pequeña `either`, que se comporta de manera similar, pero toma dos funciones en lugar de una y un valor estático. Cada función debe devolver el mismo tipo.
 
@@ -430,7 +430,7 @@ $('#myDiv').map(head).map(div => div.innerHTML);
 // IO('I am some inner html')
 ```
 
-Aquí, `ioWindow` es un `IO` al que podemos aplicar `map` directamente, mientras que `$` es una función que devuelve un `IO` después ser llamada. He escrito los valores de retorno *conceptuales* para expresar mejor el `IO`, aunque, en realidad, siempre será `{ $value: [Function] }`. Cuando aplicamos `map` sobre nuestro `IO`, ponemos esta función al final de una composición que, a su vez, se convierte en el nuevo `$value` y así sucesivamente. Nuestras funciones mapeadas no se ejecutan, sino que quedan adheridas al final del cálculo que estamos construyendo, función a función, como si cuidadosamente colocáramos fichas de dominó que no nos atrevemos a volcar. El resultado recuerda al patrón comando del Gang of Four o a una cola.
+Aquí, `ioWindow` es un `IO` al que podemos aplicar `map` directamente, mientras que `$` es una función que devuelve un `IO` al ser llamada. He escrito los valores de retorno *conceptuales* para expresar mejor el `IO`, aunque, en realidad, siempre será `{ $value: [Function] }`. Cuando aplicamos `map` sobre nuestro `IO`, ponemos esta función al final de una composición que, a su vez, se convierte en el nuevo `$value` y así sucesivamente. Nuestras funciones mapeadas no se ejecutan, sino que quedan adheridas al final del cálculo que estamos construyendo, función a función, como si cuidadosamente colocáramos fichas de dominó que no nos atrevemos a volcar. El resultado recuerda al patrón comando del Gang of Four o a una cola.
 
 Tómate un momento para trabajar tu intuición sobre los funtores. Si miramos más allá de los detalles de implementación, deberíamos sentirnos como en casa mapeando cualquier contenedor, sin importar sus peculiaridades o idiosincrasias. Tenemos que agradecer este poder pseudopsíquico a las leyes de funtores, las cuales exploraremos hacia el final del capítulo. En cualquier caso, por fin podemos jugar con valores impuros sin sacrificar nuestra preciosa pureza.
 
@@ -522,7 +522,7 @@ Si conoces las promesas, puede que reconozcas a la función `map` como `then`, c
 
 Al igual que `IO`, `Task` esperará pacientemente a que le demos luz verde antes de ejecutarse. De hecho, dado que espera nuestra orden, `IO` está efectivamente subsumido en `Task` para todas las cosas asíncronas; `readFile` y `getJSON` no requieren un contenedor `IO` adicional para ser puros. Es más, `Task` funciona de manera similar cuando `map`eamos sobre él: estamos colocando instrucciones para el futuro igual que si colocáramos una tabla de tareas en una cápsula del tiempo; un acto de sofisticada procrastinación tecnológica.   
 
-Para ejecutar nuestra tarea, debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre indica, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actuará como lo haría una llamada asíncrona normal, así que la gran rueda del bucle de eventos de JavaScript seguirá girando. Echemos un vistazo a `fork`:
+Para ejecutar nuestra tarea [*Task*], debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre indica, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actuará como lo haría una llamada asíncrona normal, así que la gran rueda del bucle de eventos de JavaScript seguirá girando. Echemos un vistazo a `fork`:
 
 ```js
 // -- Aplicación pura -------------------------------------------------
@@ -588,7 +588,7 @@ En este ejemplo, todavía hacemos uso de `Either` e `IO` desde la rama exitosa d
 
 Podría continuar, pero eso es todo. Tan simple como `map`.
 
-En la práctica, es probable que tengas múltiples tareas asíncronas en un solo flujo de trabajo y aún no hemos adquirido todas las API de los contenedores como para afrontar este escenario. No te preocupes, pronto veremos cosas sobre mónadas y demás, pero primero debemos examinar las matemáticas que hacen que todo esto sea posible.
+En la práctica, es probable que tengas múltiples tareas asíncronas en un solo flujo de trabajo y aún no hemos adquirido todas las API de contenedores como para afrontar este escenario. No te preocupes, pronto veremos cosas sobre mónadas y demás, pero primero debemos examinar las matemáticas que hacen que todo esto sea posible.
 
 
 ## Un Poco de Teoría

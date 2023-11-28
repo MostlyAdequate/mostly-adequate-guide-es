@@ -2,13 +2,13 @@
 
 ## Programación Declarativa
 
-Vamos a cambiar nuestra mentalidad. A partir de ahora, dejaremos de decirle al ordenador cómo hacer su trabajo y, en cambio, escribiremos una especificación de lo que nos gustaría obtener como resultado. Estoy seguro de que lo encontrarás mucho menos estresante que intentar microgestionarlo todo continuamente.
+Vamos a cambiar nuestra mentalidad. A partir de ahora, dejaremos de decirle al ordenador cómo hacer su trabajo y, en cambio, escribiremos una especificación de lo que nos gustaría obtener como resultado. Estoy seguro que lo encontrarás mucho menos estresante que intentar microgestionarlo todo continuamente.
 
 Declarativo, al contrario que imperativo, significa que escribiremos expresiones en lugar de instrucciones paso a paso.
 
-Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. Nosotros no decidimos como hacer el trabajo, la base de datos lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, nosotros no tenemos que cambiar nuestra consulta. Se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
+Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. Nosotros no decidimos como hacer el trabajo, la base de datos lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, nosotros no tenemos que cambiar nuestra consulta. Esto se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
 
-Para algunas personas, yo incluido, al principio cuesta comprender el concepto de la programación declarativa, así que vamos a mostrar algunos ejemplos para hacernos una idea.
+Para algunas personas, yo incluido, cuesta entender de primeras el concepto de programación declarativa, así que vamos a mostrar algunos ejemplos para hacernos una idea.
 
 ```js
 // imperativo
@@ -27,7 +27,7 @@ La versión con `map` es una sola expresión. No requiere ningún orden de evalu
 
 Además de ser más clara y más concisa, la función `map` puede ser optimizada a voluntad sin que el valioso código de nuestra aplicación necesite cambiar.
 
-Para aquellos que estén pensando "Sí, pero es mucho más rápido hacer el bucle imperativo", les sugiero que se informen sobre cómo el JIT optimiza su código. Aquí hay un [excelente video que puede arrojar algo de luz](https://www.youtube.com/watch?v=g0ek4vV7nEA).
+Para quien esté pensando "Sí, pero es mucho más rápido hacer el bucle imperativo", les sugiero que se informen sobre cómo el JIT optimiza su código. Aquí hay un [excelente video que puede arrojar algo de luz](https://www.youtube.com/watch?v=g0ek4vV7nEA).
 
 He aquí otro ejemplo.
 
@@ -42,7 +42,7 @@ const authenticate = (form) => {
 const authenticate = compose(logIn, toUser);
 ```
 
-Aunque no hay nada necesariamente malo en la versión imperativa, sigue escondiendo una evaluación por pasos. La expresión con `compose` simplemente afirma un hecho: la autenticación es la composición de `toUser` y `logIn`. Nuevamente, esto deja margen de maniobra para permitir cambios en el código, y hace que nuestro código de aplicación sea una especificación de alto nivel.
+Aunque no hay nada necesariamente malo en la versión imperativa, esta sigue escondiendo una evaluación por pasos. La expresión con `compose` simplemente afirma un hecho: la autenticación es la composición de `toUser` y `logIn`. Nuevamente, esto deja margen de maniobra para permitir cambios en el código, y hace que nuestro código de aplicación sea una especificación de alto nivel.
 
 Como no tenemos que codificar el orden de evaluación, la programación declarativa se presta a la computación paralela. Esto, junto con las funciones puras, es la razón por la que la programación funcional es una buena opción para el futuro paralelo; en realidad no tenemos que hacer nada especial para conseguir sistemas paralelos/concurrentes.
 
@@ -87,7 +87,7 @@ Ahora que hemos dejado esto claro, vamos a la especificación. Nuestra aplicaci�
 3. Transformar el json resultante en imágenes html
 4. Colocarlas en la pantalla
 
-Arriba se mencionan 2 acciones impuras. ¿Puedes verlas? Esos pedacitos dónde se obtienen datos de la api de flickr y donde se muestran en la pantalla. Definámoslos primero para así poder ponerlos en cuarentena. Además, añadiré nuestra bonita función `trace` para poder depurar fácilmente.
+Arriba se mencionan 2 acciones impuras. ¿Puedes verlas? Esos pedacitos donde se obtienen datos de la api de flickr y donde se muestran en la pantalla. Definámoslos primero para así poder ponerlos en cuarentena. Además, añadiré nuestra bonita función `trace` para poder depurar fácilmente.
 
 ```js
 const Impure = {

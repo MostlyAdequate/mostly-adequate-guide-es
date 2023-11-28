@@ -2,9 +2,9 @@
 
 ## Salvaje Combinación
 
-En este capítulo, examinaremos a los *monoides* mediante *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que comprende múltiples disciplinas y, figurativa y literalmente, las une a todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, el suelo en el que se ejecuta, entrelazamiento cuántico codificado.
+En este capítulo examinaremos los *monoides* utilizando *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que abarca múltiples disciplinas, uniéndolas figurativa y literalmente todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, la tierra sobre la que se ejecuta, entrelazamiento cuántico codificado.
 
-Los *monoides* tratan sobre combinar. Pero, ¿qué es combinar? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo rozaremos la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
+Los *monoides* tratan sobre combinar. Pero, ¿qué es combinar? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo soslayaremos la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
 
 ## Abstrayendo La Suma
 
@@ -34,7 +34,7 @@ Además, tenemos la asociatividad, que nos da la capacidad de agrupar operacione
 
 No vayas a confundir esto con conmutatividad, la cual nos permite cambiar el orden. Aunque se mantiene para la suma, ahora mismo no estamos especialmente interesados en esta propiedad; demasiado específica para nuestras necesidades de abstracción.
 
-Ahora que lo pienso, ¿qué propiedades deben estar si o si en nuestra superclase abstracta? ¿Qué rasgos son específicos de la suma y cuáles pueden ser generalizados? ¿Hay otras abstracciones en medio de esta jerarquía o es todo un mismo trozo? Este es el tipo de razonamiento que nuestros antepasados matemáticos aplicaban cuando concebían las interfaces en el álgebra abstracta.
+Ahora que lo pienso, ¿qué propiedades deben estar si o si en nuestra superclase abstracta? ¿Qué rasgos son específicos de la suma y cuáles pueden ser generalizados? ¿Hay otras abstracciones en medio de esta jerarquía o es todo un mismo trozo? Este es el tipo de razonamiento que nuestros antepasados matemáticos aplicaban cuando concibieron las interfaces en el álgebra abstracta.
 
 Como era de esperar, cuando estos "abstraccionistas" de la vieja escuela abstrajeron la suma llegaron al concepto de *grupo*. Un *grupo* tiene todo lo que se necesita incluyendo el concepto de números negativos. Ahora mismo solo estamos interesados en el operador binario asociativo así que elegiremos una interfaz menos específica, *Semigrupo*. Un *Semigrupo* es un tipo con un método `concat` que hace de operador binario asociativo.
 
@@ -60,7 +60,7 @@ Así podemos programar para la interfaz, no para la implementación. Dado que es
 
 Como mencionaba antes, `Sum` no es *pointed*, y tampoco es un *funtor*. Como ejercicio, vuelve atrás y comprueba las leyes para ver por qué. Vale, yo te lo diré: únicamente puede mantener un número, así que `map` no tiene sentido aquí dado que no podemos transformar al valor subyacente en otro tipo. ¡Ese sería un `map` muy limitado de hecho!
 
-Y entonces, ¿por qué es útil? Bien, como con cualquier interfaz, podemos cambiar nuestro ejemplar para conseguir distintos resultados:
+Y entonces, ¿por qué es útil? Bien, como con cualquier interfaz, podemos cambiar nuestra implementación para conseguir distintos resultados:
 
 ```js
 const Product = x => ({ x, concat: other => Product(x * other.x) })
@@ -107,7 +107,7 @@ Identity.of(Sum(4)).concat(Identity.of(Sum(1))) // Identity(Sum(5))
 Identity.of(4).concat(Identity.of(1)) // TypeError: this.__value.concat is not a function
 ```
 
-Es un *semigrupo* si y solo si su valor `__value` es un *semigrupo*. Como alguien torpe pilotando un ala delta, solo lo es mientras está agarrado a uno.
+Es un *semigrupo* si y solo si su valor `__value` es un *semigrupo*. Como un torpe piloto de ala delta, solo lo es mientras está agarrado a una.
 
 Otros tipos tienen un comportamiento similar:
 
@@ -136,7 +136,7 @@ serverA.get('/friends').concat(serverB.get('/friends')) // Task([friend1, friend
 loadSetting('email').concat(loadSetting('general')) // Task(Maybe(Map({backgroundColor: true, autoSave: false})))
 ```
 
-En el ejemplo de arriba, hemos combinado un `IO` que contiene un `Either` que a su vez contiene un `Map` para validar y fusionar los valores del formulario. Después hemos llamado a un par de servidores distintos y hemos combinado sus resultados de manera asíncrona utilizando `Task` y `Array`. Finalmente hemos apilado `Task`, `Maybe` y `Map` para cargar, parsear y fusionar múltiples ajustes.
+En el ejemplo de arriba, para validar y fusionar los valores del formulario hemos combinado un `IO` que contiene un `Either` que a su vez contiene un `Map`. Después hemos llamado a un par de servidores distintos y hemos combinado sus resultados de manera asíncrona utilizando `Task` y `Array`. Finalmente hemos apilado `Task`, `Maybe` y `Map` para cargar, parsear y fusionar múltiples ajustes.
 
 Estos ejemplos podrían haber utilizado `chain` o `ap`, pero los *semigrupos* capturan lo que queremos de forma mucho más concisa.
 
@@ -164,7 +164,7 @@ Map({clicks: Sum(2), path: ['/home', '/about'], idleTime: Right(Max(2000))}).con
 
 Podemos apilar y combinar tantos como queramos. Solo es cuestión de añadir otro árbol al bosque, u otra llama al incendio del bosque dependiendo de tu base de código.
 
-El comportamiento intuitivo por defecto es combinar lo que el tipo contiene, sin embargo, hay casos en los que ignoramos lo que hay dentro y combinamos el contenedor en sí mismo. Considera un tipo como `Stream` (Flujo):
+El comportamiento intuitivo por defecto es combinar lo que el tipo contiene, sin embargo, hay casos en los que ignoramos lo que hay dentro y combinamos el contenedor en sí mismo. Considera un tipo como `Stream` [*Flujo*]:
 
 ```js
 const submitStream = Stream.fromEvent('click', $('#submit'))
@@ -179,7 +179,7 @@ Podemos combinar flujos de eventos [*event streams*] capturando los eventos de a
 
 Estamos abstrayendo la suma pero, como a los babilonios, nos falta el concepto de cero (hubo cero menciones sobre él).
 
-El cero actúa como la *identidad* queriendo decir que cualquier elemento añadido a `0` devolverá ese mismo elemento. En términos de abstracción, sirve de ayuda pensar en el `0` como en un elemento neutral o *vacío*. Es importante el hecho de que actúa de la misma manera tanto en el lado izquierdo como en el derecho de nuestra operación binaria:
+El cero actúa como la *identidad* queriendo decir que cualquier elemento añadido a `0` devolverá ese mismo elemento. En términos de abstracción, sirve de ayuda pensar en el `0` como en un elemento neutro o *vacío*. Es importante el hecho de que actúa de la misma manera tanto en el lado izquierdo como en el lado derecho de nuestra operación binaria:
 
 ```js
 // identidad
@@ -220,7 +220,7 @@ sum([]) // 0
 
 También son el valor inicial perfecto para un acumulador...
 
-## Doblando La Casa
+## Plegando La Casa
 
 Resulta que `concat` y `empty` encajan perfectamente con los dos primeros huecos de `reduce`. De hecho podemos aplicar `reduce` a un array de *semigrupos* ignorando el valor *vacío*, pero, como puedes ver, esto conduce a una precaria situación:
 
@@ -233,7 +233,7 @@ const concat = x => y => x.concat(y)
 [].reduce(concat) // TypeError: Reduce of empty array with no initial value
 ```
 
-Y la dinamita explota. Como un tobillo torcido en una maratón, obtenemos un error de ejecución. JavaScript es más que feliz dejando que nos atemos pistolas a nuestras zapatillas deportivas antes de salir a correr; es algo así como un lenguaje conservador, supongo, que nos detiene en seco cuando el array se vuelve infértil. ¿Qué podría devolver si no?¿`Nan`, `false`, `-1`? Si fuésemos a continuar con nuestro programa, querríamos un resultado del tipo correcto. Podría devolver un `Maybe` para indicar la posibilidad de fallo, pero podemos hacer algo mejor.
+Y la dinamita explota. Como un tobillo torcido en una maratón, obtenemos un error de ejecución. JavaScript es más que feliz dejando que nos atemos pistolas a nuestras zapatillas deportivas antes de salir a correr; es algo así como un lenguaje conservador, supongo, pero que nos detiene en seco cuando el array es estéril. ¿Qué podría devolver si no?¿`Nan`, `false`, `-1`? Si fuésemos a continuar con nuestro programa, querríamos un resultado del tipo correcto. Podría devolver un `Maybe` para indicar la posibilidad de fallo, pero podemos hacer algo mejor.
 
 Vamos a utilizar nuestra versión currificada de `reduce` y a hacer una versión segura donde el valor vacío no sea opcional. En lo sucesivo será conocida como `fold`:
 
@@ -280,7 +280,7 @@ Fusionaremos un par de cuentas y mantendremos el primer id. No hay manera de def
 
 En el álgebra abstracta el concepto de operación binaria está en todas partes. Para una *categoría* es, de hecho, la operación primaria. Sin embargo, no podemos modelar nuestra operación en la teoría de categorías sin una *identidad*. Esta es la razón por la que comenzamos con un semigrupo de la teoría de grupos para luego, una vez tenemos el elemento *vacío*, saltar a un monoide de la teoría de categorías.
 
-Los monoides forman una categoría de un solo objeto donde el morfismo es `concat`, `empty` es la identidad y donde la composición está garantizada.
+Los monoides forman una categoría de un solo objeto donde el morfismo es `concat`, la identidad es `empty` y donde la composición está garantizada.
 
 ### Composición Como Monoide
 
@@ -305,7 +305,7 @@ thingDownFlipAndReverse.run(['let me work it', 'is it worth it?'])
 // ['thing down', 'let me work it', 'is it worth it?']
 ```
 
-Dado que todos son del mismo tipo, podemos concatenar a través de `compose` que los tipos siempre se alinean.
+Dado que todos son del mismo tipo podemos concatenar a través de `compose`, que los tipos siempre se alinearán.
 
 ### Mónada Como Monoide
 

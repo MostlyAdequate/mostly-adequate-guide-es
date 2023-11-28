@@ -2,7 +2,7 @@
 
 [*El título en inglés es 'Transform Again, Naturally' que recuerda a la canción Alone Again (Naturally) de Gilbert O'Sullivan*]
 
-Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables a la hora de aplicar matemáticas al razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
+Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables a la hora de aplicar las matemáticas para razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
 
 ## Maldice Este Nido
 
@@ -16,7 +16,7 @@ IO(Task(IO(1000)));
 [Identity('bee thousand')];
 ```
 
-Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de este típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de unos auriculares en un exorcismo. Si no mantenemos a nuestros tipos meticulosamente bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
+Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de tan típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de unos auriculares en un exorcismo. Si no mantenemos a nuestros tipos meticulosamente bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
 
 ## Una Comedia de Situación
 
@@ -33,7 +33,7 @@ const saveComment = compose(
 );
 ```
 
-La banda está aquí al completo, para consternación de nuestra firma de tipos. Permíteme explicar brevemente el código. Con `getValue('#comment')`, que es una acción que recupera el texto de un elemento, comenzamos obteniendo lo proporcionado por el usuario. Ahora bien, cabe la posibilidad de que se produzca un error al buscar el elemento o que el valor string no exista, así que devuelve `Task Error (Maybe String)`. Después de esto, debemos aplicar `map` tanto sobre `Task` como sobre `Maybe` para pasarle el texto a `validate`, quien a su vez nos entrega mediante `Either`, un `ValidationError` o nuestro `String`. A continuación, mapeamos durante días para enviar el `String` de nuestro `Task Error (Maybe (Either ValidationError String))` a `postComment`, que nos devuelve el `Task` resultante.
+La pandilla está aquí al completo, para consternación de nuestra firma de tipos. Permíteme explicar brevemente el código. Con `getValue('#comment')`, que es una acción que recupera el texto de un elemento, comenzamos obteniendo lo proporcionado por el usuario. Ahora bien, cabe la posibilidad de que se produzca un error al buscar el elemento o que la cadena de texto no exista, así que devuelve `Task Error (Maybe String)`. Después de esto, debemos aplicar `map` tanto sobre `Task` como sobre `Maybe` para pasarle el texto a `validate`, quien a su vez nos entrega mediante `Either`, un `ValidationError` o nuestro `String`. A continuación, mapeamos durante días para enviar el `String` de nuestro `Task Error (Maybe (Either ValidationError String))` a `postComment`, que nos devuelve el `Task` resultante.
 
 Qué desorden tan espantoso. Un collage de tipos abstractos, expresionismo de tipos amateur, un Pollock polimórfico, un Mondrian monolítico. Hay numerosas soluciones para este problema tan común. Podemos componer los tipos en un monstruoso contenedor, ordenarlos y aplicar `join` sobre algunos, homogeneizarlos, deconstruirlos, etc. En este capítulo nos centraremos en homogeneizarlos mediante *transformaciones naturales*.
 
@@ -100,7 +100,7 @@ Además, se vuelve más fácil de optimizar / fusionar operaciones al mover `map
 
 ## JavaScript Isomórfico
 
-Cuando podemos ir completamente hacia atrás y hacia adelante sin perder ninguna información, se considera un *isomorfismo*. Esta solo es una palabra elegante para decir que "mantiene los mismos datos". Decimos que dos tipos son *isomorfos* si podemos proporcionar las *transformaciones naturales* "hacia" y "desde" como demuestra:
+Cuando podemos ir completamente hacia atrás y hacia adelante sin perder ninguna información, se considera que es un *isomorfismo*. Esta solo es una palabra elegante para decir que "mantiene los mismos datos". Decimos que dos tipos son *isomorfos* si podemos proporcionar las *transformaciones naturales* "hacia" y "desde" como demuestra:
 
 ```js
 // promiseToTask :: Promise a b -> Task a b
@@ -158,7 +158,7 @@ Las leyes de la transformación natural también son válidas para estas funcion
 
 ## Una Solución Para El Anidamiento
 
-Volviendo a nuestra cómica firma de tipos. Podemos espolvorear en ella algunas *transformaciones naturales* a lo largo del código que la llama para aplicar coerción de tipos a cada tipo que varíe y que así sean todos uniformes y que, por lo tanto, se puedan unir con `join`.
+Volviendo a nuestra cómica firma de tipos. Para aplicar coerción de tipos a cada tipo que varíe podemos espolvorear en ella algunas *transformaciones naturales* a lo largo del código que la llama para que así sean todos uniformes y que, por lo tanto, se puedan unir con `join`.
 
 ```js
 // getValue :: Selector -> Task Error (Maybe String)
@@ -181,7 +181,7 @@ const saveComment = compose(
 
 Las *Transformaciones Naturales* son funciones sobre nuestros funtores. Son un concepto extremadamente importante en la teoría de categorías y empezarán a aparecer por todas partes una vez que adoptemos más abstracciones, pero, por ahora, las hemos limitado a unas pocas aplicaciones concretas. Como hemos visto, podemos conseguir diferentes efectos al convertir tipos, con la garantía de que mantendremos nuestra composición. También pueden ayudarnos con el anidamiento de tipos, aunque tienen el efecto general de homogeneizar nuestros funtores al mínimo común denominador que, en la práctica, es el funtor con los efectos más volátiles (`Task` en la mayoría de los casos).
 
-Esta continuada y tediosa clasificación de tipos es el precio que pagamos por haberlos materializado; convocados desde el éter. Por supuesto, los efectos implícitos son mucho más insidiosos, así que aquí estamos, librando esta justa batalla. Necesitaremos algunas herramientas más en nuestro equipamiento antes de poder enrollar las más largas amalgamas de tipos. A continuación, veremos cómo reordenar nuestros tipos con *Traversable*.
+Este continuo y tedioso ordenamiento de tipos es el precio que pagamos por haberlos materializado; convocados desde el éter. Por supuesto, los efectos implícitos son mucho más insidiosos, así que aquí estamos, librando esta justa batalla. Necesitaremos algunas herramientas más en nuestro equipamiento antes de poder enrollar las más largas amalgamas de tipos. A continuación, veremos cómo reordenar nuestros tipos con *Traversable*.
 
 [Capítulo 12: Atravesando la Piedra](ch12-es.md)
 

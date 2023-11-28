@@ -10,7 +10,7 @@ const hi = name => `Hi ${name}`;
 const greeting = name => hi(name);
 ```
 
-Aquí, en `greeting`, la función que envuelve `hi` es completamente redundante. ¿Por qué? Porque las funciones son *llamables* en JavaScript. Cuando `hi` tiene los `()` al final, se ejecutará y devolverá un valor. Cuando no los tiene, simplemente devolverá la función almacenada en la variable. Solo para estar seguro, echa un vistazo tú mismo.
+Aquí, en `greeting`, la función que envuelve a `hi` es completamente redundante. ¿Por qué? Porque las funciones son *llamables* en JavaScript. Cuando `hi` tiene los `()` al final, se ejecutará y devolverá un valor. Cuando no los tiene, simplemente devolverá la función almacenada en la variable. Solo para asegurarte, echa un vistazo tú mismo.
 
 ```js
 hi; // name => `Hi ${name}`
@@ -26,7 +26,7 @@ greeting("times"); // "Hi times"
 
 En otras palabras, `hi` ya es una función que espera un argumento, ¿por qué colocar otra función alrededor de ella que simplemente llame a `hi` con el mismo condenado argumento? No tiene ningún maldito sentido. Es como ponerte tu parka más pesada al final de un julio mortal solo para subir el aire acondicionado y pedir un helado.
 
-Es demasiado detallado y, también, una mala práctica rodear una función con otra función simplemente para retrasar la evaluación. (Veremos por qué en un momento, pero tiene que ver con el mantenimiento.)
+Rodear una función con otra función simplemente para retrasar la evaluación es demasiado detallado y también una mala práctica. (Veremos por qué en un momento, pero tiene que ver con el mantenimiento.)
 
 Es fundamental comprender bien esto antes de continuar, así que vamos a examinar algunos otros divertidos ejemplos extraídos de paquetes de npm.
 
@@ -66,7 +66,7 @@ const BlogController = {
 };
 ```
 
-Este ridículo controlador es 99% aire. Podríamos ya sea reescribirlo como:
+Este ridículo controlador es 99% aire. Podríamos reescribirlo como:
 
 ```js
 const BlogController = {
@@ -104,7 +104,7 @@ Si la hubiéramos escrito como una función de primera clase, mucho menos necesi
 httpGet('/post/2', renderPost);
 ```
 
-Además de la eliminación de funciones innecesarias, debemos nombrar y referenciar argumentos. Los nombres son un poco problemáticos. Tenemos potenciales errores de nombrado, especialmente cuando la base de código crece y los requerimientos cambian.
+Si no eliminamos las funciones innecesarias deberemos nombrar a los argumentos y hacer referencia a ellos. Los nombres son algo problemáticos, ya sabes. Existen potenciales errores de nombrado, especialmente cuando la base de código envejece y los requerimientos cambian.
 
 Tener múltiples nombres para el mismo concepto suele ser una fuente de confusión en los proyectos. También existe el problema del código genérico. Por ejemplo, estas dos funciones hacen exactamente lo mismo, pero una es infinitamente más general y reusable.
 
@@ -133,7 +133,7 @@ fs.readFile('freaky_friday.txt', Db.save.bind(Db));
 
 Después de haber sido enlazada a sí misma, `Db` es libre de acceder a su prototípico código basura. Yo evito usar `this` de la misma manera que evito usar un pañal sucio. Realmente no hay ninguna necesidad cuando se escribe código funcional. Sin embargo, al interactuar con otras bibliotecas, tendrás que aceptar el loco mundo que nos rodea.
 
-Algunos argumentarán que `this` es necesario para optimizar la velocidad. Si eres del tipo micro-optimizador, por favor cierra este libro. Si no puedes recuperar tu dinero, quizás puedas intercambiarlo por algo más complejo.
+Hay quien argumentará que `this` es necesario para optimizar la velocidad. Si te va la micro-optimización, por favor cierra este libro. Si no puedes recuperar tu dinero, quizás puedas intercambiarlo por algo más complejo.
 
 Y con esto estamos listos para seguir adelante.
 

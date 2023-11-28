@@ -22,13 +22,13 @@ const containerOfAdd2 = map(add, Container.of(2));
 
 Ahora tenemos un `Container` con una función dentro que está parcialmente aplicada. Más específicamente, tenemos un `Container(add(2))` y queremos aplicar su `add(2)` al `3` de `Container(3)` para completar la llamada. En otras palabras, queremos aplicar un funtor a otro funtor.
 
-Pues resulta que ya tenemos las herramientas para llevar a cabo está tarea. Podemos aplicar `chain` y luego `map` a la función parcialmente aplicada `add(2)`, tal que así:
+Pues resulta que ya tenemos las herramientas para llevar a cabo esta tarea. Podemos aplicar `chain` y luego `map` a la función parcialmente aplicada `add(2)`, tal que así:
 
 ```js
 Container.of(2).chain(two => Container.of(3).map(add(two)));
 ```
 
-El problema aquí es que estamos atrapados en el mundo secuencial de las mónadas en el que nada puede ser evaluado hasta que la mónada anterior haya terminado su trabajo. Tenemos dos valores fuertes e independientes y me parece innecesario retrasar la creación de `Containter(3)` tan solo para satisfacer las demandas secuenciales de las mónadas.
+El problema aquí es que estamos atrapados en el mundo secuencial de las mónadas en el que nada puede ser evaluado hasta que la mónada anterior haya terminado su trabajo. Tenemos dos valores fuertes e independientes y parece innecesario retrasar la creación de `Containter(3)` tan solo para satisfacer las demandas secuenciales de las mónadas.
 
 De hecho, si nos viésemos en este aprieto, sería maravilloso si pudiéramos, sucintamente, aplicar el contenido de un funtor al valor de otro, sin esas funciones y variables innecesarias.
 
@@ -84,7 +84,7 @@ Task.of(add).ap(Task.of(2)).ap(Task.of(3));
 
 Entrecerrando los ojos, se puede incluso reconocer vagamente la manera normal de llamar a una función. Más adelante en el capítulo veremos la versión pointfree, pero por ahora, esta es la manera preferida de escribir un código como este. Usando `of`, cada valor es transportado al mágico mundo de los contenedores, ese universo paralelo donde cada aplicación puede ser asíncrona o nula o lo que sea y donde `ap` aplicará funciones dentro de ese lugar de fantasía. Es como construir un barco dentro de una botella.
 
-¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones donde los funtores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
+¿Has visto? Hemos utilizado `Task` en nuestro ejemplo. Esta es una de las principales situaciones en las que los funtores aplicativos muestran su fuerza. Veamos un ejemplo más en profundidad.
 
 ## Motivación para la Coordinación
 
@@ -101,7 +101,7 @@ Task.of(renderPage).ap(Http.get('/destinations')).ap(Http.get('/events'));
 
 Ambas llamadas `Http` se harán a la vez y `renderPage` será llamada cuando ambas se hayan resuelto. Contrasta esto con la versión monádica en la que una tarea `Task` debe finalizar antes de que se inicie la siguiente. Dado que no necesitamos los destinos para recuperar los eventos, nos libramos de la evaluación secuencial.
 
-De nuevo, como estamos utilizando aplicación parcial para alcanzar este resultado, debemos asegurarnos de que `renderPage` está currificada o no esperará a que terminen ambas tareas. Por cierto, si alguna vez has tenido que hacer algo así manualmente, apreciarás la asombrosa simplicidad de esta interfaz. Este es la clase de bonito código que nos acerca un paso más hacia la singularidad.
+De nuevo, como estamos utilizando aplicación parcial para alcanzar este resultado, debemos asegurarnos de que `renderPage` está currificada o no esperará a que terminen ambas tareas. Por cierto, si alguna vez has tenido que hacer algo así manualmente, apreciarás la asombrosa simplicidad de esta interfaz. Esta es la bonita forma del código que nos acerca un paso más hacia la singularidad.
 
 Veamos otro ejemplo.
 
@@ -223,13 +223,13 @@ X.prototype.ap = function ap(other) {
 };
 ```
 
-Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como de funtor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
+Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como de la funtor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
 
 Hay que señalar que parte del atractivo de `ap` es su capacidad para ejecutar cosas de manera concurrente, por lo que definirla mediante `chain` hace que se pierda esa optimización. A pesar de esto, es bueno tener una interfaz funcionando inmediatamente mientras uno trabaja en la mejor implementación posible.
 
 ¿Por qué no utilizar mónadas y así ya estar listos?, te preguntarás. Es una buena práctica trabajar con el nivel de potencia que necesitas en cada momento, ni más, ni menos. Al descartar posibles funcionalidades, mantenemos la carga cognitiva al mínimo. Es por esto que es bueno favorecer a los aplicativos por encima de las mónadas.
 
-Las mónadas tienen la capacidad única de secuenciar el cálculo, asignar variables, y de detener la ejecución siguiente, todo ello gracias a la estructura de anidamiento descendente. Cuando vemos que se usan aplicativos, no tenemos que estar atentos a nada de eso.
+Las mónadas tienen la capacidad única de secuenciar el cálculo, asignar variables, y detener la ejecución siguiente, todo ello gracias a la estructura de anidamiento descendente. Cuando vemos que se usan aplicativos, no tenemos que estar atentos a nada de eso.
 
 Y ahora, sobre los aspectos legales...
 
