@@ -235,7 +235,7 @@ Y ahora, sobre los aspectos legales...
 
 ## Leyes
 
-Al igual que el resto de construcciones matemáticas que hemos explorado, los funtores aplicativos tienen algunas propiedades que pueden sernos útiles en nuestro día a día programando. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca cambiará el tipo de los contenedores por nosotros (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
+Al igual que el resto de construcciones matemáticas que hemos explorado, los funtores aplicativos tienen algunas propiedades que pueden sernos útiles en nuestro día a día programando. En primer lugar, debes saber que los aplicativos están "cerrados bajo composición", lo que significa que `ap` nunca nos cambiará el tipo de los contenedores (otra razón más para favorecerlos por encima de las mónadas). Eso no quiere decir que no podamos tener múltiples efectos diferentes; podemos apilar nuestros tipos sabiendo que seguirán siendo los mismos durante toda nuestra aplicación.
 
 Para demostrarlo:
 

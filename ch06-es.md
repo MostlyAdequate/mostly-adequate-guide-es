@@ -6,7 +6,7 @@ Vamos a cambiar nuestra mentalidad. A partir de ahora, dejaremos de decirle al o
 
 Declarativo, al contrario que imperativo, significa que escribiremos expresiones en lugar de instrucciones paso a paso.
 
-Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. Nosotros no decidimos como hacer el trabajo, la base de datos lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, nosotros no tenemos que cambiar nuestra consulta. Esto se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
+Piensa en SQL. No existe un "primero haz esto, luego haz lo otro". Existe una expresión que especifica lo que nos gustaría obtener de la base de datos. No decidimos como hacer el trabajo, es la base de datos quien lo decide. Cuando se actualiza la base de datos y el motor de SQL es optimizado, no tenemos que cambiar nuestra consulta. Esto se debe a que existen muchas maneras de interpretar nuestra especificación y conseguir el mismo resultado.
 
 Para algunas personas, yo incluido, cuesta entender de primeras el concepto de programación declarativa, así que vamos a mostrar algunos ejemplos para hacernos una idea.
 
@@ -170,7 +170,7 @@ Mira eso. Una especificación hermosamente declarativa de lo que son las cosas, 
 
 ## Una Refactorización Basada En Principios
 
-Hay una optimización disponible; nosotros hacemos `map` sobre cada elemento para convertirlo en una url, luego hacemos nuevamente `map` sobre esas `mediaUrls` para convertirlas en etiquetas `img`. He aquí una ley con respecto a map y la composición:
+Hay una optimización disponible; hacemos `map` sobre cada elemento para convertirlo en una url, luego hacemos nuevamente `map` sobre esas `mediaUrls` para convertirlas en etiquetas `img`. He aquí una ley con respecto a map y la composición:
 
 ```js
 // ley de composición de map

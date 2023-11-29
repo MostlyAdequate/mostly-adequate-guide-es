@@ -134,7 +134,7 @@ Esto tan solo ejecuta un `reduce` en la lista. La función reduce es `(f, a) => 
 
 5. .`ap(f)`
 
-   Recuerda que aquí `f` es un Aplicativo, así que podemos aplicar la función `bs => bs.concat(b)` a cualquier valor `bs :: [a]` que esté en `f`. Afortunadamente para nosotros, `f` proviene de nuestra semilla inicial y tiene el siguiente tipo: `f :: Either e [a]` que, por cierto, se conserva cuando aplicamos `bs => bs.concat(b)`.
+   Recuerda que aquí `f` es un Aplicativo, así que podemos aplicar la función `bs => bs.concat(b)` a cualquier valor `bs :: [a]` que esté en `f`. Afortunadamente, `f` proviene de nuestra semilla inicial y tiene el siguiente tipo: `f :: Either e [a]` que, por cierto, se conserva cuando aplicamos `bs => bs.concat(b)`.
    Cuando `f` es `Right` llama a `bs => bs.concat(b)`, quien a su vez devuelve un `Right` con el elemento añadido a la lista. Cuando es `Left`, el valor izquierdo (del paso anterior o de la iteración anterior respectivamente) es devuelto.
    > fn(a).map(b => bs => bs.concat(b)).ap(f) :: Either e [a]
 

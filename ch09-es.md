@@ -155,7 +155,7 @@ Hemos añadido `join` allá donde nos hemos encontrado `Maybe`s anidados para ev
 IO.prototype.join = () => this.unsafePerformIO();
 ```
 
-De nuevo, nosotros solo hemos eliminado una capa. O sea, no nos hemos deshecho de la pureza, sino que simplemente hemos eliminado una capa sobrante de embalaje.
+De nuevo, solo hemos eliminado una capa. O sea, no nos hemos deshecho de la pureza, sino que simplemente hemos eliminado una capa sobrante de embalaje.
 
 ```js
 // log :: a -> IO a

@@ -47,7 +47,7 @@ const result = flockA
 // 32
 ```
 
-¿Quién en la faz de la tierra, sería capaz de crear esta espantosa abominación? Es irrazonablemente difícil seguir el rastro del estado interno mientras muta. Y, por si esto fuera poco, ¡la respuesta es incorrecta! Debería ser `16`, pero `flockA` ha sido alterado permanentemente durante el proceso. Pobre `flockA`. ¡Esto es anarquía en la informática! ¡Esto es aritmética de animales salvajes!
+¿Quién en la faz de la tierra, sería capaz de crear tan espantosa abominación? Es irrazonablemente difícil seguir el rastro del estado interno mientras muta. Y, por si esto fuera poco, ¡la respuesta es incorrecta! Debería ser `16`, pero `flockA` ha sido alterado permanentemente durante el proceso. Pobre `flockA`. ¡Esto es anarquía en la informática! ¡Esto es aritmética de animales salvajes!
 
 Si no entiendes este programa, no pasa nada, yo tampoco lo entiendo. La cuestión es que el estado y los valores mutables son difíciles de seguir, incluso en un ejemplo tan pequeño.
 
@@ -96,7 +96,7 @@ add(x, 0) === x;
 multiply(x, add(y,z)) === add(multiply(x, y), multiply(x, z));
 ```
 
-Ah, sí, esas viejas y fieles propiedades matemáticas serán de ayuda. No te preocupes si no las sabes de memoria. Para muchos de nosotros ha pasado mucho tiempo desde que las estudiamos. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
+Ah, sí, esas viejas y fieles propiedades matemáticas serán de ayuda. No te preocupes si no las sabes de memoria. Puede que haya pasado mucho tiempo desde que las estudiamos. Vamos a ver si podemos utilizar estas propiedades para simplificar nuestra pequeña aplicación de gaviotas.
 
 ```js
 // Línea original

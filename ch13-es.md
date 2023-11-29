@@ -258,7 +258,7 @@ fold(Either.of(Max.empty()), [Right(Max(3)), Left('error retrieving value'), Rig
 fold(IO.of([]), ['.link', 'a'].map($)) // IO([<a>, <button class="link"/>, <a>])
 ```
 
-Hemos proporcionado manualmente un valor vacío para estos dos últimos, ya que no podemos definir uno en el propio tipo. Eso es totalmente correcto. Los lenguajes tipados pueden averiguarlo por ellos mismos, pero aquí tenemos que pasarlo nosotros.
+Hemos proporcionado manualmente un valor vacío para estos dos últimos, ya que no podemos definir uno en el propio tipo. Eso es totalmente correcto. Los lenguajes tipados pueden averiguarlo por ellos mismos, pero aquí tenemos que pasarlo.
 
 ## No Un Monoide Exactamente
 

@@ -43,7 +43,7 @@ Aclaremos algunas cosas antes de continuar:
 
 * El valor no puede ser de un tipo específico o de lo contrario difícilmente nuestro `Container` haría honor a su nombre. 
 
-* Una vez los datos entran en nuestro `Container` se quedan ahí. Nosotros *podríamos* sacarlos usando `.$value`, pero eso anularía el propósito.
+* Una vez los datos entran en nuestro `Container` se quedan ahí. *Podríamos* sacarlos usando `.$value`, pero eso anularía el propósito.
 
 Las razones por las cuales estamos haciendo esto quedarán claras como un tarro de cristal, pero por el momento, tendréis que ser pacientes.
 
@@ -79,7 +79,7 @@ Espera un minuto, si seguimos llamando a `map`, ¡parece ser una especie de comp
 
 Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde estaría la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
 
-¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones por nosotros? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute por nosotros. Este es, de hecho, un concepto muy poderoso.
+¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones en nuestro lugar? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute en nuestro nombre. Este es, de hecho, un concepto muy poderoso.
 
 ## El Maybe de Schrödinger
 
