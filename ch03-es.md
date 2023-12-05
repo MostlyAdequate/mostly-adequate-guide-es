@@ -74,11 +74,11 @@ Los efectos secundarios pueden incluir, pero no limitarse a
   
 Y el listado sigue y sigue. Cualquier interacción de una función con el mundo exterior es un efecto secundario, hecho que puede llevarte a sospechar de la practicidad de programar sin ellos. La filosofía de la programación funcional postula que los efectos secundarios son la principal causa de las incorrecciones en el comportamiento.
 
-No es que tengamos prohibido usarlos, más bien queremos contenerlos y ejecutarlos de manera controlada. Aprenderemos como hacerlo cuando lleguemos a los funtores y mónadas en capítulos posteriores, pero por ahora, trataremos de mantener estas insidiosas funciones apartadas de las puras.
+No es que tengamos prohibido usarlos, más bien queremos contenerlos y ejecutarlos de manera controlada. Aprenderemos como hacerlo cuando lleguemos a los funtores y mónadas en capítulos posteriores, pero por ahora, trataremos de mantener a estas insidiosas funciones apartadas de las puras.
 
 Los efectos secundarios descalifican a una función para ser *pura* y tiene sentido: las funciones puras, por definición, deben devolver siempre la misma salida dada la misma entrada, lo que no es garantizable cuando se manejan asuntos externos a nuestra función local.
 
-Veamos con más detalle por qué insistimos en lo de la misma salida para cada entrada. Levantaos el cuello de las camisas, vamos a ver algo de matemáticas de octavo grado [*correspondiente a alumnos de entre 13 y 14 años en el sistema educativo estadounidense*].
+Veamos con más detalle por qué insistimos en lo de la misma salida para cada entrada. Levantaos el cuello de las camisas, vamos a ver algo de matemáticas de octavo grado [*estudiantes de entre 13 y 14 años].
 
 ## Matemáticas de Octavo Grado
 
@@ -210,7 +210,7 @@ Al contrario de los "típicos" métodos y procedimientos de la programación imp
 
 Después de lo anterior, nos damos cuenta de que las funciones puras hacen que el testing sea mucho más fácil. No necesitamos mockear una pasarela de pagos "real" o configurar y verificar el estado del mundo después de cada test. Simplemente, pasamos la entrada a la función y verificamos su salida.
 
-De hecho, encontramos que la comunidad funcional está descubriendo nuevas herramientas de pruebas que pueden bombardear nuestra función con entradas generadas y verificar que sus propiedades se mantienen en la salida. Está fuera del alcance de este libro, pero os animo encarecidamente a que busquéis y probéis *Quickcheck*; una herramienta de pruebas que está hecha a medida para un entorno puramente funcional.
+De hecho, la comunidad funcional está siendo pionera nuevas herramientas de pruebas que pueden bombardear nuestra función con entradas generadas y verificar que sus propiedades se mantienen en la salida. Está fuera del alcance de este libro, pero os animo encarecidamente a que busquéis y probéis *Quickcheck*; una herramienta de pruebas que está hecha a medida para un entorno puramente funcional.
 
 ### Comprensible
 
@@ -257,7 +257,7 @@ Y si también reemplazamos `decrementHP`, vemos que, en este caso, `punch` se co
 const punch = (a, t) => t.set('hp', t.get('hp') - 1);
 ```
 
-Esta habilidad para razonar acerca del código es excelente para en general refactorizarlo y entenderlo. De hecho, hemos utilizado esta técnica para refactorizar nuestro programa de bandada de gaviotas. Usamos razonamiento ecuacional para aprovechar las propiedades de adición y multiplicación. De hecho, utilizaremos estas técnicas a lo largo de todo el libro.
+Esta habilidad para razonar acerca del código es excelente para, en general, refactorizarlo y entenderlo. De hecho, hemos utilizado esta técnica para refactorizar nuestro programa de bandada de gaviotas. Usamos razonamiento ecuacional para aprovechar las propiedades de adición y multiplicación. De hecho, utilizaremos estas técnicas a lo largo de todo el libro.
 
 ### Código Paralelo
 
@@ -269,6 +269,6 @@ Esto podría usarse tanto en un servidor con entorno js e hilos de ejecución co
 
 Hemos visto qué son las funciones puras y por qué en programación funcional creemos que son extraordinarias. De aquí en adelante, nos esforzaremos en escribir todas nuestras funciones de una forma pura. Necesitaremos algunas herramientas adicionales para ayudarnos, pero mientras tanto, trataremos de separar las funciones impuras del resto del código puro. 
 
-Escribir programas con funciones puras es algo laborioso al no tener algunas herramientas extra en nuestro cinturón. Hemos de hacer malabares con los datos pasando argumentos por todas partes, tenemos prohibido utilizar estado y sin mencionar lo de los efectos secundarios. ¿Cómo afrontar la escritura de estos programas de masoquista? Obtengamos una nueva herramienta llamada curry.
+Resulta un poco laborioso escribir programas con funciones puras al no tener algunas herramientas extra en nuestro cinturón. Hemos de hacer malabares con los datos pasando argumentos por todas partes, tenemos prohibido utilizar estado y sin mencionar lo de los efectos secundarios. ¿Cómo afrontar la escritura de estos programas de masoquista? Obtengamos una nueva herramienta llamada curry.
 
 [Capítulo 4: Currying](ch04-es.md)

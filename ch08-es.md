@@ -43,7 +43,7 @@ Aclaremos algunas cosas antes de continuar:
 
 * El valor no puede ser de un tipo específico o de lo contrario difícilmente nuestro `Container` haría honor a su nombre. 
 
-* Una vez los datos entran en nuestro `Container` se quedan ahí. *Podríamos* sacarlos usando `.$value`, pero eso anularía el propósito.
+* Una vez los datos entran en nuestro `Container` se quedan ahí. *Podríamos* sacarlos usando `.$value`, pero eso anularía su propósito.
 
 Las razones por las cuales estamos haciendo esto quedarán claras como un tarro de cristal, pero por el momento, tendréis que ser pacientes.
 
@@ -79,7 +79,7 @@ Espera un minuto, si seguimos llamando a `map`, ¡parece ser una especie de comp
 
 Sí, *Funtor* es simplemente una interfaz con un contrato. También podríamos haberlo llamado *Mapeable*, pero entonces, ¿dónde estaría la diversión? Los Funtores provienen de la teoría de categorías y veremos las matemáticas en detalle hacia el final del capítulo, pero por ahora, trabajemos en la intuición y los usos prácticos de esta interfaz de nombre extraño.
 
-¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones en nuestro lugar? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute en nuestro nombre. Este es, de hecho, un concepto muy poderoso.
+¿Qué razón podríamos tener para embotellar un valor y utilizar `map` para llegar a él? La respuesta se revela por si sola si escogemos mejor la pregunta: ¿Qué ganamos al pedir a nuestro contenedor que aplique funciones en nuestro lugar? Pues la abstracción de la aplicación de funciones. Cuando aplicamos una función mediante `map`, le pedimos al tipo del contenedor que la ejecute de nuestra parte. Este es, de hecho, un concepto muy poderoso.
 
 ## El Maybe de Schrödinger
 
@@ -326,13 +326,13 @@ zoltar({ birthDate: 'balloons!' });
 
 Cuando `birthdate` es válido, el programa muestra su mística predicción en la pantalla para que la contemplemos. De lo contrario, se nos entrega un `Left` con el mensaje de error tan claro como el día, aunque todavía escondido en su contenedor. Esto actúa igual que si hubiésemos lanzado un error, pero de una manera más tranquila y suave en lugar de perder los estribos y gritar como un niño cuando algo sale mal.
 
-En este ejemplo, estamos haciendo una bifurcación lógica en nuestro flujo de control dependiendo de la validez de la fecha de cumpleaños, leyéndose en una sola línea de derecha a izquierda en vez de escalar a través de las llaves de una declaración condicional. Normalmente, moveríamos el `console.log` fuera de la función `zoltar` y aplicaríamos `map` al momento de llamarla, pero es útil ver como la rama del `Right` diverge. Para esto usamos `_` en la firma de la rama derecha para indicar que es un valor que debe ser ignorado (En algunos navegadores debes usar `console.log.bind(console)` para usarlo como función de primera clase).
+En este ejemplo, estamos haciendo una bifurcación lógica en nuestro flujo de control dependiendo de la validez de la fecha de cumpleaños, leyéndose en una sola línea de derecha a izquierda en vez de escalar a través de las llaves de una declaración condicional. Normalmente, moveríamos el `console.log` fuera de la función `zoltar` y aplicaríamos `map` al momento de llamarla, pero es útil ver como la rama del `Right` diverge. Utilizamos `_` en la firma de la rama derecha para indicar que es un valor que debe ser ignorado (En algunos navegadores debes usar `console.log.bind(console)` para usarlo como función de primera clase).
 
 Me gustaría aprovechar esta oportunidad para resaltar algo que podrías haber pasado por alto: `fortune`, a pesar de su uso con `Either` en este ejemplo, es completamente ignorante de cualquier funtor que tenga a su alrededor. Este era también el caso para `finishTransaction` en el ejemplo anterior. En el momento de la llamada, una función puede ser rodeada por `map`, lo que la transforma, en términos informales, de no ser un funtor a serlo. Llamamos a este proceso *levantamiento* (*lifting*). Es mejor que las funciones trabajen con tipos de datos normales que con tipos contenedor, para luego ser levantadas al contenedor apropiado según se considere necesario. Esto conduce a funciones más simples y reutilizables que pueden ser alteradas a demanda para trabajar con cualquier funtor.
 
 `Either` es genial para errores casuales como validaciones y también para casos más graves como archivos faltantes o sockets rotos. Prueba a reemplazar por `Either` alguno de los ejemplos de `Maybe` para obtener un mejor entendimiento.
 
-Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentándolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma canónica de tipos (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
+Por otro lado, no puedo dejar de pensar que le he hecho un flaco favor a `Either` presentándolo como un simple contenedor de mensajes de error. `Either` captura la disyunción lógica (||) en un tipo. También codifica la idea de *Coproducto* de la teoría de categorías, que no se verá en este libro, aunque vale la pena leer sobre ello, ya que contiene varias propiedades a explotar. `Either` es la suma de tipos canónica (o unión disjunta de conjuntos) porque la cantidad total de posibles habitantes es la suma de los dos tipos contenidos (sé que esto suena a magia por lo que acá les entrego un [gran artículo](https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/sum-types)). Hay muchas cosas que `Either` puede ser, pero como funtor, se usa por su manejo de errores.
 
 Igual que con `Maybe`, tenemos a la pequeña `either`, que se comporta de manera similar, pero toma dos funciones en lugar de una y un valor estático. Cada función debe devolver el mismo tipo.
 
@@ -368,7 +368,7 @@ zoltar({ birthDate: 'balloons!' });
 // undefined
 ```
 
-Por fin, un uso para esa misteriosa función `id`. Simplemente repite como un loro el valor de `Left` para pasar el mensaje de error a `console.log`. Hemos hecho que nuestra app de videncia sea más robusta imponiendo el manejo de error desde dentro de `getAge`. O bien abofeteamos al usuario con la dura verdad o bien continuamos con nuestro proceso. Y con esto, podemos pasar a otro tipo de funtor completamente diferente. 
+Por fin, un uso para esa misteriosa función `id`. Simplemente repite como un loro el valor de `Left` para pasar el mensaje de error a `console.log`. Hemos hecho que nuestra app de videncia sea más robusta imponiendo el manejo de errores desde dentro de `getAge`. O bien abofeteamos al usuario con la dura verdad o bien continuamos con nuestro proceso. Y con esto, podemos pasar a otro tipo de funtor completamente diferente. 
 
 ## El Viejo McDonald Tenía Efectos...
 
@@ -522,7 +522,7 @@ Si conoces las promesas, puede que reconozcas a la función `map` como `then`, c
 
 Al igual que `IO`, `Task` esperará pacientemente a que le demos luz verde antes de ejecutarse. De hecho, dado que espera nuestra orden, `IO` está efectivamente subsumido en `Task` para todas las cosas asíncronas; `readFile` y `getJSON` no requieren un contenedor `IO` adicional para ser puros. Es más, `Task` funciona de manera similar cuando `map`eamos sobre él: estamos colocando instrucciones para el futuro igual que si colocáramos una tabla de tareas en una cápsula del tiempo; un acto de sofisticada procrastinación tecnológica.   
 
-Para ejecutar nuestra tarea [*Task*], debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre indica, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actuará como lo haría una llamada asíncrona normal, así que la gran rueda del bucle de eventos de JavaScript seguirá girando. Echemos un vistazo a `fork`:
+Para ejecutar nuestra tarea [*Task*], debemos llamar al método `fork`. Esto funciona como `unsafePerformIO`, pero como su nombre indica, bifurcará nuestro proceso y la evaluación continuará sin bloquear nuestro hilo de ejecución. Esto puede ser implementado de numerosas maneras con hilos y demás, pero aquí actuará como lo haría una llamada asíncrona normal y la gran rueda del bucle de eventos de JavaScript seguirá girando. Echemos un vistazo a `fork`:
 
 ```js
 // -- Aplicación pura -------------------------------------------------
@@ -629,13 +629,13 @@ Tal vez nuestra definición de categoría sea todavía algo confusa. Puedes pens
 
 <img src="images/catmap.png" alt="Categorías mapeadas" />
 
-Por ejemplo, `Maybe` mapea nuestra categoría de tipos y funciones a una categoría donde cada objeto puede no existir y cada morfismo tiene una comprobación de `null`. Logramos esto en el código rodeando cada función con `map` y cada tipo con nuestro funtor. Sabemos que cada uno de nuestros tipos normales y cada una de nuestras funciones seguirán pudiéndose componer en este nuevo mundo. Técnicamente, cada funtor en nuestro código mapea a una subcategoría de tipos y funciones que hace que todos los funtores sean de un tipo en particular llamado endofuntor, pero para nuestros propósitos consideraremos que son de otra categoría.
+Por ejemplo, `Maybe` mapea nuestra categoría de tipos y funciones a una categoría donde cada objeto puede no existir y cada morfismo tiene una comprobación de `null`. Logramos esto en el código rodeando a cada función con `map` y a cada tipo con nuestro funtor. Sabemos que cada uno de nuestros tipos normales y cada una de nuestras funciones seguirán pudiéndose componer en este nuevo mundo. Técnicamente, cada funtor en nuestro código mapea a una subcategoría de tipos y funciones que hace que todos los funtores sean de un tipo en particular llamado endofuntor, pero para nuestros propósitos consideraremos que son de otra categoría.
 
 Podemos visualizar el mapeo de morfismos y sus correspondientes objetos mediante este diagrama: 
 
 <img src="images/functormap.png" alt="diagrama de funtor" />
 
-Además de visualizar el morfismo mapeado de una categoría a otra bajo el funtor `F`, vemos que el diagrama conmuta, es decir, si se siguen las flechas cada ruta produce el mismo resultado. Las distintas rutas significan diferentes comportamientos, pero siempre acabamos en el mismo tipo. Este formalismo nos permite basarnos en principios a la hora de razonar sobre nuestro código; podemos aplicar fórmulas audazmente sin tener que interpretar y examinar cada escenario individualmente. Veamos esto en un ejemplo concreto:
+Además de visualizar el morfismo mapeado de una categoría a otra bajo el funtor `F`, vemos que el diagrama conmuta, es decir, si se siguen las flechas cada ruta conduce al mismo resultado. Las distintas rutas significan diferentes comportamientos, pero siempre acabamos en el mismo tipo. Este formalismo nos permite basarnos en principios a la hora de razonar sobre nuestro código; podemos aplicar fórmulas audazmente sin tener que interpretar y examinar cada escenario individualmente. Veamos esto en un ejemplo concreto:
 
 ```js
 // topRoute :: String -> Maybe String
@@ -691,7 +691,7 @@ ctmd2.getCompose;
 // Task(Just('Rock over London, rock on, Chicago'))
 ```
 
-Ahí lo tienes, un solo `map`. La composición de funtores es asociativa y anteriormente definimos `Container` que en realidad se llama funtor `Identidad`. Si tenemos identidad y composición asociativa tenemos una categoría. Esta categoría en particular tiene categorías como objetos y funtores como morfismos, lo que es suficiente para hacer que a uno le transpire el cerebro. No profundizaremos demasiado en esto, pero es bueno apreciar las implicaciones arquitectónicas o incluso solo la simple belleza abstracta en el patrón.
+Ahí lo tienes, un solo `map`. La composición de funtores es asociativa y anteriormente definimos `Container` que en realidad se llama funtor `Identidad`. Si tenemos identidad y composición asociativa tenemos una categoría. Esta categoría en particular tiene categorías como objetos y funtores como morfismos, lo que es suficiente para hacer que a uno le transpire el cerebro. No profundizaremos demasiado en esto, pero es bueno apreciar las implicaciones arquitectónicas o incluso tan solo la simple belleza abstracta en el patrón.
 
 
 ## En Resumen
@@ -746,7 +746,7 @@ const initial = undefined;
 ---
 
 
-Dada la siguiente función de soporte:
+Dada las siguientes funciones de soporte:
 
 ```js
 // showWelcome :: User -> String

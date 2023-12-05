@@ -1,6 +1,6 @@
 # Capítulo 12: Atravesando la Piedra
 
-Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antojara. Te han deslumbrado los malabares hechos con múltiples efectos peligrosos a la vez, utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro como los contenedores se desvanecían en el aire al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, los vimos [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
+Hasta ahora, en nuestro circo de contenedores, nos has visto domar al feroz [funtor](ch08-es.md#mi-primer-funtor), doblegándolo a nuestra voluntad para realizar cualquier operación que se nos antojara. Te han deslumbrado los malabares hechos simultáneamente con múltiples efectos peligrosos, utilizando [aplicación](ch10-es.md) de funciones para reunir los resultados. Presenciaste con asombro como los contenedores se desvanecían en el aire al ser [unidos](ch09-es.md) entre ellos. En el espectáculo de efectos secundarios, los vimos [componerse](ch08-es.md#un-poco-de-teoría) en uno solo. Y más recientemente, nos aventuramos más allá de lo natural y [transformamos](ch11-es.md) un tipo en otro ante tus propios ojos.
 
 Y ahora, para nuestro siguiente truco, veremos los "traversables". Veremos tipos volar unos sobre otros como si fuesen trapecistas, manteniendo nuestro valor intacto. Reordenaremos los efectos como a las cabinas de una atracción de feria. Cuando nuestros contenedores se entrelacen como las extremidades de un contorsionista podremos utilizar esta interfaz para enderezar las cosas. Con distintas disposiciones presenciaremos distintos efectos. Tráeme mis bombachos y mi flauta de émbolo, comencemos.
 
@@ -33,7 +33,7 @@ He aquí un último ejemplo de una situación complicada:
 const getControlNode = compose(map(map($)), map(getAttribute('aria-controls')), $);
 ```
 
-Mira esos `IO` anhelando estar juntos. Sería simplemente encantador poder unirlos con `join` y dejar que bailasen mejilla con mejilla, pero, por desgracia, un `Maybe` se interpone entre ellos como una carabina en el baile de graduación. Nuestro mejor movimiento aquí sería colocarlos uno junto al otro para que sus tipos estuviesen al fin juntos, y así simplificar nuestra firma a `IO (Maybe Node)`.
+Mira esos `IO` anhelando estar juntos. Sería simplemente encantador poderlos unir con `join` permitiéndoles bailar mejilla con mejilla, pero, por desgracia, un `Maybe` se interpone entre ellos como una carabina en el baile de graduación. Nuestro mejor movimiento aquí sería colocarlos uno junto al otro para que sus tipos estuviesen al fin juntos, y así simplificar nuestra firma a `IO (Maybe Node)`.
 
 ## Feng Shui de Tipos
 
@@ -82,7 +82,7 @@ class Left extends Either {
 }
 ```
 
-Queremod que los tipos acaben siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Funtor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita ser proporcionado explícitamente.
+Queremos que los tipos acaben siempre en la misma disposición, por lo que es necesario que tipos como `Left`, que no contienen a nuestro aplicativo interno, reciban algo de ayuda para hacerlo. La interfaz *Aplicativo* requiere que primero tengamos un *Funtor Pointed* para que siempre tengamos un *of* que pasar. En un lenguaje con sistema de tipos, el tipo externo puede ser inferido de la firma y no necesita ser proporcionado explícitamente.
 
 ## Surtido de Efectos
 
@@ -174,7 +174,7 @@ En vez de `map(map($))` tenemos `chain(traverse(IO.of, $))`, que invierte nuestr
 
 ## Sin Ley Ni Orden
 
-Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como con un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código para reducir las posibilidades, para guiarnos hacia las respuestas cuando lo diseñamos y cuando lo leemos.
+Bien, ahora, antes de que te pongas a juzgar y golpees la tecla de borrar como con un mazo para olvidar el capítulo, tómate un momento para reconocer que todas estas leyes son útiles garantías de código. Es conjetura mía que la finalidad de las arquitecturas de muchos programas es intentar poner restricciones útiles en nuestro código para así reducir las posibilidades, para guiarnos hacia las respuestas cuando lo diseñamos y cuando lo leemos.
 
 Una interfaz sin leyes es simple indirección. Como cualquier otra estructura matemática, debemos exponer las propiedades para nuestra propia cordura. Esto tiene un efecto similar a la encapsulación, dado que protege a los datos, permitiéndonos intercambiar la interfaz por otro ciudadano ejemplar.
 
@@ -194,7 +194,7 @@ identity2(Either.of('stuff'));
 // Identity(Right('stuff'))
 ```
 
-Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro funtor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Hemos elegido a `Right` como conejillo de indias porque con él es fácil probar a aplicar la ley e inspeccionarlo. Podríamos haber usado cualquier otro funtor, sin embargo, el uso de un funtor concreto como `Identity` en la propia ley, podría haber levantado algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) se define como morfismos entre sus objetos con composición asociativa e identidad. Cuando se trata de la categoría de funtores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El funtor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos dejar aquí este tema y pasar a hacer lo mismo con nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
+Esto debería ser sencillo. Si colocamos un `Identity` dentro de nuestro funtor, y luego le damos la vuelta con `sequence` es lo mismo que colocarlo por fuera desde el principio. Hemos elegido a `Right` como conejillo de indias porque con él es fácil probar a aplicar la ley e inspeccionarlo. Podríamos haber usado cualquier otro funtor, sin embargo, el uso de un funtor concreto como `Identity` en la ley misma, puede que haya levantado algunas cejas. Recuerda que una [categoría](ch05-es.md#teoría-de-categorías) se define como morfismos entre sus objetos con composición asociativa e identidad. Cuando se trata de la categoría de funtores, las transformaciones naturales son los morfismos e `Identity` es, bueno, la identidad. El funtor `Identity` es tan fundamental para demostrar las leyes como nuestra función `compose`. De hecho, deberíamos dejar aquí este tema y pasar a hacer lo mismo con nuestro tipo [Compose](ch08-es.md#un-poco-de-teoría):
 
 ### Composición
 
@@ -233,7 +233,7 @@ natLaw2(Either.of, maybeToEither)(Identity.of(Maybe.of('barlow one')));
 // Right(Identity('barlow one'))
 ```
 
-Esto es parecido a nuestra ley de la identidad. Si primero meneamos a los tipos y luego ejecutamos una transformación natural en el exterior, debería ser lo mismo que mapear una transformación natural y después voltear los tipos.
+Esto es parecido a nuestra ley de la identidad. Si primero hacemos girar a los tipos y luego ejecutamos una transformación natural en el exterior, debería ser lo mismo que mapear una transformación natural y después voltear los tipos.
 
 Una consecuencia natural de esta ley es:
 

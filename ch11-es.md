@@ -2,11 +2,11 @@
 
 [*El título en inglés es 'Transform Again, Naturally' que recuerda a la canción Alone Again (Naturally) de Gilbert O'Sullivan*]
 
-Estamos a punto de discutir sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables a la hora de aplicar las matemáticas para razonar sobre nuestro código y al refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado alcance. Empecemos.
+Estamos a punto de dialogar sobre las *transformaciones naturales* en cuanto a su utilidad práctica en nuestro día a día programando. Sucede que son un pilar de la teoría de categorías y absolutamente indispensables a la hora de aplicar las matemáticas para razonar sobre nuestro código y para refactorizarlo. Como tal, creo que es mi deber informarte sobre la lamentable injusticia que estás a punto de presenciar, indudablemente debido a mi limitado dominio del tema. Empecemos.
 
 ## Maldice Este Nido
 
-Me gustaría abordar el tema del anidamiento. No el instintivo impulso que sienten quienes están a punto de ser padres cuando limpian y reordenan obsesiva e impulsivamente, sino del... bueno, ahora que lo pienso, eso no está tan lejos de la realidad, tal y como veremos en los próximos capítulos... En cualquier caso, lo que quiero decir con *anidamiento* es cuando se tienen dos o más tipos distintos todos acurrucados en torno a un valor, acunándolo, por así decirlo, como a un recién nacido.
+Me gustaría abordar el tema del anidamiento. No el instintivo impulso que sienten quienes están a punto de ser padres cuando limpian y reordenan obsesiva e impulsivamente, sino del... bueno, ahora que lo pienso, eso no está tan lejos de la realidad, tal y como veremos en los próximos capítulos... En cualquier caso, lo que quiero decir con *anidamiento* es cuando se tienen dos o más tipos distintos, todos acurrucados en torno a un valor, acunándolo, por así decirlo, como a un recién nacido.
 
 ```js
 Right(Maybe('b'));
@@ -16,7 +16,7 @@ IO(Task(IO(1000)));
 [Identity('bee thousand')];
 ```
 
-Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de tan típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de unos auriculares en un exorcismo. Si no mantenemos a nuestros tipos meticulosamente bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
+Hasta ahora hemos logrado, mediante ejemplos cuidadosamente elaborados, evadirnos de tan típico escenario, pero en la práctica, mientras programamos, los tipos tienden a enredarse entre ellos como el cable de los auriculares en un exorcismo. Si no mantenemos a nuestros tipos meticulosamente bien organizados a medida que avanzamos, nuestro código se leerá más peludo que un hipster en un café de gatos.
 
 ## Una Comedia de Situación
 
@@ -33,7 +33,7 @@ const saveComment = compose(
 );
 ```
 
-La pandilla está aquí al completo, para consternación de nuestra firma de tipos. Permíteme explicar brevemente el código. Con `getValue('#comment')`, que es una acción que recupera el texto de un elemento, comenzamos obteniendo lo proporcionado por el usuario. Ahora bien, cabe la posibilidad de que se produzca un error al buscar el elemento o que la cadena de texto no exista, así que devuelve `Task Error (Maybe String)`. Después de esto, debemos aplicar `map` tanto sobre `Task` como sobre `Maybe` para pasarle el texto a `validate`, quien a su vez nos entrega mediante `Either`, un `ValidationError` o nuestro `String`. A continuación, mapeamos durante días para enviar el `String` de nuestro `Task Error (Maybe (Either ValidationError String))` a `postComment`, que nos devuelve el `Task` resultante.
+La pandilla está aquí al completo, para consternación de nuestra firma de tipos. Permíteme explicar brevemente el código. Con `getValue('#comment')`, que es una acción que recupera el texto de un elemento, comenzamos obteniendo lo proporcionado por el usuario. Ahora bien, cabe la posibilidad de que se produzca un error al buscar el elemento o que la cadena de texto no exista, así que devuelve `Task Error (Maybe String)`. Después de esto, debemos aplicar `map` tanto sobre `Task` como sobre `Maybe` para pasarle el texto a `validate`, quien a su vez nos entrega mediante `Either` un `ValidationError` o nuestro `String`. A continuación, mapeamos durante días para enviar el `String` de nuestro `Task Error (Maybe (Either ValidationError String))` a `postComment`, que nos devuelve el `Task` resultante.
 
 Qué desorden tan espantoso. Un collage de tipos abstractos, expresionismo de tipos amateur, un Pollock polimórfico, un Mondrian monolítico. Hay numerosas soluciones para este problema tan común. Podemos componer los tipos en un monstruoso contenedor, ordenarlos y aplicar `join` sobre algunos, homogeneizarlos, deconstruirlos, etc. En este capítulo nos centraremos en homogeneizarlos mediante *transformaciones naturales*.
 

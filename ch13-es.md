@@ -4,7 +4,7 @@
 
 En este capítulo examinaremos los *monoides* utilizando *semigrupos*. Los *monoides* son el chicle en el pelo de la abstracción matemática. Capturan una idea que abarca múltiples disciplinas, uniéndolas figurativa y literalmente todas en una. Son la fuerza ominosa que conecta todo aquello que tiene la capacidad de calcular. Son el oxígeno en nuestra base de código, la tierra sobre la que se ejecuta, entrelazamiento cuántico codificado.
 
-Los *monoides* tratan sobre combinar. Pero, ¿qué es combinar? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo soslayaremos la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
+Los *monoides* tratan sobre combinar. Pero, ¿qué es combinar? Puede significar muchas cosas, desde acumulación hasta concatenación pasando por multiplicación o elección, composición, ordenación, ¡incluso evaluación! Veremos numerosos ejemplos, pero tan solo pasaremos de soslayo por la falda de la montaña de los monoides. Los ejemplares son abundantes y las aplicaciones, enormemente amplias. El objetivo de este capítulo es proporcionarte una buena intuición para que puedas crear tus propios *monoides*.
 
 ## Abstrayendo La Suma
 
@@ -36,7 +36,7 @@ No vayas a confundir esto con conmutatividad, la cual nos permite cambiar el ord
 
 Ahora que lo pienso, ¿qué propiedades deben estar si o si en nuestra superclase abstracta? ¿Qué rasgos son específicos de la suma y cuáles pueden ser generalizados? ¿Hay otras abstracciones en medio de esta jerarquía o es todo un mismo trozo? Este es el tipo de razonamiento que nuestros antepasados matemáticos aplicaban cuando concibieron las interfaces en el álgebra abstracta.
 
-Como era de esperar, cuando estos "abstraccionistas" de la vieja escuela abstrajeron la suma llegaron al concepto de *grupo*. Un *grupo* tiene todo lo que se necesita incluyendo el concepto de números negativos. Ahora mismo solo estamos interesados en el operador binario asociativo así que elegiremos una interfaz menos específica, *Semigrupo*. Un *Semigrupo* es un tipo con un método `concat` que hace de operador binario asociativo.
+Como era de esperar, cuando estos "abstraccionistas" de la vieja escuela abstrajeron la suma llegaron al concepto de *grupo*. Un *grupo* tiene de todo, incluyendo el concepto de números negativos. Ahora mismo solo estamos interesados en el operador binario asociativo así que elegiremos una interfaz menos específica, *Semigrupo*. Un *Semigrupo* es un tipo con un método `concat` que hace de operador binario asociativo.
 
 Implementémoslo para la suma y llamémosle `Sum`:
 
@@ -112,12 +112,12 @@ Es un *semigrupo* si y solo si su valor `__value` es un *semigrupo*. Como un tor
 Otros tipos tienen un comportamiento similar:
 
 ```js
-// combinación con manejo de errores
+// combinar con manejo de errores
 Right(Sum(2)).concat(Right(Sum(3))) // Right(Sum(5))
 Right(Sum(2)).concat(Left('some error')) // Left('some error')
 
 
-// combina asincronía
+// combinar asincronía
 Task.of([1,2]).concat(Task.of([3,4])) // Task([1,2,3,4])
 ```
 
@@ -278,7 +278,7 @@ Fusionaremos un par de cuentas y mantendremos el primer id. No hay manera de def
 
 ## ¿Teoría De Grupos O Teoría De Categorías?
 
-En el álgebra abstracta el concepto de operación binaria está en todas partes. Para una *categoría* es, de hecho, la operación primaria. Sin embargo, no podemos modelar nuestra operación en la teoría de categorías sin una *identidad*. Esta es la razón por la que comenzamos con un semigrupo de la teoría de grupos para luego, una vez tenemos el elemento *vacío*, saltar a un monoide de la teoría de categorías.
+En el álgebra abstracta el concepto de operación binaria está en todas partes. Para una *categoría* es, de hecho, la operación primaria. Sin embargo, en la teoría de categorías no podemos modelar nuestra operación sin una *identidad*. Esta es la razón por la que comenzamos con un semigrupo de la teoría de grupos para luego, una vez tenemos el elemento *vacío*, saltar a un monoide de la teoría de categorías.
 
 Los monoides forman una categoría de un solo objeto donde el morfismo es `concat`, la identidad es `empty` y donde la composición está garantizada.
 
@@ -305,7 +305,7 @@ thingDownFlipAndReverse.run(['let me work it', 'is it worth it?'])
 // ['thing down', 'let me work it', 'is it worth it?']
 ```
 
-Dado que todos son del mismo tipo podemos concatenar a través de `compose`, que los tipos siempre se alinearán.
+Dado que son todos del mismo tipo podemos concatenarlos a través de `compose`, que los tipos siempre se alinearán.
 
 ### Mónada Como Monoide
 

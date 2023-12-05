@@ -4,7 +4,7 @@
 
 ## Sobre este libro
 
-Este es un libro sobre el paradigma funcional en general. Utilizaremos el lenguaje de programación funcional más popular del mundo: JavaScript. Algunos pensarán que es una mala elección, ya que va en contra de la cultura que, por el momento, es predominantemente imperativa. Sin embargo, creo que esta es la mejor forma de aprender programación funcional por diversas razones:
+Este es un libro sobre el paradigma funcional en general. Utilizaremos el lenguaje de programación funcional más popular del mundo: JavaScript. Hay quien vaya a pensar que es una mala elección, ya que va en contra de la cultura que, por el momento, es predominantemente imperativa. Sin embargo, creo que esta es la mejor forma de aprender programación funcional por diversas razones:
 
  * **Seguramente lo utilizes cada día en el trabajo.**
 
@@ -93,7 +93,7 @@ Ver [FAQ-es.md](FAQ-es.md)
 ## Planes para el futuro
 
 * **Parte 1** (capítulos 1-7) es una guía básica. La actualizaré a medida que encuentre errores, ya que esto es un borrador inicial. ¡Siéntete libre de ayudar!
-* **Parte 2** (capítulos 8-13) aborda clases de tipos como funtores y mónadas llegando hasta traversable. Espero poder llegar hasta transformadores y una aplicación pura.
+* **Parte 2** (capítulos 8-13) aborda clases de tipos como funtores y mónadas llegando hasta traversable. Espero poder alcanzar transformadores y una aplicación pura.
 * **Parte 3** (capítulos 14+) cruzará la delgada línea entre la programación práctica y la absurdidad académica. Veremos comónadas, f-algebras, mónadas libres, yoneda, y otras construcciones categóricas.
 
 

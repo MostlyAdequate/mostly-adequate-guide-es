@@ -26,7 +26,7 @@ const shout = compose(exclaim, toUpperCase);
 shout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 
-La composición de dos funciones devuelve una nueva función. Esto tiene todo el sentido: componer dos unidades de algún tipo (en este caso función) debería devolver una nueva unidad de ese mismo tipo. No conectas dos legos entre sí y obtienes un "Lincoln Log" [*juego estadounidense de construcción de casitas de madera*]. Existe una teoría aquí, una ley subyacente que descubriremos a su debido tiempo.
+La composición de dos funciones devuelve una nueva función. Esto tiene todo el sentido: componer dos unidades de algún tipo (en este caso función) debería devolver una nueva unidad de ese mismo tipo. No conectas dos legos entre sí y obtienes un "Lincoln Log" [*juego de construcción de casitas de madera*]. Existe una teoría aquí, una ley subyacente que descubriremos a su debido tiempo.
 
 En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto es mucho más legible que tener un montón de funciones anidadas. Sin compose, lo anterior sería:
 

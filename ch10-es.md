@@ -72,7 +72,7 @@ Percibo tu escepticismo (o quizás confusión y horror), pero mantén la mente a
 F.of(x).map(f) === F.of(f).ap(F.of(x));
 ```
 
-En correcto castellano, mapear `f` equivale a usar la función `ap` de un funtor de `f`. O en un castellano más correcto, podemos colocar `x` en nuestro contendor y hacer `map(f)`, o, podemos levantar tanto `f` como `x` en nuestro contenedor y luego aplicarles `ap`. Esto nos permite escribir de izquierda a derecha:
+En correcto español, mapear `f` equivale a usar la función `ap` de un funtor de `f`. O en un español más correcto, podemos colocar `x` en nuestro contendor y hacer `map(f)`, o, podemos levantar tanto `f` como `x` en nuestro contenedor y luego aplicarles `ap`. Esto nos permite escribir de izquierda a derecha:
 
 ```js
 Maybe.of(add).ap(Maybe.of(2)).ap(Maybe.of(3));
@@ -223,7 +223,7 @@ X.prototype.ap = function ap(other) {
 };
 ```
 
-Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como de la funtor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
+Si podemos definir una mónada, podemos definir tanto la interfaz de aplicativo como la de funtor. Esto es bastante notable, ya que obtenemos todos estos abrelatas sin coste alguno. Podemos incluso examinar un tipo y automatizar este proceso.
 
 Hay que señalar que parte del atractivo de `ap` es su capacidad para ejecutar cosas de manera concurrente, por lo que definirla mediante `chain` hace que se pierda esa optimización. A pesar de esto, es bueno tener una interfaz funcionando inmediatamente mientras uno trabaja en la mejor implementación posible.
 
@@ -323,9 +323,9 @@ IO.of(compose).ap(u).ap(v).ap(w) === u.ap(v.ap(w));
 
 ## En Resumen
 
-Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos de funtor. Nos dan la posibilidad de aplicar funciones a los argumentos todo dentro del mundo de los funtores. Aunque ya podíamos hacer esto con las mónadas, preferiremos a los funtores aplicativos cuando no necesitemos ninguna funcionalidad monádica específica.
+Un buen caso de uso para los aplicativos es cuando tenemos múltiples argumentos de funtor. Nos dan la posibilidad de aplicar funciones a los argumentos todo dentro del mundo de los funtores. Aunque ya podíamos hacer esto con las mónadas, preferiremos los funtores aplicativos cuando no necesitemos ninguna funcionalidad monádica específica.
 
-Casi hemos terminado con las apis de los contenedores. Hemos aprendido a como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos a como trabajar mejor con múltiples funtores y a como desmontarlos siguiendo unos principios.
+Casi hemos terminado con las apis de contenedores. Hemos aprendido a como aplicar `map`, `chain`, y ahora `ap`, a funciones. En el próximo capítulo aprenderemos a como trabajar mejor con múltiples funtores y a como desmontarlos siguiendo unos principios.
 
 [Capítulo 11: Transforma Otra Vez, Naturalmente](ch11-es.md)
 

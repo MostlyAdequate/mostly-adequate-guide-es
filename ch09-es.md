@@ -91,9 +91,9 @@ firstAddressStreet({
 // Maybe(Maybe(Maybe({name: 'Mulburry', number: 8402})))
 ```
 
-De nuevo vemos esta situación en la que tenemos funtores anidados donde se puede ver claramente que hay tres posibilidades de fallo en nuestra función, pero es un poco presuntuoso suponer que quien nos llame aplicará `map` tres veces para llegar al valor, que acabamos de conocer. Este patrón aparecerá una y otra vez y es la razón principal por la que necesitaremos hacer brillar en el cielo nocturno el poderoso símbolo de la mónada.
+De nuevo vemos esta situación en la que tenemos funtores anidados donde es bueno poder ver que hay tres posibilidades de fallo en nuestra función, pero es un poco presuntuoso suponer que quien nos llame va a aplicar `map` tres veces para llegar al valor; acabamos de conocernos. Este patrón aparecerá una y otra vez y es la razón principal por la que necesitaremos hacer brillar en el cielo nocturno el poderoso símbolo de la mónada.
 
-He dicho que las mónadas son como cebollas porque se nos saltan las lágrimas cuando pelamos con `map` cada capa de funtor anidado para llegar al valor del interior. Podemos secar nuestros ojos, respirar hondo, y utilizar un método llamado `join`.
+He dicho que las mónadas son como cebollas porque se nos saltan las lágrimas cuando pelamos con `map` cada capa de funtor anidado para llegar al valor del interior. Podemos secar nuestros ojos, respirar hondo, y utilizar un método llamado `join` [*unir*].
 
 ```js
 const mmo = Maybe.of(Maybe.of('nunchucks'));
@@ -272,7 +272,7 @@ Podríamos haber escrito estos ejemplos con `compose`, pero habríamos necesitad
 
 De todos modos, vamos a los ejemplos anteriores. En el primer ejemplo vemos dos tareas encadenadas en una secuencia de acciones asíncronas; primero recupera a la persona usuaria y luego con su id encuentra a sus amistades. Usamos `chain` para evitar vernos en la situación de `Task(Task([Friend]))`.
 
-A continuación, utilizamos `querySelector` para encontrar diferentes entradas y crear un mensaje de bienvenida. Date cuenta de que en la función más interna tenemos acceso tanto a `uname` como a `email`; eso es asignación funcional de variables en su máxima expresión. Dado que `IO` nos presta amablemente su valor, tenemos la responsabilidad de dejarlo como lo encontramos, pues no querríamos corromper su veracidad (ni nuestro programa). `IO.of` es la herramienta perfecta para el trabajo y es la razón por la que Pointed es un prerrequisito importante para la interfaz Mónada. Sin embargo, podríamos optar por aplicar `map` ya que eso también devolvería el tipo correcto.
+A continuación, utilizamos `querySelector` para encontrar diferentes entradas y crear un mensaje de bienvenida. Date cuenta de que en la función más interna tenemos acceso tanto a `uname` como a `email`; eso es asignación funcional de variables en su máxima expresión. Dado que `IO` nos presta amablemente su valor, tenemos la responsabilidad de dejarlo como lo encontramos, pues no querríamos corromper su credibilidad (ni nuestro programa). `IO.of` es la herramienta perfecta para el trabajo y es la razón por la que Pointed es un prerrequisito importante para la interfaz Mónada. Sin embargo, podríamos optar por aplicar `map` ya que eso también devolvería el tipo correcto.
 
 ```js
 querySelector('input.username').chain(({ value: uname }) =>
@@ -283,7 +283,7 @@ querySelector('input.username').chain(({ value: uname }) =>
 
 Por último, tenemos dos ejemplos que usan `Maybe`. Dado que `chain` está usando map por debajo, si cualquier valor es nulo, detenemos en seco la computación.
 
-No te preocupes si estos ejemplos son difíciles de entender al principio. Juega con ellos. Incórdiales con un palo. Rómpelos en trozos y júntalos de nuevo. Recuerda aplicar `map` cuando lo devuelto sea un valor "normal" y `chain` cuando lo devuelto sea otro funtor. En el próximo capítulo, nos acercaremos a los `Aplicativos` y veremos buenos trucos para hacer que este tipo de expresiones sean más bonitas y altamente legibles.
+No te preocupes si estos ejemplos son difíciles de entender al principio. Juega con ellos. Incórdiales con un palo. Rómpelos en trozos y únelos de nuevo. Recuerda aplicar `map` cuando lo devuelto sea un valor "normal" y `chain` cuando lo devuelto sea otro funtor. En el próximo capítulo, nos acercaremos a los `Aplicativos` y veremos buenos trucos para hacer que este tipo de expresiones sean más bonitas y altamente legibles.
 
 Como recordatorio, esto no funciona con dos tipos anidados diferentes. La composición de funtores y, posteriormente, los transformadores de mónadas, pueden ayudarnos en esa situación.
 
