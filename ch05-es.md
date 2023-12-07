@@ -334,7 +334,7 @@ Refactoriza `fastestCar` utilizando `compose()` y otras funciones en estilo poin
 {% initial src="./exercises/ch05/exercise_c.js#L4;" %}  
 ```js  
 const fastestCar = (cars) => {  
-  const sorted = sortBy(car => car.horsepower);  
+  const sorted = sortBy(car => car.horsepower, cars);  
   const fastest = last(sorted);  
   return concat(fastest.name, ' is the fastest');  
 };  
