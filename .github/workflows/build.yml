@@ -17,7 +17,7 @@ jobs:
 
       - name: Install Calibre
         run: |
-          sudo apt install -y libopengl0 libegl1
+          sudo apt install -y libopengl0 libegl1 libxcb-cursor0
           wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
           mkdir -p ~/.local/bin
           ln -s /opt/calibre/calibre ~/.local/bin/calibre

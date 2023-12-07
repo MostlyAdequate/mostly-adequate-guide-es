@@ -8,7 +8,7 @@ const compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(n
 ```
 
 ... ¡No te asustes! Este es el nivel-9000-super-Saiyan de _compose_. En aras del razonamiento, ignoremos la implementación variádica y consideremos una forma más simple capaz de componer juntas a dos funciones. Una vez te hayas hecho a la idea, puedes llevar la abstracción más allá y considerar que simplemente funciona para cualquier número de funciones (¡incluso podemos aportar pruebas de ello!)
-Aquí tenemos una función _compose_ más amigable para vosotros mis queridos lectores:
+Aquí tenemos una función _compose_ más amigable para quiénes me estáis leyendo:
 
 ```js
 const compose2 = (f, g) => x => f(g(x));
@@ -26,7 +26,7 @@ const shout = compose(exclaim, toUpperCase);
 shout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 
-La composición de dos funciones devuelve una nueva función. Esto tiene todo el sentido: componer dos unidades de algún tipo (en este caso función) debería devolver una nueva unidad de ese mismo tipo. No conectas dos legos entre sí y obtienes un "Lincoln Log" [*juego estadounidense de construcción de casitas de madera*]. Existe una teoría aquí, una ley subyacente que descubriremos a su debido tiempo.
+La composición de dos funciones devuelve una nueva función. Esto tiene todo el sentido: componer dos unidades de algún tipo (en este caso función) debería devolver una nueva unidad de ese mismo tipo. No conectas dos legos entre sí y obtienes un "Lincoln Log" [*juego de construcción de casitas de madera*]. Existe una teoría aquí, una ley subyacente que descubriremos a su debido tiempo.
 
 En nuestra definición de `compose`, la `g` se ejecutará antes que la `f`, creando un flujo de datos de derecha a izquierda. Esto es mucho más legible que tener un montón de funciones anidadas. Sin compose, lo anterior sería:
 
@@ -36,7 +36,7 @@ const shout = x => exclaim(toUpperCase(x));
 
 En vez de adentro hacia afuera, lo ejecutamos de derecha a izquierda, lo cual supongo que es un paso a la izquierda (¡buu!) [*chiste malo que pierde la gracia en la traducción. En inglés, un paso a la derecha también quiere decir un paso en la buena dirección. En este chiste, el paso es hacia la izquierda, o sea, en la mala dirección*].
 
-Veamos un ejemplo donde la secuencia importa:
+Veamos un ejemplo donde el orden en la secuencia importa:
 
 ```js
 const head = x => x[0];
@@ -95,11 +95,11 @@ const loudLastUpper = compose(angry, last);
 // más variaciones...
 ```
 
-No hay repuestas correctas o incorrectas; solo estamos juntando nuestras piezas de lego de la manera que nos plazca. Normalmente, lo mejor es agrupar las cosas de manera que se puedan reutilizar, como `last` y `angry`. Si se conoce a "[Refactoring][refactoring-book]" de Fowler, quizás se pueda reconocer a este proceso como "[extract function][extract-function-refactor]"... excepto por no tener que preocuparse por el estado de ningún objeto.
+No hay repuestas correctas o incorrectas; solo estamos juntando nuestras piezas de lego de la manera que nos plazca. Normalmente, lo mejor es agrupar las cosas de manera que se puedan reutilizar, como `last` y `angry`. Si te es familiar "[Refactoring][refactoring-book]" de Fowler, quizás reconozcas a este proceso como "[extract function][extract-function-refactor]"... excepto por no tener que preocuparte por el estado de ningún objeto.
 
 ## Pointfree
 
-El estilo pointfree [*que se puede encontrar traducido como programación tácita*] se refiere a nunca tener que hablar sobre tus datos. Perdona. Se refiere a funciones que nunca mencionan los datos sobre los que operan. Las funciones de primera clase, la currificación, y la composición hacen un buen equipo para crear este estilo.
+El estilo pointfree [*que se puede encontrar traducido como programación tácita*] se refiere a no hablar nunca sobre tus datos. Perdona. Se refiere a funciones que nunca mencionan los datos sobre los que operan. Las funciones de primera clase, la currificación, y la composición hacen un buen equipo para crear este estilo.
 
 > Sugerencia: En el [Apéndice C - Utilidades Pointfree](./appendix_c-es.md) hay definidas versiones pointfree de `replace` y `toLowerCase`. ¡No dudes en echar un vistazo!
  
@@ -190,7 +190,7 @@ const dasherize = compose(
 dasherize('The world is a vampire'); // 'the-world-is-a-vampire'
 ```
 
-La función `trace` nos permite observar los datos en un cierto punto con propósitos de depuración. Lenguajes como Haskell y PureScript tienen funciones similares para facilitar el desarrollo.
+A la hora de depurar, la función `trace` nos permite observar los datos en un cierto punto. Lenguajes como Haskell y PureScript tienen funciones similares para facilitar el desarrollo.
 
 La composición será nuestra herramienta para construir programas y, afortunadamente, está respaldada por una poderosa teoría que asegura que las cosas funcionarán. Examinemos esta teoría.
 
@@ -243,7 +243,7 @@ const id = x => x;
 
 Quizás te preguntes a tí mismo "¿Para qué demonios puede ser esto útil?". En los siguientes capítulos haremos un uso intensivo de esta función, pero por ahora piensa en ella como una función que puede sustituir a nuestro valor; una función que se hace pasar por datos normales y corrientes.
 
-`id` tiene que interactuar bien con compose. Aquí tenemos una propiedad que siempre se cumple para cualquier función unaria f (unaria: función de un solo argumento):
+`id` ha de interactuar bien con compose. Aquí tenemos una propiedad que siempre se cumple para cualquier función unaria f (unaria: función de un solo argumento):
 
 ```js
 // identidad
@@ -259,9 +259,9 @@ Así que ahí lo tienes, una categoría de tipos y funciones. Si esta es tu prim
 
 
 ## En Resumen
-La composición conecta nuestras funciones como si de una especie de tuberías se tratase. Los datos fluirán como es debido a través de nuestra aplicación; las funciones puras son de entrada a salida después de todo, por lo que romper esta cadena descuidaría la salida, volviendo inútil a nuestro software.
+La composición conecta nuestras funciones como si de una especie de tuberías se tratase. Los datos fluirán a través de nuestra aplicación como es debido; después de todo las funciones puras van de entrada a salida, por lo que romper esta cadena invalidaría la salida, convirtiendo a nuestro software en inútil.
 
-Mantenemos a la composición como el principio de diseño que está por encima de todos los demás. Esto se debe a que mantiene a nuestra app simple y razonable. La teoría de categorías desempeñará un papel importante en la arquitectura de aplicaciones, modelando los efectos secundarios, y asegurando que está libre de errores.
+Consideramos a la composición como el principio de diseño que está por encima de todos los demás. Esto se debe a que mantiene a nuestra app simple y razonable. La teoría de categorías desempeñará un papel importante en la arquitectura de aplicaciones, modelando los efectos secundarios, y asegurando que está libre de errores.
 
 Hemos llegado a un punto donde nos será útil ver algo de esto en la práctica. Hagamos una aplicación de ejemplo.
 
@@ -334,7 +334,7 @@ Refactoriza `fastestCar` utilizando `compose()` y otras funciones en estilo poin
 {% initial src="./exercises/ch05/exercise_c.js#L4;" %}  
 ```js  
 const fastestCar = (cars) => {  
-  const sorted = sortBy(car => car.horsepower);  
+  const sorted = sortBy(car => car.horsepower, cars);  
   const fastest = last(sorted);  
   return concat(fastest.name, ' is the fastest');  
 };  

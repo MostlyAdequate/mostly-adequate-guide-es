@@ -3,9 +3,9 @@
 ## No Puedo Vivir Si Vivir Es Sin Ti
 [*El título en inglés es 'Can't Live If Livin' Is without You' que recuerda a la canción "Without You" de Badfinger*]
 
-Mi padre una vez me explicó como hay ciertas cosas sin las que se puede vivir hasta que las compras. Un microondas es una de esas cosas. Los smartphones, otra. Los más mayores de nosotros recordarán una vida de plenitud sin internet. Para mí, la `currificación` [*currying en inglés*] está en esta lista.
+Mi padre una vez me explicó como hay ciertas cosas sin las que se puede vivir hasta que las compras. Un microondas es una de esas cosas. Los smartphones, otra. Quien sea ya mayor recordará una vida de plenitud sin internet. Para mí, la `currificación` [*currying en inglés*] está en esta lista.
 
-El concepto es sencillo: Puedes llamar a una función con menos argumentos de los que espera. Esta devuelve una función que espera los argumentos restantes.
+El concepto es sencillo: Puedes llamar a una función con menos argumentos de los que espera. Esta devolverá una función que esperará los argumentos restantes.
 
 Puedes elegir llamarla con todos sus argumentos de una vez o simplemente pasarle cada argumento poco a poco.
 
@@ -18,7 +18,7 @@ increment(2); // 3
 addTen(2); // 12
 ```
 
-Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante la closure. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de soporte especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
+Aquí hemos hecho una función `add` que acepta un argumento y devuelve una función. A partir de entonces, al llamarla, la función devuelta recuerda el primer argumento mediante el cierre [*closure*]. Sin embargo, llamarla con ambos argumentos de una vez es un poco molesto, por lo que podemos utilizar una función de soporte especial llamada `curry` para facilitar la definición y la llamada de funciones como esta.
 
 Vamos a preparar unas pocas funciones currificadas para nuestro disfrute. Desde ahora, nos 
 apoyaremos en nuestra función `curry` definida en el [Apéndice A - Funciones Esenciales de Soporte](./appendix_a-es.md).
@@ -53,7 +53,7 @@ censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
 
 Lo que demostramos aquí es la habilidad para precargar una función con un argumento o dos con el fin de recibir una nueva función que recuerda dichos argumentos.
 
-Os aliento a clonar el repositorio de Mostly Adequate (`git clone
+Os animo a clonar el repositorio de Mostly Adequate (`git clone
 https://github.com/MostlyAdequate/mostly-adequate-guide-es.git`), copiar el código anterior y probarlo en la consola REPL. La función curry, igual que cualquier cosa definida en los apéndices, están disponibles en el módulo `support/index.js`.
 
 Alternativamente, dale un vistazo a la versión en inglés publicada en `npm`:
